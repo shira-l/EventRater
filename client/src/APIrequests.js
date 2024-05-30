@@ -1,5 +1,5 @@
 
-class APIrequests {
+export class APIrequests {
     async postRequest(url, body) {
         try {
             const response = await fetch('http://localhost:8080' + url, {
@@ -11,10 +11,7 @@ class APIrequests {
             });
             return response;
         } catch(error) {
-            alert(error.message);
-        };
-       
-
-           
+            throw error;
+        };      
     }
 }
