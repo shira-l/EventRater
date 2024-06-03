@@ -1,4 +1,6 @@
-import { TableService } from '../service/service.js'
+import { TableService } from '../service/businessService.js'
 export class BusinessController {
-    async getBusinessByValue()
+    async getBusinessByValue(){
+
+    }
 }
