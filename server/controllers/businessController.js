@@ -1,6 +1,34 @@
-import { TableService } from '../service/businessService.js'
+import { BusinessService } from '../service/businessService.js'
 export class BusinessController {
-    async getBusinessByValue(){
-
+    static businessService = new BusinessService();
+    async getBusiness(query, res, next){
+        try {
+            const resultItem = await BusinessController.businessService.getBusinessByCategory(query);
+            res.status(200).json({ status: 200, data: resultItem });
+        }
+        catch (ex) {
+            const err = {}
+            err.statusCode = 500;
+            err.message = ex;
+            next(err)
+        }
     }
+
+    async getBusinessById(req, res, next){
+        try {
+            const resultItem = await BusinessController.businessService.getBusinessById(req.params);
+            res.status(200).json({ status: 200, data: resultItem });
+        }
+        catch (ex) {
+            const err = {}
+            err.statusCode = 500;
+            err.message = ex;
+            next(err)
+        }
+    }
+}
+
+{
+
+
 }

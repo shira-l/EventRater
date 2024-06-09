@@ -14,4 +14,17 @@ export class APIrequests {
             throw error;
         };      
     }
+
+    async getRequest(url) {
+        try {
+            const response = await fetch('http://localhost:8080' + url, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response;
+        } catch(error) {
+            throw error;
+        };      
+    }
 }

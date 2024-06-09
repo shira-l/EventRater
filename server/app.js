@@ -23,7 +23,9 @@ app.use('/todos', todoRouter);
 app.use(logErrors);
 
 
-app.listen(8082, (err) => {
+const PORT = process.env.PORT;
+
+app.listen(PORT, (err) => {
     if (err) console.error(err);
-    console.log("Server listening on PORT", 8082);
+    console.log("Server listening on PORT", PORT);
 });

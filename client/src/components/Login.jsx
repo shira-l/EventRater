@@ -6,6 +6,7 @@ import { useState, useContext } from 'react'
 import { Link } from "react-router-dom";
 
 function Login() {
+  const APIrequest=new APIrequests()
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: '',
@@ -20,7 +21,7 @@ function Login() {
 
   async function login() {
     const hash_password = generatePasswordHash(password);
-    const response = await APIrequests.postRequest(`/login`, { "email": email, "password_hash": hash_password });
+    const response = await APIrequest.postRequest(`/login`, { "email": email, "password_hash": hash_password });
     if (!response.ok)
       throw new Error('error, please try egain whith anouther email or password or sign up')
     const data = response.json();
