@@ -1,10 +1,13 @@
-import { Queries } from "./query";
+import {Queries} from "./query.js"
 export class BusinessService {
 
     async getBusinessByCategory(params) {
-            //const columns=
+        const tableName = "Businesses";
+        const queries = new Queries();
+
+        const columns= ["id", "userId", "businessType"];
         const paramsValues = Object.values(params);
-        const query = Queries.getQuery(tableName, columns, params);
+        const query = queries.getQuery(tableName, columns, params);
         const result = await executeQuery(query, paramsValues);
         return result;
     }

@@ -1,6 +1,7 @@
 export class Queries{
     getQuery(table, columns, params) {
-    query = `SELECT ${columns} FROM ${DB_NAME}.${table}`;
+    const DB_NAME = process.env.DB_NAME;
+    let query = `SELECT ${columns} FROM ${DB_NAME}.${table}`;
     if (Object.keys(params).length > 0) {
         const conditions = [];
         Object.keys(params).forEach(param => {
@@ -21,5 +22,6 @@ export class Queries{
             query += ` LIMIT ${queryParams.limit} OFFSET ${offset}`;
         }
     }
+    return query;
 }
 }

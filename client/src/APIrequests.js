@@ -17,6 +17,7 @@ export class APIrequests {
 
     async getRequest(url) {
         try {
+            console.log('http://localhost:8080' + url);
             const response = await fetch('http://localhost:8080' + url, {
                 headers: {
                     'Content-Type': 'application/json'
