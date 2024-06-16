@@ -1,13 +1,16 @@
 
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
+import BusinessInList from './BusinessInList.jsx';
 // import { UserContext } from "../../UserProvider";
 import { APIrequests } from '../APIrequests.js' 
 
 function Businesses() {
     const { category } = useParams();
     const navigate = useNavigate();
-    const [businesses, setBusinesses] = useState([])
+    const [businesses, setBusinesses] = useState([{name:"אבי",rating:10,opinion:100},
+    {name:"אבי",rating:10,opinion:100},
+    {name:"אבי",rating:10,opinion:100}])
     const seeMore = useRef(false);
     const range = 15;
     const APIrequest=new APIrequests()
@@ -44,6 +47,7 @@ function Businesses() {
 
     return (<>
         <h1>שששששששששש</h1>
+        {businesses.map((business)=><BusinessInList name={business.name} rating={business.rating} opinion={business.opinion}/>)}
     </>)
 }
 export default Businesses;
