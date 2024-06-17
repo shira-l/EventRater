@@ -5,14 +5,13 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import Login from './Login.jsx';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useState} from 'react';
-import PersistentDrawerRight from './PersistentDrawerRight.jsx'
-;
+import PersistentDrawerRight from './PersistentDrawerRight.jsx';
+
 
 export default function ButtonAppBar(props) {
   
@@ -33,7 +32,7 @@ export default function ButtonAppBar(props) {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" >
                 <Toolbar>
-                    {displayLogIn ?<Button color="inherit">הירשם</Button>:
+                    {displayLogIn ?<Login color="inherit">הירשם</Login>:
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -66,14 +65,7 @@ export default function ButtonAppBar(props) {
                     <Typography variant="h6" component="div" textAlign={"end"} paddingRight={"inherit"} sx={{ flexGrow: 1 }}>
                         EVENTS
                     </Typography>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <PersistentDrawerRight/>
-                    </IconButton>
+                    <PersistentDrawerRight/>
                 </Toolbar>
             </AppBar>
         </Box>
