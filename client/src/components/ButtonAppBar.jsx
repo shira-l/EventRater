@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useState} from 'react';
+import PersistentDrawerRight from './PersistentDrawerRight.jsx'
 ;
 
 export default function ButtonAppBar(props) {
@@ -71,7 +72,7 @@ export default function ButtonAppBar(props) {
                         color="inherit"
                         aria-label="menu"
                     >
-                        <MenuIcon/>
+                        <PersistentDrawerRight/>
                     </IconButton>
                 </Toolbar>
             </AppBar>
