@@ -4,9 +4,10 @@ import auth from '../auth.js';
 import orchestraImage from '../images/orchestra.png';
 import photographerImage from '../images/photographer.png';
 import flowersImage from '../images/flowers.png';
+import ButtonAppBar from './ButtonAppBar.jsx'
 
 function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ function Home() {
 
   return (
     <div className="home-container">
+      <ButtonAppBar isLoggedIn={true}/>
       <div className="sidebar">
         {isLoggedIn ? (
           <>
