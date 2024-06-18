@@ -1,4 +1,5 @@
 import {Queries} from "./query.js"
+import executeQuery from './db.js';
 export class BusinessService {
 static tableName = "Businesses";
     async getBusinessByCategory(params) {

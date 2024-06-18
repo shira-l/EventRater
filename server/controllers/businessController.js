@@ -1,9 +1,9 @@
 import { BusinessService } from '../service/businessService.js'
 export class BusinessController {
     static businessService = new BusinessService();
-    async getBusiness(query, res, next){
+    async getBusiness(req, res, next){
         try {
-            const resultItem = await BusinessController.businessService.getBusinessByCategory(query);
+            const resultItem = await BusinessController.businessService.getBusinessByCategory(req.query);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
