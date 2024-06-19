@@ -3,6 +3,7 @@ dotenv.config();
 import express from 'express';
 import { businessRouter } from './router/businessRouter.js'
 import {logErrors} from './middleware/logError.js';
+import cors from 'cors';
 // import {loginRouter} from './router/loginRouter.js';
 
 // let allowCrossDomain = function(req, res, next) {
@@ -13,6 +14,13 @@ import {logErrors} from './middleware/logError.js';
 //   }
   
 const app = express();
+
+app.use(cors());
+// app.use(cors({
+//     origin: '*',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // מתודות המורשות
+//     allowedHeaders: ['Content-Type', 'Authorization'] // כותרות מותרות
+// }));
 
 app.use(express.json());
 // app.use('/login',loginRouter);

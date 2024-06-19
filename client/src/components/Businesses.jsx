@@ -7,10 +7,11 @@ import { APIrequests } from '../APIrequests.js'
 
 function Businesses() {
     const { category } = useParams();
-    const navigate = useNavigate();
-    const [businesses, setBusinesses] = useState([{name:"אבי",rating:10,opinion:100},
-    {name:"אבי",rating:10,opinion:100},
-    {name:"אבי",rating:10,opinion:100}])
+    // const navigate = useNavigate();
+    // const [businesses, setBusinesses] = useState([{name:"אבי",rating:10,opinion:100},
+    // {name:"אבי",rating:10,opinion:100},
+    // {name:"אבי",rating:10,opinion:100}])
+    const [businesses, setBusinesses] = useState([])
     const seeMore = useRef(false);
     const range = 15;
     const APIrequest=new APIrequests()
