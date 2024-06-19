@@ -6,6 +6,7 @@ import photographerImage from '../images/photographer.png';
 import flowersImage from '../images/flowers.png';
 import ButtonAppBar from './ButtonAppBar.jsx'
 
+
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();

@@ -12,9 +12,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+
 export default function Login() {
   const [open, setOpen] = useState(false);
-
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -22,43 +24,54 @@ export default function Login() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleSubmit=(event)=>{
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    const email = formJson.email;
+    const password = formJson.password;
+    checkValidation(email,password)
+    handleClose();
+  }
+  const checkValidation =(email,password)=>{
 
+  }
   return (
     <React.Fragment>
       <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
-       הירשם
+        הירשם
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
           component: 'form',
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
+          onSubmit: handleSubmit,
         }}
       >
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>התחבר</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            ברוך שובך! אנא היכנס כדי להמשיך
           </DialogContentText>
-          <TextField autoFocus required
-            margin="dense" id="name" name="email"
+          <TextField required
+            margin="normal" id="name" name="email"
             label="Email Address"
             type="email"
             fullWidth variant="standard"
           />
+           <label className="errorLabel">{emailError}</label>
+          <TextField autoFocus required
+            margin="normal" id="name" name="password"
+            label="Password"
+            type="password"
+            fullWidth variant="standard"
+          />
+           <label className="errorLabel">{passwordError}</label>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Subscribe</Button>
+          <Button type="submit">שמור</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
