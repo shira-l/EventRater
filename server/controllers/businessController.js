@@ -1,4 +1,5 @@
 import { BusinessService } from '../service/businessService.js'
+
 export class BusinessController {
     static businessService = new BusinessService();
     async getBusiness(req, res, next){
@@ -7,9 +8,10 @@ export class BusinessController {
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
-            const err = {}
-            err.statusCode = 500;
-            err.message = ex;
+            const err = {
+                statusCode: 500,
+                message: ex.message
+            };
             next(err)
         }
     }
@@ -20,9 +22,10 @@ export class BusinessController {
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
-            const err = {}
-            err.statusCode = 500;
-            err.message = ex;
+            const err = {
+                statusCode: 500,
+                message: ex.message
+            };
             next(err)
         }
     }
