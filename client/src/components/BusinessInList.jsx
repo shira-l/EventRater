@@ -1,7 +1,12 @@
 export default function BusinessInList(props){
 const {name,rating,opinion}=props;
-    return(<div>
-   {about} {email} {phone}
-    </div>)
+    return(<>
+           <div>
+            <h3>{business.businessesName}</h3>
+            <p>Rating: {business.averageRating}</p>
+            <p>NumberOfOpinions: {business.NumberOfOpinions}</p>
+            <hr />
+        </div>
+    </>)
 }
 

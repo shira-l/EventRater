@@ -48,7 +48,12 @@ function Businesses() {
 
     return (<>
         <h1>שששששששששש</h1>
-        {businesses.map((business)=><BusinessInList name={business.name} rating={business.rating} opinion={business.opinion}/>)}
+        {/* {businesses.map((business)=><BusinessInList name={business.name} rating={business.rating} opinion={business.opinion}/>)} */}
+        {businesses.map((business) => (
+                <BusinessInList
+                    key={business.id}
+                    business={business}
+                />))}
     </>)
 }
 export default Businesses;
