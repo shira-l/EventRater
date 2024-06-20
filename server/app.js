@@ -1,9 +1,9 @@
-import dotenv from 'dotenv';
-dotenv.config();
+
 import express from 'express';
 import { businessRouter } from './router/businessRouter.js'
 import {logErrors} from './middleware/logError.js';
 import cors from 'cors';
+import {verifyToken} from './middleware/authenticateToken.js'
 // import {loginRouter} from './router/loginRouter.js';
 
 // let allowCrossDomain = function(req, res, next) {
@@ -25,6 +25,7 @@ app.use(cors());
 app.use(express.json());
 // app.use('/login',loginRouter);
 // app.use(allowCrossDomain);
+app.use(verifyToken)
 app.use('/businesses', businessRouter);
 app.use(logErrors);
 

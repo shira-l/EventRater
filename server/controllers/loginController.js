@@ -1,19 +1,11 @@
 import { TableService } from '../service/service.js'
 export class LoginController {
-    async checkUser(req, res, next) {
+    async loginTest(req, res, next) {
         try {
-            let userName = req.query.userName;
-            const loginService = new TableService();
-            const resultItems = await loginService.checkUserName(userName)
-            if (resultItems.length) {
-                const err = {}
-                err.statusCode = 400;
-                err.message = "Already Exist";
-                next(err)
-            }
-            else {
-                return res.status(200).json({ status: 200 });
-            }
+            const testService = new TestService();
+            const token = await testService.getUserByPassword(req.body);
+            return res.cookie('x-access-token', token, { httpOnly: true }).json({ token: token });
+
         }
         catch (ex) {
             const err = {}

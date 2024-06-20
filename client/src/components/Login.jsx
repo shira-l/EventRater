@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,9 +15,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 export default function Login() {
+  const APIrequest = new APIrequests()
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    }
+  });
   const [open, setOpen] = useState(false);
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -24,18 +30,18 @@ export default function Login() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSubmit=(event)=>{
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(formData.entries());
-    const email = formJson.email;
-    const password = formJson.password;
-    checkValidation(email,password)
+  const login = () => {
+    // event.preventDefault();
+    // const formData = new FormData(event.currentTarget);
+    // const formJson = Object.fromEntries(formData.entries());
+    // const email = formJson.email;
+    // const password = formJson.password;
+    // checkValidation(email, password)
     handleClose();
   }
-  const checkValidation =(email,password)=>{
 
-  }
+
+
   return (
     <React.Fragment>
       <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
@@ -46,28 +52,34 @@ export default function Login() {
         onClose={handleClose}
         PaperProps={{
           component: 'form',
-          onSubmit: handleSubmit,
+          onSubmit: handleSubmit(login),
         }}
       >
         <DialogTitle>התחבר</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            ברוך שובך! אנא היכנס כדי להמשיך
-          </DialogContentText>
-          <TextField required
-            margin="normal" id="name" name="email"
-            label="Email Address"
-            type="email"
+          <DialogContentText> ברוך שובך! אנא היכנס כדי להמשיך</DialogContentText>
+          <TextField autoFocus margin="normal" id="name" name="email"
+            label="Email Address" type="email"
             fullWidth variant="standard"
-          />
-           <label className="errorLabel">{emailError}</label>
-          <TextField autoFocus required
-            margin="normal" id="name" name="password"
-            label="Password"
-            type="password"
+            {...register("email", {
+              required: "Please Enter Your Email!",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Please Enter A Valid Email!"
+              }
+            })} />
+          <InputLabel fullWidth>{errors.email?.message}</InputLabel>
+          <TextField autoFocus margin="normal" id="name" name="password"
+            label="Password" type="password"
             fullWidth variant="standard"
-          />
-           <label className="errorLabel">{passwordError}</label>
+            {...register("password", {
+              required: "Please Enter Your Password",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters long!"
+              }
+            })} />
+         <InputLabel fullWidth>{errors.password?.message}</InputLabel>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
