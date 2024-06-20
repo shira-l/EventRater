@@ -1,9 +1,8 @@
-export default function BusinessInList(props){
-const {name,rating,opinion}=props;
+export default function BusinessInList({business}){
     return(<>
            <div>
-            <h3>{business.businessesName}</h3>
-            <p>Rating: {business.averageRating}</p>
+           <p>{business.businessesName}</p>
+           <p>Rating: {business.averageRating}</p>
             <p>NumberOfOpinions: {business.NumberOfOpinions}</p>
             <hr />
         </div>

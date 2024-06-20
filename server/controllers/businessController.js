@@ -2,9 +2,10 @@ import { BusinessService } from '../service/businessService.js'
 
 export class BusinessController {
     static businessService = new BusinessService();
-    async getBusiness(req, res, next){
+    async getBusinessByCategory(req, res, next){
         try {
-            const resultItem = await BusinessController.businessService.getBusinessByCategory(req.query);
+            const columns = "id, userId, category, phone, email, about";
+            const resultItem = await BusinessController.businessService.getBusinessByCategory(req.query,columns);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {

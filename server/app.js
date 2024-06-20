@@ -25,8 +25,8 @@ app.use(cors());
 app.use(express.json());
 // app.use('/login',loginRouter);
 // app.use(allowCrossDomain);
-app.use(verifyToken)
 app.use('/businesses', businessRouter);
+app.use(verifyToken)
 app.use(logErrors);
 
 

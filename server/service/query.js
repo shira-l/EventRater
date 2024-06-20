@@ -1,13 +1,20 @@
 export class Queries {
-    getQuery(table, columns, params) {
-        const DB_NAME = process.env.DB_NAME;
-        let query = `SELECT ${columns} FROM ${DB_NAME}.${table}`;
+    getQuery(table, columns, joinTables = [], params = {}) {
+        const DB = process.env.DB_NAME;
+        let query = `SELECT ${columns} FROM ${DB}.${table}`;
         const values = [];
+
+        if (joinTables.length > 0) {
+            joinTables.forEach((join) => {
+                query += ` JOIN ${DB}.${join.table} ON ${join.condition}`;
+            });
+        }  
 
         if (Object.keys(params).length > 0) {
             const conditions = [];
             for (const param in params) {
-                if (param !== 'sort' && param !== 'limit' && param !== 'page') {
+                if (param !== 'sort' && param !== 'range' && param !== 'start') {
+                    // conditions.push(`${DB}.${param} = ?`);
                     conditions.push(`${param} = ?`);
                     values.push(params[param]);
                 }
@@ -20,41 +27,12 @@ export class Queries {
             if (params.sort) {
                 query += ` ORDER BY ${params.sort}`;
             }
-            if (params.limit && params.page) {
-                const offset = (params.page - 1) * params.limit;
-                query += ` LIMIT ${params.limit} OFFSET ${offset}`;
-            }
+            if (params.range && params.start) {
+                const offset = params.start;
+                const limit = params.range;
+                query += ` LIMIT ${limit} OFFSET ${offset}`;
+            }  
         }
         return { query, values };
     }
 }
-
-
-
-// export class Queries{
-//     getQuery(table, columns, params) {
-//     const DB_NAME = process.env.DB_NAME;
-//     let query = `SELECT ${columns} FROM ${DB_NAME}.${table}`;
-//     if (Object.keys(params).length > 0) {
-//         const conditions = [];
-//         Object.keys(params).forEach(param => {
-//             if (param !== 'sort' && param !== 'limit' && param !== 'page') {
-//                 conditions.push(`${param} = ?`);
-//             }
-//         });
-
-//         if (conditions.length > 0) {
-//             query += ` WHERE ${conditions.join(' AND ')}`;
-//         }
-
-//         if (params.sort) {
-//             query += ` ORDER BY ${queryParams.sort}`;
-//         }
-//         if (params._start) {
-//             const offset = (queryParams.page - 1) * queryParams.limit;
-//             query += ` LIMIT ${queryParams.limit} OFFSET ${offset}`;
-//         }
-//     }
-//     return query;
-// }
-// }

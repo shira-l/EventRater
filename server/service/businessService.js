@@ -8,9 +8,13 @@ export class BusinessService {
     async getBusinessByCategory(params) {
         const categoryService = new CategoryService();
         const queries = new Queries();
-        const columns = "id, userId, category, phone, email, about";
-        const categoryId = await categoryService.getCategoryIdByName(params.category);
-        const { query, values } = queries.getQuery(BusinessService.tableName, columns,  { category: categoryId });
+        const DB = process.env.DB_NAME;
+        const columns = "businessesName, averageRating, NumberOfOpinions";
+        const joinTables = [
+            { table: 'category', condition: `${DB}.Businesses.category = ${DB}.category.id` }
+        ];
+        // const conditions = { [`${DB}.category.categoryName`]: params.category };
+        const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params);
         const result = await executeQuery(query, values);
         return result;
     }
