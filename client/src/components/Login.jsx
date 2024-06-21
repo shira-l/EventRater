@@ -21,24 +21,31 @@ export default function Login() {
       email: '',
       password: '',
     }
-  });
+  })
+
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
-  };
+  }
 
   const handleClose = () => {
     setOpen(false);
-  };
-  const login = () => {
-    // event.preventDefault();
-    // const formData = new FormData(event.currentTarget);
-    // const formJson = Object.fromEntries(formData.entries());
-    // const email = formJson.email;
-    // const password = formJson.password;
-    // checkValidation(email, password)
-    handleClose();
   }
+
+  const generatePasswordHash = (password) => {
+    const hashedPassword = CryptoJS.SHA256(password).toString();
+    return hashedPassword;
+  }
+
+  const login = async (userDetails) => {
+    handleClose();
+    const hash_password = generatePasswordHash(userDetails.password);
+    const response = await APIrequest.postRequest(`/authentication/login`, { "email": userDetails.email, "password": hash_password });
+    if (!response.ok)
+      throw new Error('error, please try egain whith anouther email or password or sign up')
+    const data = response.json();
+  }
+
 
 
 
@@ -79,7 +86,7 @@ export default function Login() {
                 message: "Password must be at least 8 characters long!"
               }
             })} />
-         <InputLabel fullWidth>{errors.password?.message}</InputLabel>
+          <InputLabel fullWidth>{errors.password?.message}</InputLabel>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
@@ -99,19 +106,10 @@ export default function Login() {
 //     }
 //   });
 
-//   const generatePasswordHash = (password) => {
-//     const hashedPassword = CryptoJS.SHA256(password).toString();
-//     return hashedPassword;
-//   };
+
 
 //   async function login() {
-//     const hash_password = generatePasswordHash(password);
-//     const response = await APIrequest.postRequest(`/login`, { "email": email, "password_hash": hash_password });
-//     if (!response.ok)
-//       throw new Error('error, please try egain whith anouther email or password or sign up')
-//     const data = response.json();
-//     localStorage.setItem("TOKEN", data.accessToken);
-//   }
+
 
 //   return (
 //     <>
