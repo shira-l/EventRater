@@ -14,6 +14,10 @@ export class BusinessService {
             { table: 'category', condition: `${DB}.Businesses.category = ${DB}.category.id` }
         ];
         // const conditions = { [`${DB}.category.categoryName`]: params.category };
+        // const conditions = {
+        //     categoryName: { table: 'category', column: 'categoryName', value: params.category }
+        // };
+
         const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params);
         const result = await executeQuery(query, values);
         return result;

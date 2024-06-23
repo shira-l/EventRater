@@ -1,9 +1,9 @@
-import {Queries} from './query'
+import {Queries} from './query.js'
 export class LoginService{
     static tableName="users";
     async checkUserIdExist(params) {
         const { email, password } = params;
-        const queryTest = Queries.getQuery(LoginService.tableName,, params);
+        const queryTest = Queries.getQuery(LoginService.tableName, params);
         const userRes = await executeQuery(queryTest, [username]);
         if (!userRes || password!== userRes[0].id )
             throw new Error("inavlid password ");

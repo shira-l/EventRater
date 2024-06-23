@@ -1,4 +1,3 @@
-
 import express from 'express';
 import { businessRouter } from './router/businessRouter.js'
 import {logErrors} from './middleware/logError.js';
