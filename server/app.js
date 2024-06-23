@@ -4,7 +4,7 @@ import {logErrors} from './middleware/logError.js';
 import cors from 'cors';
 import {verifyToken} from './middleware/authenticateToken.js'
 import {loginRouter} from './router/loginRouter.js';
-
+import { env } from 'node:process';
 // let allowCrossDomain = function(req, res, next) {
 //     res.header('Access-Control-Allow-Origin', "*");
 //     res.header('Access-Control-Allow-Headers', "*");
@@ -29,11 +29,11 @@ app.use(verifyToken)
 app.use(logErrors);
 
 
-const PORT = process.env.PORT;
+const PORT = env.PORT;
 console.log(PORT);
 
 
-app.listen(PORT, (err) => {
+app.listen(8082, (err) => {
     if (err) console.error(err);
     console.log("Server listening on PORT", PORT);
 });

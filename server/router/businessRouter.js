@@ -5,7 +5,7 @@ const businessController = new BusinessController();
 businessRouter.get("/",businessController.getBusinessByCategory);
 businessRouter.get("/:id",businessController.getBusinessById);
 
-businessRouter.post("/", )
+//businessRouter.post("/", )
 export {
     businessRouter
 }
