@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 
 export const verifyToken = (req, res, next) => {
     const token = req?.query?.token || req?.headers?.cookie["x-access-token"] || req?.cookies?.token;

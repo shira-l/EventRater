@@ -1,9 +1,9 @@
-import { TableService } from '../service/service.js'
+import { LoginService } from '../service/loginService.js'
 export class LoginController {
-    async loginTest(req, res, next) {
+    static loginService=new LoginService();
+    async login(req, res, next) {
         try {
-            const testService = new TestService();
-            const token = await testService.getUserByPassword(req.body);
+            const token = await LoginController.loginService.checkUserIdExist(req.body);
             return res.cookie('x-access-token', token, { httpOnly: true }).json({ token: token });
 
         }

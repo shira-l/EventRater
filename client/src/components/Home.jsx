@@ -23,7 +23,7 @@ function Home() {
 
   return (
     <div className="home-container">
-      <ButtonAppBar isLoggedIn={true}/>
+      <ButtonAppBar isLoggedIn={isLoggedIn}/>
       <div className="sidebar">
         {isLoggedIn ? (
           <>
