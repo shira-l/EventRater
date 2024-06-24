@@ -6,14 +6,16 @@ import ButtonAppBar from './ButtonAppBar.jsx';
 import BusinessInList from './BusinessInList.jsx';
 // import { UserContext } from "../../UserProvider";
 import { APIrequests } from '../APIrequests.js'
-import { APIrequests } from '../APIrequests.js'
 //import { UserContext } from "../../UserProvider";
 
 export default function Businesses() {
     const { category } = useParams();
-    const [businesses, setBusinesses] = useState([{ name: "אבי", rating: 10, opinion: 100 },
-    { name: "אבי", rating: 10, opinion: 100 },
-    { name: "אבי", rating: 10, opinion: 100 }])
+    const [businesses, setBusinesses] = useState([{ id: 1, businessName: "אבי", location: "ירושלים" },
+        { id: 1, businessName: "אבי", location: "ירושלים" },
+        { id: 1, businessName: "אבי", location: "ירושלים" },
+        { id: 1, businessName: "אבי", location: "ירושלים" },
+        { id: 1, businessName: "אבי", location: "ירושלים" },
+        { id: 1, businessName: "אבי", location: "ירושלים" }])
     const APIrequest = new APIrequests()
     const { id } = useParams();
     const navigate = useNavigate();
@@ -166,47 +168,41 @@ export default function Businesses() {
                 }
             })
 
-        }
-        return (<>
-            <h1>שששששששששש</h1>
-            {/* {businesses.map((business)=><BusinessInList name={business.name} rating={business.rating} opinion={business.opinion}/>)} */}
-            <ButtonAppBar />
-            <div id='businessesTop'>
-                <div id='search'>
-                    <h3 id="searchTitle">search:</h3>
-                    <input className='searchTodo' type="text" name="title" onChange={handleSearchChange} placeholder="title" />
-                    <button disabled={valuesSearch.title == ""} onClick={() => { searchByTitle(valuesSearch.title) }}>search title</button>
-                    <input className='searchTodo' type="text" name="id" onChange={handleSearchChange} placeholder="id" />
-                    <button disabled={valuesSearch.id == ""} onClick={() => { searchById(valuesSearch.id) }}>search id</button>
-                    <form className='searchTodo' action="">
-                        <label>completed</label>
-                        <input type="radio" name='completed' onChange={() => { searchCompleted(true) }} />
-                        <label>not completed</label>
-                        <input type="radio" name='completed' onChange={() => { searchCompleted(false) }} />
-                    </form>
-
-                </div>
-                <div id='select'>
-                    <h4 id="sortTitle">sort:</h4>
-                    <select id="sortBy" onChange={sortBy}>
-                        <option value="serial" >serial</option>
-                        <option value="completed">completed</option>
-                        <option value="Alphabetical">Alphabetical</option>
-                    </select>
-                </div>
-            </div>
-            {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
-            <h3 id="businessesHeader">businesses List</h3>
-            <div id='container'>
-                {businesses.map((business, index) => <div key={index} className='businessesList'>
-                    <div className='businessesContent'>
-                        <span id='idbusinesses'>id:{todo.id}</span>  <span id='titlebusinesses'>title:{todo.title}</span><span id='completedbusinesses'>completed:</span>
-                        <input type="checkbox" checked={todo.completed} onChange={() => { }} /></div>
-                    <div className='businessesButton'>
-                    </div>
-                </div>)}</div>
-        </>)
     }
+    return (<>
+        <h1>שששששששששש</h1>
+        <ButtonAppBar />
+        <div id='businessesTop'>
+            <div id='search'>
+                <h3 id="searchTitle">search:</h3>
+                <input className='searchTodo' type="text" name="title" onChange={handleSearchChange} placeholder="title" />
+                <button disabled={valuesSearch.title == ""} onClick={() => { searchByTitle(valuesSearch.title) }}>search title</button>
+                <input className='searchTodo' type="text" name="id" onChange={handleSearchChange} placeholder="id" />
+                <button disabled={valuesSearch.id == ""} onClick={() => { searchById(valuesSearch.id) }}>search id</button>
+                <form className='searchTodo' action="">
+                    <label>completed</label>
+                    <input type="radio" name='completed' onChange={() => { searchCompleted(true) }} />
+                    <label>not completed</label>
+                    <input type="radio" name='completed' onChange={() => { searchCompleted(false) }} />
+                </form>
+
+            </div>
+            <div id='select'>
+                <h4 id="sortTitle">sort:</h4>
+                <select id="sortBy" onChange={sortBy}>
+                    <option value="serial" >serial</option>
+                    <option value="completed">completed</option>
+                    <option value="Alphabetical">Alphabetical</option>
+                </select>
+            </div>
+        </div>
+        {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
+        <h3 id="businessesHeader">businesses List</h3>
+        <div id='container'>
+            {businesses.map((business,index) =>
+                <BusinessInList key={index} business={business} />)}</div>
+    </>)
+}
 
 
 

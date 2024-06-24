@@ -5,12 +5,36 @@ import cors from 'cors';
 import {verifyToken} from './middleware/authenticateToken.js'
 import {loginRouter} from './router/loginRouter.js';
 import { env } from 'node:process';
-// let allowCrossDomain = function(req, res, next) {
-//     res.header('Access-Control-Allow-Origin', "*");
-//     res.header('Access-Control-Allow-Headers', "*");
-//     res.header('Access-Control-Allow-Methods', "*");
-//     next();
-//   }
+import nodemailer from 'nodemailer';
+
+
+// Create a transporter object
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+  secure: false, // use SSL
+  auth: {
+    user:'michalla37@gmail.com',
+    pass: 'kqjf zowc lqej cqbi',
+  }
+});
+
+// Configure the mailoptions object
+const mailOptions = {
+  from: 'michalla37@gmail.com',
+  to: 'michalla37@gmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+// Send the email
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log('Error:', error);
+  } else {
+    console.log('Email sent:', info.response);
+  }
+});
+
   
 const app = express();
 
@@ -33,7 +57,7 @@ const PORT = env.PORT;
 console.log(PORT);
 
 
-app.listen(8082, (err) => {
+app.listen(8083, (err) => {
     if (err) console.error(err);
     console.log("Server listening on PORT", PORT);
 });

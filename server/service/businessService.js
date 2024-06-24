@@ -2,6 +2,7 @@ import {Queries} from "./query.js"
 import executeQuery from './db.js';
 import { CategoryService } from './categoryService.js';
 
+
 export class BusinessService {
     static tableName = "Businesses";
 

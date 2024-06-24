@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import auth from '../auth.js';
-import orchestraImage from '../images/orchestra.png';
+import orchestraImage from '../images/תמונה-ראשית-עמוד-צילום-סטילס-סנאפשוטס-סטודיו-לצילום-צילום-חתונות-צילומי-טראש-צילום-אירועים-צילומי-היריון-מגנטים-לאירועים.png';
 import photographerImage from '../images/photographer.png';
 import flowersImage from '../images/flowers.png';
 import ButtonAppBar from './ButtonAppBar.jsx'
@@ -23,24 +23,16 @@ function Home() {
 
   return (
     <div className="home-container">
-      <ButtonAppBar isLoggedIn={isLoggedIn}/>
-      <div className="sidebar">
-        {isLoggedIn ? (
-          <>
-            <Link to="/profile">אזור אישי</Link>
-            <button onClick={handleLogout}>התנתק מהחשבון</button>
-          </>
-        ) : (
-          <>
-            <Outlet />
-            <Link to="/login">כניסה לחשבון שלי</Link>
-            <Link to="/add-business">הוסף עסק חדש</Link>
-          </>
-        )}
-      </div>
+      <ButtonAppBar isLoggedIn={isLoggedIn} />
+      <p className='paragraph'> 
+        .במידרג ישנן מאות אלפי חוות דעת של לקוחות קודמים כמוך על למעלה מ-9,900 בעלי מקצוע
+        <br />
+        .בכל חיפוש תקבלו רשימה של בעלי מקצוע
+        <br />
+        .הרשימה ממויינת לפי הציון הממוצע שקיבלו בעלי המקצוע מהלקוחות הקודמים
+        <br />
+        ! בעל מקצוע לא יכול לקנות את המיקום שלו ברשימה. רק הלקוחות קובעים</p>
       <div className="main-content">
-        <h1>הכל לארוע</h1>
-        <p>ברוכים הבאים לאתר הכל לארוע! חלחלחלחלחלחלחלחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחחח.</p>
         <div className="images-container">
           <Link to="/businesses/orchestra">
             <img src={orchestraImage} alt="Orchestra" className="category-image" />
