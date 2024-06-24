@@ -53,12 +53,12 @@ app.use(verifyToken)
 app.use(logErrors);
 
 
-const PORT = env.PORT;
+const PORT = process.env.PORT;
 console.log(PORT);
 
 
 
-app.listen(8083, (err) => {
+app.listen(PORT, (err) => {
     if (err) console.error(err);
-    console.log("Server listening on PORT", 8083);
+    console.log("Server listening on PORT", PORT);
 });
