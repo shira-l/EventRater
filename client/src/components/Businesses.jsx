@@ -55,7 +55,7 @@ export default function Businesses() {
     const searchCompleted = (boolian) => {
         let start = seeMore.current ? businesses.length : 0
         navigate(`/home/users/${id}/businesses/search?completed=${boolian}`)
-        fetch(`http://localhost:8082/businesses?userId=${id}&completed=${boolian}&start=${start}&range=${range}`, {
+        fetch(`http://localhost:8080/businesses?userId=${id}&completed=${boolian}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -84,7 +84,7 @@ export default function Businesses() {
         }
         let start = seeMore.current ? businesses.length : 0
         navigate(`/home/users/${id}/businesses/search?title=${titleValue}`)
-        fetch(`http://localhost:8082/businesses?userId=${id}&title=${titleValue}&start=${start}&range=${range}`, {
+        fetch(`http://localhost:8080/businesses?userId=${id}&title=${titleValue}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -106,7 +106,7 @@ export default function Businesses() {
 
     const searchById = (idValue) => {
         navigate(`/home/users/${id}/businesses/${idValue}`)
-        fetch(`http://localhost:8082/businesses/${idValue}`, {
+        fetch(`http://localhost:8080/businesses/${idValue}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -145,7 +145,7 @@ export default function Businesses() {
         let value = seeMore.current ? event : event.target.value;
         navigate(`/home/users/${id}/businesses/?sortBy=${value}`)
 
-        fetch(`http://localhost:8082/businesses?userId=${id}&sort=${value}&start=${start}&range=${range}`, {
+        fetch(`http://localhost:8080/businesses?userId=${id}&sort=${value}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())

@@ -36,4 +36,8 @@ export class Queries {
 
         return { query, values };
     }
+
+    postQuery(){
+        
+    }
 }
