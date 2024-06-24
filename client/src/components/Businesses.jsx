@@ -32,7 +32,7 @@ export default function Businesses() {
 
     const getBusinesses = async () => {
         let start = seeMore.current ? businesses.length : 0
-        const response = await APIrequest.getRequest(`/businesses?category=${category}&_start=${start}&_end=${start + range}`)
+        const response = await APIrequest.getRequest(`/businesses?category=${category}&start=${start}&range=${range}`)
         const json = response.json()
         if (json.status != 200) {
             alert(json.error)
@@ -59,7 +59,7 @@ export default function Businesses() {
     const searchCompleted = (boolian) => {
         let start = seeMore.current ? businesses.length : 0
         navigate(`/home/users/${id}/businesses/search?completed=${boolian}`)
-        fetch(`http://localhost:8082/businesses?userId=${id}&completed=${boolian}&_start=${start}&_end=${start + range}`, {
+        fetch(`http://localhost:8082/businesses?userId=${id}&completed=${boolian}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -88,7 +88,7 @@ export default function Businesses() {
         }
         let start = seeMore.current ? businesses.length : 0
         navigate(`/home/users/${id}/businesses/search?title=${titleValue}`)
-        fetch(`http://localhost:8082/businesses?userId=${id}&title=${titleValue}&_start=${start}&_end=${start + range}`, {
+        fetch(`http://localhost:8082/businesses?userId=${id}&title=${titleValue}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -149,7 +149,7 @@ export default function Businesses() {
         let value = seeMore.current ? event : event.target.value;
         navigate(`/home/users/${id}/businesses/?sortBy=${value}`)
 
-        fetch(`http://localhost:8082/businesses?userId=${id}&sort=${value}&_start=${start}&_end=${start + range}`, {
+        fetch(`http://localhost:8082/businesses?userId=${id}&sort=${value}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -166,9 +166,7 @@ export default function Businesses() {
                     json.data.length < range ? setDisplaySeeMore(false) : setDisplaySeeMore(true);
                     setLastAction({ action: "sort", type: `${value}` });
                 }
-            })
-
-    }
+            })}
     return (<>
         <h1>שששששששששש</h1>
         <ButtonAppBar />
