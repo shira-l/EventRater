@@ -1,5 +1,5 @@
 export class Queries {
-    getQuery(table, columns, joinTables = [], params = {}, conditions = {}) {
+    getQuery(table, columns, joinTables = [], params = {}) {
         const DB = process.env.DB_NAME;
         let query = `SELECT ${columns} FROM ${DB}.${table}`;
         const values = [];
@@ -14,18 +14,8 @@ export class Queries {
         if (Object.keys(params).length > 0) {
             for (const param in params) {
                 if (param !== 'sort' && param !== 'range' && param !== 'start' && param !== 'conditions') {
-                    conditionsArray.push(`${table}.${param} = ?`);
+                    conditionsArray.push(`${param} = ?`);
                     values.push(params[param]);
-                }
-            }
-        }
-
-        if (Object.keys(conditions).length > 0) {
-            for (const param in conditions) {
-                const condition = conditions[param];
-                if (condition.table && condition.column && condition.value !== undefined) {
-                    conditionsArray.push(`${condition.table}.${condition.column} = ?`);
-                    values.push(condition.value);
                 }
             }
         }
