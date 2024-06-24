@@ -6,7 +6,6 @@ import ButtonAppBar from './ButtonAppBar.jsx';
 import BusinessInList from './BusinessInList.jsx';
 // import { UserContext } from "../../UserProvider";
 import { APIrequests } from '../APIrequests.js'
-import { APIrequests } from '../APIrequests.js'
 //import { UserContext } from "../../UserProvider";
 
 export default function Businesses() {
@@ -30,7 +29,7 @@ export default function Businesses() {
 
     const getBusinesses = async () => {
         let start = seeMore.current ? businesses.length : 0
-        const response = await APIrequest.getRequest(`/businesses?category=${category}&_start=${start}&_end=${start + range}`)
+        const response = await APIrequest.getRequest(`/businesses?category=${category}&start=${start}&range=${range}`)
         const json = response.json()
         if (json.status != 200) {
             alert(json.error)
@@ -57,7 +56,7 @@ export default function Businesses() {
     const searchCompleted = (boolian) => {
         let start = seeMore.current ? businesses.length : 0
         navigate(`/home/users/${id}/businesses/search?completed=${boolian}`)
-        fetch(`http://localhost:8082/businesses?userId=${id}&completed=${boolian}&_start=${start}&_end=${start + range}`, {
+        fetch(`http://localhost:8082/businesses?userId=${id}&completed=${boolian}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -86,7 +85,7 @@ export default function Businesses() {
         }
         let start = seeMore.current ? businesses.length : 0
         navigate(`/home/users/${id}/businesses/search?title=${titleValue}`)
-        fetch(`http://localhost:8082/businesses?userId=${id}&title=${titleValue}&_start=${start}&_end=${start + range}`, {
+        fetch(`http://localhost:8082/businesses?userId=${id}&title=${titleValue}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -147,7 +146,7 @@ export default function Businesses() {
         let value = seeMore.current ? event : event.target.value;
         navigate(`/home/users/${id}/businesses/?sortBy=${value}`)
 
-        fetch(`http://localhost:8082/businesses?userId=${id}&sort=${value}&_start=${start}&_end=${start + range}`, {
+        fetch(`http://localhost:8082/businesses?userId=${id}&sort=${value}&start=${start}&range=${range}`, {
             method: 'GET'
         })
             .then(response => response.json())
@@ -200,8 +199,8 @@ export default function Businesses() {
             <div id='container'>
                 {businesses.map((business, index) => <div key={index} className='businessesList'>
                     <div className='businessesContent'>
-                        <span id='idbusinesses'>id:{todo.id}</span>  <span id='titlebusinesses'>title:{todo.title}</span><span id='completedbusinesses'>completed:</span>
-                        <input type="checkbox" checked={todo.completed} onChange={() => { }} /></div>
+                        <span id='idbusinesses'>id:{business.id}</span>  <span id='titlebusinesses'>title:{business.title}</span><span id='completedbusinesses'>completed:</span>
+                        <input type="checkbox" checked={business.completed} onChange={() => { }} /></div>
                     <div className='businessesButton'>
                     </div>
                 </div>)}</div>
