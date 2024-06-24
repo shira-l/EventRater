@@ -24,6 +24,7 @@ function Home() {
   return (
     <div className="home-container">
       <ButtonAppBar isLoggedIn={isLoggedIn} />
+
       <p className='paragraph'> 
         .במידרג ישנן מאות אלפי חוות דעת של לקוחות קודמים כמוך על למעלה מ-9,900 בעלי מקצוע
         <br />
@@ -32,6 +33,7 @@ function Home() {
         .הרשימה ממויינת לפי הציון הממוצע שקיבלו בעלי המקצוע מהלקוחות הקודמים
         <br />
         ! בעל מקצוע לא יכול לקנות את המיקום שלו ברשימה. רק הלקוחות קובעים</p>
+        
       <div className="main-content">
         <div className="images-container">
           <Link to="/businesses/orchestra">

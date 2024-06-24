@@ -10,12 +10,7 @@ import { APIrequests } from '../APIrequests.js'
 
 export default function Businesses() {
     const { category } = useParams();
-    const [businesses, setBusinesses] = useState([{ id: 1, businessName: "אבי", location: "ירושלים" },
-        { id: 1, businessName: "אבי", location: "ירושלים" },
-        { id: 1, businessName: "אבי", location: "ירושלים" },
-        { id: 1, businessName: "אבי", location: "ירושלים" },
-        { id: 1, businessName: "אבי", location: "ירושלים" },
-        { id: 1, businessName: "אבי", location: "ירושלים" }])
+    const [businesses, setBusinesses] = useState([])
     const APIrequest = new APIrequests()
     const { id } = useParams();
     const navigate = useNavigate();
@@ -31,7 +26,8 @@ export default function Businesses() {
     }, [category])
 
     const getBusinesses = async () => {
-        let start = seeMore.current ? businesses.length : 0
+        let start = seeMore.current ? businesses.length : 0;
+        console.log(category)
         const response = await APIrequest.getRequest(`/businesses?category=${category}&start=${start}&range=${range}`)
         const json = response.json()
         if (json.status != 200) {
@@ -168,7 +164,6 @@ export default function Businesses() {
                 }
             })}
     return (<>
-        <h1>שששששששששש</h1>
         <ButtonAppBar />
         <div id='businessesTop'>
             <div id='search'>

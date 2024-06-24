@@ -27,13 +27,13 @@ const mailOptions = {
 };
 
 // Send the email
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log('Error:', error);
-  } else {
-    console.log('Email sent:', info.response);
-  }
-});
+// transporter.sendMail(mailOptions, function(error, info){
+//   if (error) {
+//     console.log('Error:', error);
+//   } else {
+//     console.log('Email sent:', info.response);
+//   }
+// });
 
   
 const app = express();
@@ -60,5 +60,5 @@ console.log(PORT);
 
 app.listen(8083, (err) => {
     if (err) console.error(err);
-    console.log("Server listening on PORT", PORT);
+    console.log("Server listening on PORT", 8083);
 });
