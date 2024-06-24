@@ -5,7 +5,7 @@ import orchestraImage from '../images/תמונה-ראשית-עמוד-צילום-
 import photographerImage from '../images/photographer.png';
 import flowersImage from '../images/flowers.png';
 import ButtonAppBar from './ButtonAppBar.jsx'
-
+import './Home.css'
 
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -33,7 +33,7 @@ function Home() {
         .הרשימה ממויינת לפי הציון הממוצע שקיבלו בעלי המקצוע מהלקוחות הקודמים
         <br />
         ! בעל מקצוע לא יכול לקנות את המיקום שלו ברשימה. רק הלקוחות קובעים</p>
-        
+
       <div className="main-content">
         <div className="images-container">
           <Link to="/businesses/orchestra">

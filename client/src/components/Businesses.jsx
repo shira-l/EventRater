@@ -29,7 +29,7 @@ export default function Businesses() {
         let start = seeMore.current ? businesses.length : 0;
         console.log(category)
         const response = await APIrequest.getRequest(`/businesses?category=${category}&start=${start}&range=${range}`)
-        const json = response.json()
+        const json =await response.json()
         if (json.status != 200) {
             alert(json.error)
         }
@@ -200,31 +200,3 @@ export default function Businesses() {
 
 
 
-// useEffect(async () => {
-//     let start = seeMore.current ? businesses.length : 0
-//     // const response = await APIrequest.getRequest(`/businesses?category=${category}&_start=${start}&_end=${start + range}`);
-//     const response = await APIrequest.getRequest(`/businesses?category=${category}`);
-//     let json = response.json();
-//     if (json.status != 200) {
-//         alert(json.error)
-//     }
-//     else {
-//         seeMore.current ? setBusinesses([...businesses, ...json.data]) : setBusinesses(json.data);
-//         seeMore.current = false;
-//     }
-// }
-//     , [])
-
-
-
-// return (<>
-//     <ButtonAppBar />
-//     <h1>שששששששששש</h1>
-//     {/* {businesses.map((business)=><BusinessInList name={business.name} rating={business.rating} opinion={business.opinion}/>)} */}
-//     {businesses.map((business) => (
-//         <BusinessInList
-//             key={business.id}
-//             business={business}
-//         />))}
-// </>)
-// }
