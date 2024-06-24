@@ -10,10 +10,7 @@ import { APIrequests } from '../APIrequests.js'
 
 export default function Businesses() {
     const { category } = useParams();
-    // const [businesses, setBusinesses] = useState([{ name: "אבי", rating: 10, opinion: 100 },
-    // { name: "אבי", rating: 10, opinion: 100 },
-    // { name: "אבי", rating: 10, opinion: 100 }])
-    const [businesses, setBusinesses] = useState([]);
+    const [businesses, setBusinesses] = useState([])
     const APIrequest = new APIrequests()
     const { id } = useParams();
     const navigate = useNavigate();
@@ -29,7 +26,8 @@ export default function Businesses() {
     }, [category])
 
     const getBusinesses = async () => {
-        let start = seeMore.current ? businesses.length : 0
+        let start = seeMore.current ? businesses.length : 0;
+        console.log(category)
         const response = await APIrequest.getRequest(`/businesses?category=${category}&start=${start}&range=${range}`)
         const json = response.json()
         if (json.status != 200) {
@@ -164,50 +162,40 @@ export default function Businesses() {
                     json.data.length < range ? setDisplaySeeMore(false) : setDisplaySeeMore(true);
                     setLastAction({ action: "sort", type: `${value}` });
                 }
-            })
+            })}
+    return (<>
+        <ButtonAppBar />
+        <div id='businessesTop'>
+            <div id='search'>
+                <h3 id="searchTitle">search:</h3>
+                <input className='searchTodo' type="text" name="title" onChange={handleSearchChange} placeholder="title" />
+                <button disabled={valuesSearch.title == ""} onClick={() => { searchByTitle(valuesSearch.title) }}>search title</button>
+                <input className='searchTodo' type="text" name="id" onChange={handleSearchChange} placeholder="id" />
+                <button disabled={valuesSearch.id == ""} onClick={() => { searchById(valuesSearch.id) }}>search id</button>
+                <form className='searchTodo' action="">
+                    <label>completed</label>
+                    <input type="radio" name='completed' onChange={() => { searchCompleted(true) }} />
+                    <label>not completed</label>
+                    <input type="radio" name='completed' onChange={() => { searchCompleted(false) }} />
+                </form>
 
-        }
-        return (<>
-            <h1>שששששששששש</h1>
-            {/* {businesses.map((business)=><BusinessInList name={business.name} rating={business.rating} opinion={business.opinion}/>)} */}
-            <ButtonAppBar />
-            <div id='businessesTop'>
-                <div id='search'>
-                    <h3 id="searchTitle">search:</h3>
-                    <input className='searchTodo' type="text" name="title" onChange={handleSearchChange} placeholder="title" />
-                    <button disabled={valuesSearch.title == ""} onClick={() => { searchByTitle(valuesSearch.title) }}>search title</button>
-                    <input className='searchTodo' type="text" name="id" onChange={handleSearchChange} placeholder="id" />
-                    <button disabled={valuesSearch.id == ""} onClick={() => { searchById(valuesSearch.id) }}>search id</button>
-                    <form className='searchTodo' action="">
-                        <label>completed</label>
-                        <input type="radio" name='completed' onChange={() => { searchCompleted(true) }} />
-                        <label>not completed</label>
-                        <input type="radio" name='completed' onChange={() => { searchCompleted(false) }} />
-                    </form>
-
-                </div>
-                <div id='select'>
-                    <h4 id="sortTitle">sort:</h4>
-                    <select id="sortBy" onChange={sortBy}>
-                        <option value="serial" >serial</option>
-                        <option value="completed">completed</option>
-                        <option value="Alphabetical">Alphabetical</option>
-                    </select>
-                </div>
             </div>
-            {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
-            <h3 id="businessesHeader">businesses List</h3>
-            <div id='container'>
-                {businesses.map((business, index) => <div key={index} className='businessesList'>
-                    <div className='businessesContent'>
-                        <span id='idbusinesses'>id:{business.id}</span>  <span id='titlebusinesses'>title:{business.title}</span><span id='completedbusinesses'>completed:</span>
-                        <input type="checkbox" checked={business.completed} onChange={() => { }} /></div>
-                    <div className='businessesButton'>
-                    </div>
-                </div>)}
-                </div>
-        </>)
-    }
+            <div id='select'>
+                <h4 id="sortTitle">sort:</h4>
+                <select id="sortBy" onChange={sortBy}>
+                    <option value="serial" >serial</option>
+                    <option value="completed">completed</option>
+                    <option value="Alphabetical">Alphabetical</option>
+                </select>
+            </div>
+        </div>
+        {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
+        <h3 id="businessesHeader">businesses List</h3>
+        <div id='container'>
+            {businesses.map((business,index) =>
+                <BusinessInList key={index} business={business} />)}</div>
+    </>)
+}
 
 
 

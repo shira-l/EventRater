@@ -4,6 +4,7 @@ export class BusinessController {
     static businessService = new BusinessService();
     async getBusinessByCategory(req, res, next){
         try {
+            console.log("get businesses")
             const columns = "id, userId, category, phone, email, about";
             const resultItem = await BusinessController.businessService.getBusinessByCategory(req.query,columns);
             res.status(200).json({ status: 200, data: resultItem });
