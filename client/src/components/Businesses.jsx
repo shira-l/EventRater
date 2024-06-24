@@ -10,9 +10,10 @@ import { APIrequests } from '../APIrequests.js'
 
 export default function Businesses() {
     const { category } = useParams();
-    const [businesses, setBusinesses] = useState([{ name: "אבי", rating: 10, opinion: 100 },
-    { name: "אבי", rating: 10, opinion: 100 },
-    { name: "אבי", rating: 10, opinion: 100 }])
+    // const [businesses, setBusinesses] = useState([{ name: "אבי", rating: 10, opinion: 100 },
+    // { name: "אבי", rating: 10, opinion: 100 },
+    // { name: "אבי", rating: 10, opinion: 100 }])
+    const [businesses, setBusinesses] = useState([]);
     const APIrequest = new APIrequests()
     const { id } = useParams();
     const navigate = useNavigate();
@@ -203,7 +204,8 @@ export default function Businesses() {
                         <input type="checkbox" checked={business.completed} onChange={() => { }} /></div>
                     <div className='businessesButton'>
                     </div>
-                </div>)}</div>
+                </div>)}
+                </div>
         </>)
     }
 
