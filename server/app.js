@@ -33,7 +33,7 @@ const PORT = env.PORT;
 console.log(PORT);
 
 
-app.listen(8082, (err) => {
+app.listen(PORT, (err) => {
     if (err) console.error(err);
     console.log("Server listening on PORT", PORT);
 });
