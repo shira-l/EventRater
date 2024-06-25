@@ -6,7 +6,7 @@ export class LoginService{
     static tableName="users";
 
     async checkUserIdExist(params) {
-        const columns = "userId, userName";
+        const columns = "userId, userName, passwords";
         const joinTables = [
             { table: 'passwords', condition: `users.id = passwords.userId` }
         ];
@@ -16,9 +16,13 @@ export class LoginService{
         if (!userRes || userRes.length === 0)
             throw new Error("inavlid password ");
 
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            throw new Error("Invalid password");
+        }
+
         const token = createToken({ id: userRes[0].userId });
 
        return {token, user: userRes[0]};
     }
-
 }

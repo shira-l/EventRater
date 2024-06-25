@@ -1,12 +1,13 @@
 export class Queries {
+    static DB = process.env.DB_NAME;
+
     getQuery(table, columns, joinTables = [], params = {}) {
-        const DB = process.env.DB_NAME;
-        let query = `SELECT ${columns} FROM ${DB}.${table}`;
+        let query = `SELECT ${columns} FROM ${Queries.DB}.${table}`;
         const values = [];
 
         if (joinTables.length > 0) {
             joinTables.forEach((join) => {
-                query += ` JOIN ${DB}.${join.table} ON ${join.condition}`;
+                query += ` JOIN ${Queries.DB}.${join.table} ON ${join.condition}`;
             });
         }
 
@@ -38,6 +39,10 @@ export class Queries {
     }
 
     postQuery(){
-        
+        const columns = Object.keys(data).join(', ');
+        const placeholders = Object.keys(data).map(() => '?').join(', ');
+        const values = Object.values(data);
+        const query = `INSERT INTO ${Queries.DB}.${table} (${columns}) VALUES (${placeholders})`;
+        return { query, values };
     }
 }

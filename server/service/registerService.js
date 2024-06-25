@@ -6,34 +6,44 @@ export class RegisterService {
     static queries = new Queries();
     static tableName = "users";
 
+    async checkIfUserExists(email, username) {
+        const columns = "1";
+        const checkUserQuery = Queries.getQuery(RegisterService.tableName, columns, [], { email, userName: username });
+        const existingUser = await executeQuery(checkUserQuery.query, checkUserQuery.values);
+        return existingUser.length > 0;
+    }
+
+    async insertUser(params) {
+        const userQuery = Queries.postQuery(RegisterService.usersTable, params);
+        const result = await executeQuery(userQuery.query, insertUserQuery.values);
+        return result.insertId;
+    }
+
+    async insertPassword(params) {
+        params.password = await bcrypt.hash(params.password, 10);
+        const passwordQuery = Queries.postQuery(RegisterService.passwordsTable, params);
+        const result = await executeQuery(passwordQuery.query, insertPasswordQuery.values);
+        return result.insertId;
+    }
+
     async createUser(params) {
         const { email, username, password } = params;
 
-        columns = "1";
-        
-        const checkUserQuery = Queries.getQuery(LoginService.tableName, columns, [], {email: email, username: username});
-
-
-        const existingUser = await executeQuery(checkUserQuery, [email, username]);
-
-        if (existingUser.length > 0) {
+        const userExists = await this.checkIfUserExists({email: email, username: username});
+        if (userExists) {
             throw new Error("User already exists");
         }
 
-        const insertUserQuery = `INSERT INTO ${RegisterService.tableName} (email, userName, password) VALUES (?, ?, ?)`;
-        await executeQuery(insertUserQuery, [email, username, password]);
+        const passwordId = await this.insertPassword({password: password});
+        const userId = await this.insertUser({email: email, username: username, passwordId: passwordId});
 
-        const columns = "userId, email, userName";
-        const queryTest = Queries.getQuery(RegisterService.tableName, columns, [], { email });
-        const userRes = await executeQuery(queryTest, [email]);
-
-        if (!userRes || userRes.length === 0) {
+        if (!userId) {
             throw new Error("Failed to create user");
         }
 
-        const user = userRes[0];
         const token = createToken({ id: user.userId });
 
-        return { token, user }; // מחזיר את הטוקן ואת נתוני המשתמש
+        return { token, userId };
     }
+
 }
