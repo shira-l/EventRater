@@ -1,6 +1,6 @@
-import { LoginService } from '../service/loginService.js'
+import { UserService } from '../service/userService.js'
 export class LoginController {
-    static loginService=new LoginService();
+    static userService=new UserService();
     async login(req, res, next) {
         try {
             const {token, user} = await LoginController.loginService.checkUserIdExist(req.body);
