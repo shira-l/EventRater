@@ -3,6 +3,7 @@
     flex-direction: column;
 }
 #businessesTop{
+    margin-top: 30vh;
     display: flex;
     justify-content: space-between;
 }
