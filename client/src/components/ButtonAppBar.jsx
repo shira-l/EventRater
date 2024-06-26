@@ -32,7 +32,7 @@ export default function ButtonAppBar(props) {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" >
                 <Toolbar>
-                    {displayLogIn ?<Login color="inherit">הירשם</Login>:
+                    {displayLogIn ?<Login color="inherit"/>:
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

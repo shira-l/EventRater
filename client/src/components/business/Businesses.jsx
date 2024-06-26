@@ -1,13 +1,12 @@
 
 
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
-import ButtonAppBar from './ButtonAppBar.jsx';
-import BusinessInList from './BusinessInList.jsx';
-// import { UserContext } from "../../UserProvider";
-import { APIrequests } from '../APIrequests.js'
+import { useParams, useNavigate, Link } from "react-router-dom";
+import ButtonAppBar from '../ButtonAppBar.jsx';
+import { APIrequests } from '../../APIrequests.js'
+import Select from 'react-select';
 //import { UserContext } from "../../UserProvider";
-
+import './Businesses.css'
 export default function Businesses() {
     const { category } = useParams();
     const [businesses, setBusinesses] = useState([])
@@ -20,6 +19,11 @@ export default function Businesses() {
     const [displaySeeMore, setDisplaySeeMore] = useState(false)
     const seeMore = useRef(false);
     const range = 15;
+    const options = [
+        { value: 'rating', label: 'דירוג' },
+        { value: 'price', label: 'מחיר' },
+        { value: 'Alphabetical', label: 'סדר אלפביתי' }
+    ]
 
     useEffect(() => {
         getBusinesses()
@@ -27,9 +31,8 @@ export default function Businesses() {
 
     const getBusinesses = async () => {
         let start = seeMore.current ? businesses.length : 0;
-        console.log(category)
         const response = await APIrequest.getRequest(`/businesses?category=${category}&start=${start}&range=${range}`)
-        const json =await response.json()
+        const json = await response.json()
         if (json.status != 200) {
             alert(json.error)
         }
@@ -162,13 +165,14 @@ export default function Businesses() {
                     json.data.length < range ? setDisplaySeeMore(false) : setDisplaySeeMore(true);
                     setLastAction({ action: "sort", type: `${value}` });
                 }
-            })}
+            })
+    }
     return (<>
         <ButtonAppBar />
-        <div id='businessesTop'>
+        <div id='businessesTop' dir='rtl'>
             <div id='search'>
                 <h3 id="searchTitle">search:</h3>
-                <input className='searchTodo' type="text" name="title" onChange={handleSearchChange} placeholder="title" />
+                {/* <input className='searchTodo' type="text" name="title" onChange={handleSearchChange} placeholder="title" />
                 <button disabled={valuesSearch.title == ""} onClick={() => { searchByTitle(valuesSearch.title) }}>search title</button>
                 <input className='searchTodo' type="text" name="id" onChange={handleSearchChange} placeholder="id" />
                 <button disabled={valuesSearch.id == ""} onClick={() => { searchById(valuesSearch.id) }}>search id</button>
@@ -177,23 +181,20 @@ export default function Businesses() {
                     <input type="radio" name='completed' onChange={() => { searchCompleted(true) }} />
                     <label>not completed</label>
                     <input type="radio" name='completed' onChange={() => { searchCompleted(false) }} />
-                </form>
+                </form> */}
 
             </div>
             <div id='select'>
-                <h4 id="sortTitle">sort:</h4>
-                <select id="sortBy" onChange={sortBy}>
-                    <option value="serial" >serial</option>
-                    <option value="completed">completed</option>
-                    <option value="Alphabetical">Alphabetical</option>
-                </select>
+                <h4 id="sortTitle">מיין לפי:</h4>
+                <Select options={options}  />
             </div>
         </div>
         {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
         <h3 id="businessesHeader">businesses List</h3>
         <div id='container'>
-            {businesses.map((business,index) =>
-                <BusinessInList key={index} business={business} />)}</div>
+            {businesses.map((business, index) =>
+                <Link key={index}><div className='business_in_list' dir='rtl'>{business.businessName}  </div></Link>)}
+        </div>
     </>)
 }
 

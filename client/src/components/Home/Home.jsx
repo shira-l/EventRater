@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import auth from '../auth.js';
-import orchestraImage from '../images/תמונה-ראשית-עמוד-צילום-סטילס-סנאפשוטס-סטודיו-לצילום-צילום-חתונות-צילומי-טראש-צילום-אירועים-צילומי-היריון-מגנטים-לאירועים.png';
-import photographerImage from '../images/photographer.png';
-import flowersImage from '../images/flowers.png';
-import ButtonAppBar from './ButtonAppBar.jsx'
+import auth from '../../auth.js';
+import orchestraImage from '../../images/WhatsApp-Image-2018-06-19-at-12.47.13.jpeg'
+import photographerImage from '../../images/photographer.png';
+import flowersImage from '../../images/flowers.png';
+import ButtonAppBar from '../ButtonAppBar.jsx'
 import './Home.css'
 
 function Home() {
@@ -21,10 +21,10 @@ function Home() {
     navigate('/');
   };
 
-  return (
-    <div className="home-container">
+  return (<>
+  
       <ButtonAppBar isLoggedIn={isLoggedIn} />
-
+      <div className="home-container">
       <p className='paragraph'> 
         .במידרג ישנן מאות אלפי חוות דעת של לקוחות קודמים כמוך על למעלה מ-9,900 בעלי מקצוע
         <br />
@@ -33,8 +33,6 @@ function Home() {
         .הרשימה ממויינת לפי הציון הממוצע שקיבלו בעלי המקצוע מהלקוחות הקודמים
         <br />
         ! בעל מקצוע לא יכול לקנות את המיקום שלו ברשימה. רק הלקוחות קובעים</p>
-
-      <div className="main-content">
         <div className="images-container">
           <Link to="/businesses/orchestra">
             <img src={orchestraImage} alt="Orchestra" className="category-image" />
@@ -49,8 +47,7 @@ function Home() {
             <p>פרחים</p>
           </Link>
         </div>
-      </div>
-    </div>
+      </div></>
   );
 }
 

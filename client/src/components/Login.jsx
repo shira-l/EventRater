@@ -12,7 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import UserRegistrationForm from './UserRegistrationForm.jsx'
 
 export default function Login() {
   const APIrequest = new APIrequests()
@@ -51,8 +51,8 @@ export default function Login() {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
-        הירשם
+       <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
+        התחבר
       </Button>
       <Dialog
         open={open}
@@ -87,6 +87,7 @@ export default function Login() {
               }
             })} />
           <InputLabel fullWidth>{errors.password?.message}</InputLabel>
+          <DialogContentText> <Link to={<UserRegistrationForm/>}>הירשם</Link>?אינך רשום עדיין</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

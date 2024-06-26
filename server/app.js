@@ -4,7 +4,6 @@ import {logErrors} from './middleware/logError.js';
 import cors from 'cors';
 import {verifyToken} from './middleware/authenticateToken.js'
 import {loginRouter} from './router/loginRouter.js';
-import { env } from 'node:process';
 import nodemailer from 'nodemailer';
 
 

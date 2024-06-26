@@ -1,0 +1,8 @@
+ #businessesTop div{
+    display: flex;
+    flex-direction: column;
+}
+#businessesTop{
+    display: flex;
+    justify-content: space-between;
+}
