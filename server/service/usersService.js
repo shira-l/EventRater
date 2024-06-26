@@ -15,4 +15,8 @@ export class UsersService {
             throw new Error(`Category ${categoryName} not found`);
         }
     }
+
+    async login(params){
+        
+    }
 }
