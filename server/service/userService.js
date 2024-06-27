@@ -1,5 +1,4 @@
 import { Queries } from './query.js';
-import { createToken } from '../middleware/authenticateToken.js';
 import { PasswordService } from './passwordService.js';
 import executeQuery from './db.js';
 
@@ -29,16 +28,13 @@ export class UserService {
         }
 
         const passwordService = new PasswordService();
-        const passwordId = await passwordService.addPassword(table, { password: password });
+        const passwordId = await passwordService.addPassword({ password: password });
         const userId = await this.addUser({ email: email, userName: userName, passwordId: passwordId });
 
         if (!userId) {
             throw new Error("Failed to create user");
         }
-
-        const token = createToken({ id: userId });
-
-        return { token, userId };
+        return userId;
     }
 
     async loginUser(userName, password) {
@@ -59,8 +55,6 @@ export class UserService {
             throw new Error("Invalid username or password");
         }
 
-        const token = createToken({ id: users[0].userId });
-
-        return { token, user: users[0] };
+        return users[0];
     }
 }
