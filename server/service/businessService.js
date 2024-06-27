@@ -12,7 +12,6 @@ export class BusinessService {
         const joinTables = [
             { table: 'category', condition: `Businesses.category = category.id` },
             { table: 'locations', condition: `Businesses.location = locations.id` },
-           // { table: 'locations', condition: `Businesses.location = locations.id` }
         ];
         params["categoryName"]=params["category"];
         delete params["category"];

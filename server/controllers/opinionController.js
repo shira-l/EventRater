@@ -1,9 +1,9 @@
-import { OpinionService } from '../service/OpinionService.js'
+import {OpinionService} from '../service/opinionService.js'
 export class OpinionController {
     static opinionService = new OpinionService();
-    async getOpinions(query, res, next){
+    async getOpinions(req, res, next){
         try {
-            const resultItem = await OpinionController.opinionService.getOpinions(query);
+            const resultItem = await OpinionController.opinionService.getOpinions(req.params);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -26,9 +26,4 @@ export class OpinionController {
             next(err)
         }
     }
-}
-
-{
-
-
 }
