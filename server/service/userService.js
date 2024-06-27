@@ -6,9 +6,9 @@ export class UserService {
     static queries = new Queries();
     static table = "users";
 
-    async userExists(email, userName) {
+    async userExists(email) {
         const columns = "1";
-        const {query, values} = UserService.queries.getQuery(UserService.table, columns, [], { email: email, userName: userName });
+        const {query, values} = UserService.queries.getQuery(UserService.table, columns, [], { email: email });
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
@@ -37,12 +37,14 @@ export class UserService {
         return userId;
     }
 
-    async loginUser(userName, password) {
+    async loginUser(params) {
+        const email = params.email;
+        const password = params.password;
         const columns = "idUser, userName, password";
         const joinTables = [
             { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
         ];
-        const {query, values} = UserService.queries.getQuery(UserService.table, columns, joinTables, { userName: userName });
+        const {query, values} = UserService.queries.getQuery(UserService.table, columns, joinTables, { email: email });
 
         const users = await executeQuery(query, values);
         if (!users || users.length === 0) {
