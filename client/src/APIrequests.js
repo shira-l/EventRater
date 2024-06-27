@@ -2,7 +2,7 @@
 export class APIrequests {
     async postRequest(url, body) {
         try {
-            const response = await fetch('http://localhost:8083' + url, {
+            const response = await fetch('http://localhost:8080' + url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -17,9 +17,9 @@ export class APIrequests {
 
     async getRequest(url, params = {}) {
         try {
-            console.log('http://localhost:8083' + url);
+            console.log('http://localhost:8080' + url);
 
-            const response = await fetch('http://localhost:8083' + url, {
+            const response = await fetch('http://localhost:8080' + url, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

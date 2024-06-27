@@ -5,6 +5,9 @@ import cors from 'cors';
 import {verifyToken} from './middleware/authenticateToken.js'
 import {loginRouter} from './router/loginRouter.js';
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 
 // Create a transporter object
@@ -52,9 +55,7 @@ app.use(verifyToken)
 app.use(logErrors);
 
 
-const PORT = process.env.PORT;
-console.log(PORT);
-
+const PORT = process.env.PORT || 8080;
 
 
 app.listen(PORT, (err) => {

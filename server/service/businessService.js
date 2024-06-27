@@ -8,11 +8,10 @@ export class BusinessService {
     async getBusinessByCategory(params) {
         console.log("businesses service")
         const queries = new Queries();
-        const columns = "businesses.id,businesses.businessName,locations.location ";
+        const columns = "businesses.idBusiness,businesses.businessName,locations.location ";
         const joinTables = [
-            { table: 'category', condition: `Businesses.category = category.id` },
-            { table: 'locations', condition: `Businesses.location = locations.id` },
-            { table: 'opinions', condition: `Businesses.id = opinions.userId` }
+            { table: 'categories', condition: `Businesses.category = categories.idCategory` },
+            { table: 'locations', condition: `Businesses.location = locations.idLocations` },
         ];
         params["categoryName"]=params["category"];
         delete params["category"];

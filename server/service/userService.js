@@ -1,35 +1,36 @@
 import { Queries } from './query.js';
 import { createToken } from '../middleware/authenticateToken.js';
 import { PasswordService } from './passwordService.js';
+import executeQuery from './db.js';
 
 export class UserService {
     static queries = new Queries();
-    static usersTable = "users";
+    static table = "users";
 
-    async userExists(email, username) {
+    async userExists(email, userName) {
         const columns = "1";
-        const {query, values} = Queries.getQuery(UserService.usersTable, columns, [], { email: email, userName: username });
+        const {query, values} = UserService.queries.getQuery(UserService.table, columns, [], { email: email, userName: userName });
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
 
     async addUser(params) {
-        const userQuery = Queries.postQuery(UserService.usersTable, params);
+        const userQuery = UserService.queries.postQuery(UserService.table, params);
         const result = await executeQuery(userQuery.query, userQuery.values);
         return result.insertId;
     }
 
     async registerUser(params) {
-        const { email, username, password } = params;
-        const userExists = await this.userExists(email, username);
+        const { email, userName, password } = params;
+        const userExists = await this.userExists(email, userName);
 
         if (userExists) {
             throw new Error("User already exists");
         }
 
         const passwordService = new PasswordService();
-        const passwordId = await passwordService.addPassword({ password: password });
-        const userId = await this.addUser({ email: email, username: username, passwordId: passwordId });
+        const passwordId = await passwordService.addPassword(table, { password: password });
+        const userId = await this.addUser({ email: email, userName: userName, passwordId: passwordId });
 
         if (!userId) {
             throw new Error("Failed to create user");
@@ -40,12 +41,12 @@ export class UserService {
         return { token, userId };
     }
 
-    async loginUser(username, password) {
-        const columns = "userId, userName, password";
+    async loginUser(userName, password) {
+        const columns = "idUser, userName, password";
         const joinTables = [
-            { table: 'passwords', condition: `users.id = passwords.userId` }
+            { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
         ];
-        const {query, values} = Queries.getQuery(UserService.usersTable, columns, joinTables, { userName: username });
+        const {query, values} = UserService.queries.getQuery(UserService.table, columns, joinTables, { userName: userName });
 
         const users = await executeQuery(query, values);
         if (!users || users.length === 0) {

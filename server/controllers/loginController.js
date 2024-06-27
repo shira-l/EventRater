@@ -4,7 +4,7 @@ export class LoginController {
     static userService=new UserService();
     async login(req, res, next) {
         try {
-            const {token, user} = await LoginController.userService.checkUserIdExist(req.body);
+            const {token, user} = await LoginController.userService.loginUser(req.body);
             return res.cookie('x-access-token', token, { httpOnly: true }).json({ token: token, user: user });
         }
         catch (ex) {
@@ -21,7 +21,7 @@ export class LoginController {
                 return res.status(400).json({ message: error.details[0].message });
             }
 
-            const { token, user } = await RegisterController.registerService.createUser(req.body);
+            const { token, user } = await LoginController.userService.registerUser(req.body);
             return res
                 .cookie('x-access-token', token, { httpOnly: true })
                 .json({ token: token, user: user });
