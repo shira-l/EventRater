@@ -12,7 +12,7 @@ export class BusinessService {
         const joinTables = [
             { table: 'category', condition: `Businesses.category = category.id` },
             { table: 'locations', condition: `Businesses.location = locations.id` },
-           // { table: 'locations', condition: `Businesses.location = locations.id` }
+            { table: 'opinions', condition: `Businesses.id = opinions.userId` }
         ];
         params["categoryName"]=params["category"];
         delete params["category"];
@@ -22,7 +22,6 @@ export class BusinessService {
         const result = await executeQuery(query, values);
         return result;
     }
-async 
     async getBusinessById(idParam) {
         //const columns=
         const { query, values } = Queries.getQuery(BusinessService.tableName, columns, idParam);
