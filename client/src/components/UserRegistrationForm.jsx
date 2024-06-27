@@ -40,7 +40,7 @@ export default function UserRegistrationForm(props) {
     return (
         <React.Fragment>
             <Dialog
-                open={open}
+            open={true}
                 onClose={handleClose}
                 PaperProps={{
                     component: 'form',

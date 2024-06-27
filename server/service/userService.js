@@ -23,7 +23,6 @@ export class UserService {
     async registerUser(params) {
         const { email, userName, password } = params;
         const userExists = await this.userExists(email, userName);
-
         if (userExists) {
             throw new Error("User already exists");
         }

@@ -20,7 +20,6 @@ export class LoginController {
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
             }
-
             const { token, user } = await LoginController.userService.registerUser(req.body);
             return res
                 .cookie('x-access-token', token, { httpOnly: true })
