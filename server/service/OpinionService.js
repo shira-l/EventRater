@@ -10,7 +10,7 @@ export class OpinionService {
         const joinTables = [
             { table: 'users', condition: `Users.idUser = Opiniones.userId` },
         ];
-        const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params);
+        const { query, values } = OpinionService.queries.getQuery(BusinessService.tableName, columns, joinTables, params);
         const result = await executeQuery(query, values);
         return result;
     }
