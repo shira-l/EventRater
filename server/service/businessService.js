@@ -21,7 +21,6 @@ export class BusinessService {
         const result = await executeQuery(query, values);
         return result;
     }
-async 
     async getBusinessById(idParam) {
         //const columns=
         const { query, values } = Queries.getQuery(BusinessService.tableName, columns, idParam);
