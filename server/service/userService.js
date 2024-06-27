@@ -1,5 +1,4 @@
 import { Queries } from './query.js';
-import { createToken } from '../middleware/authenticateToken.js';
 import { PasswordService } from './passwordService.js';
 import executeQuery from './db.js';
 
@@ -7,9 +6,9 @@ export class UserService {
     static queries = new Queries();
     static table = "users";
 
-    async userExists(email, userName) {
+    async userExists(email) {
         const columns = "1";
-        const {query, values} = UserService.queries.getQuery(UserService.table, columns, [], { email: email, userName: userName });
+        const {query, values} = UserService.queries.getQuery(UserService.table, columns, [], { email: email });
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
@@ -28,24 +27,23 @@ export class UserService {
         }
 
         const passwordService = new PasswordService();
-        const passwordId = await passwordService.addPassword(table, { password: password });
+        const passwordId = await passwordService.addPassword({ password: password });
         const userId = await this.addUser({ email: email, userName: userName, passwordId: passwordId });
 
         if (!userId) {
             throw new Error("Failed to create user");
         }
-
-        const token = createToken({ id: userId });
-
-        return { token, userId };
+        return userId;
     }
 
-    async loginUser(userName, password) {
+    async loginUser(params) {
+        const email = params.email;
+        const password = params.password;
         const columns = "idUser, userName, password";
         const joinTables = [
             { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
         ];
-        const {query, values} = UserService.queries.getQuery(UserService.table, columns, joinTables, { userName: userName });
+        const {query, values} = UserService.queries.getQuery(UserService.table, columns, joinTables, { email: email });
 
         const users = await executeQuery(query, values);
         if (!users || users.length === 0) {
@@ -58,8 +56,6 @@ export class UserService {
             throw new Error("Invalid username or password");
         }
 
-        const token = createToken({ id: users[0].userId });
-
-        return { token, user: users[0] };
+        return users[0];
     }
 }

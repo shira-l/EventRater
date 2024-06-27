@@ -1,10 +1,13 @@
 import { UserService } from '../service/userService.js'
 import { userSchema } from '../validations/userValidations.js';
+import { createToken } from '../middleware/authenticateToken.js';
+
 export class LoginController {
     static userService=new UserService();
     async login(req, res, next) {
         try {
-            const {token, user} = await LoginController.userService.loginUser(req.body);
+            const user = await LoginController.userService.loginUser(req.body);
+            const token = createToken({ id: user.idUser });
             return res.cookie('x-access-token', token, { httpOnly: true }).json({ token: token, user: user });
         }
         catch (ex) {
@@ -20,10 +23,12 @@ export class LoginController {
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
             }
-            const { token, user } = await LoginController.userService.registerUser(req.body);
+
+            const idUser = await LoginController.userService.registerUser(req.body);
+            const token = createToken({ id: idUser });
             return res
                 .cookie('x-access-token', token, { httpOnly: true })
-                .json({ token: token, user: user });
+                .json({ token: token, userId: idUser });
         } catch (ex) {
             const err = {};
             err.statusCode = 500;

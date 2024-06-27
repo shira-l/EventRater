@@ -31,12 +31,25 @@ export const verifyToken = (req, res, next) => {
 //   });
 // }
 
-export const createToken = (req, res) => {
-  try {
-      const accessToken = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET);
-      return accessToken;
-  } catch (error) {
-      console.error('Error creating token:', error);
-      res.status(500).json({ error: 'Internal server error' });
-  }
+// export const createToken = (req, res) => {
+//   try {
+//       const accessToken = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET);
+//       return accessToken;
+//   } catch (error) {
+//       console.error('Error creating token:', error);
+//       res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
+export const createToken = (payload) => {
+    try {
+        if (!payload) {
+            throw new Error('Payload dont find');
+        }
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+        return accessToken;
+    } catch (error) {
+        console.error('Error creating token:', error);
+        throw new Error('Internal server error');
+    }
 };
