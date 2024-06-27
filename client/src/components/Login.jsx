@@ -22,8 +22,26 @@ export default function Login() {
       password: '',
     }
   })
-
+  const emailValidate = {
+    required: "אנא הכנס את המייל שלך",
+    pattern: {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      message: '!אנא להזין דוא"ל תקף'
+    }
+  };
+  const passwordValidate = {
+    required: "אנא הזן סיסמה ",
+    minLength: {
+      value: 8,
+      message: "!סיסמה חייבת להיות באורך 8 תווים לפחות"
+    },
+    maxLength: {
+      value: 20,
+      message: "!סיסמה חייבת להיות באורך של 20 תווים לכל היותר"
+    }
+  }
   const [open, setOpen] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   }
@@ -31,7 +49,10 @@ export default function Login() {
   const handleClose = () => {
     setOpen(false);
   }
-
+  const handleRegister = () => {
+    handleClose();
+    setOpenRegister(true);
+  }
   const generatePasswordHash = (password) => {
     const hashedPassword = CryptoJS.SHA256(password).toString();
     return hashedPassword;
@@ -51,10 +72,10 @@ export default function Login() {
 
   return (
     <React.Fragment>
-       <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
+      <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
         התחבר
       </Button>
-      <Dialog
+      <Dialog dir='rtl'
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -65,76 +86,27 @@ export default function Login() {
         <DialogTitle>התחבר</DialogTitle>
         <DialogContent>
           <DialogContentText> ברוך שובך! אנא היכנס כדי להמשיך</DialogContentText>
-          <TextField autoFocus margin="normal" id="name" name="email"
-            label="Email Address" type="email"
-            fullWidth variant="standard"
-            {...register("email", {
-              required: "Please Enter Your Email!",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Please Enter A Valid Email!"
-              }
-            })} />
-          <InputLabel fullWidth>{errors.email?.message}</InputLabel>
-          <TextField autoFocus margin="normal" id="name" name="password"
-            label="Password" type="password"
-            fullWidth variant="standard"
-            {...register("password", {
-              required: "Please Enter Your Password",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters long!"
-              }
-            })} />
-          <InputLabel fullWidth>{errors.password?.message}</InputLabel>
-          <DialogContentText> <Link to={<UserRegistrationForm/>}>הירשם</Link>?אינך רשום עדיין</DialogContentText>
+
+          <TextField autoFocus margin="normal" name="email"
+            label="כתובת אימייל" type="email" variant="standard"
+            {...register("email", emailValidate)} />
+
+          <InputLabel>{errors.email?.message}</InputLabel>
+
+          <TextField autoFocus margin="normal" name="password"
+            label="סיסמה" type="password" variant="standard"
+            {...register("password", passwordValidate)} />
+
+          <InputLabel>{errors.password?.message}</InputLabel>
+
+          <DialogContentText>אינך רשום עדיין ?<Link onClick={handleRegister}>הירשם</Link></DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>בטל</Button>
           <Button type="submit">שמור</Button>
         </DialogActions>
       </Dialog>
+      {openRegister && <UserRegistrationForm emailValidate={emailValidate} passwordValidate={passwordValidate}/>}
     </React.Fragment>
   );
 }
-
-// function Login() {
-//   const APIrequest=new APIrequests()
-//   const { register, handleSubmit, formState: { errors } } = useForm({
-//     defaultValues: {
-//       email: '',
-//       password: '',
-//     }
-//   });
-
-
-
-//   async function login() {
-
-
-//   return (
-//     <>
-//       <form onSubmit={handleSubmit(login)}>
-//         <input type='email' placeholder='Email' {...register("email",
-//           { required: true })} />
-//           <br />
-//         {errors.email && errors.email.type === "required" &&
-//           (<span className='span'>Email is required</span>)}
-//         <br />
-//         <input type='password' placeholder='Password'  {...register("password",
-//           { required: true, minLength: 6 })} />
-//           <br />
-//         {errors.password && errors.password.type === "minLength" &&
-//           (<span className='span'>password must be a minimum of 6 characters long!</span>)}
-//           <br />
-//         {errors.password && errors.password.type === "required" &&
-//           (<span className='span'>password is required</span>)}
-//          <br />
-//         <button onClick={login}>Login</button>
-//         <Link to="/register">New User?</Link>
-//       </form>
-//     </>
-//   )
-// }
-
-// export default Login

@@ -8,6 +8,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  direction: rtl;
 }
 
 
@@ -24,6 +25,6 @@ h1 {
 
 header{
   background-color: rgb(219, 53, 136) !important;
-  height: 30vh !important;
+  height: 15vh !important;
 }
 
