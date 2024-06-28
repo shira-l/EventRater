@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import auth from '../../auth.js';
+
 import orchestraImage from '../../images/WhatsApp-Image-2018-06-19-at-12.47.13.jpeg'
 import photographerImage from '../../images/photographer.png';
 import flowersImage from '../../images/flowers.png';
@@ -8,22 +8,17 @@ import ButtonAppBar from '../ButtonAppBar.jsx'
 import './Home.css'
 
 function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  //const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoggedIn(auth.isAuthenticated());
+    //setIsLoggedIn(auth.isAuthenticated());
   }, []);
 
-  const handleLogout = () => {
-    auth.logout();
-    setIsLoggedIn(false);
-    navigate('/');
-  };
-
+ 
   return (<>
   
-      <ButtonAppBar isLoggedIn={isLoggedIn} />
+      <ButtonAppBar/>
       <div className="home-container">
       <p className='paragraph'> 
         .במידרג ישנן מאות אלפי חוות דעת של לקוחות קודמים כמוך על למעלה מ-9,900 בעלי מקצוע

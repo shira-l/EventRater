@@ -9,6 +9,7 @@ export class PasswordService {
     async addPassword(params) {
         params.password = await bcrypt.hash(params.password, 10);
         const passwordQuery = PasswordService.queries.postQuery(PasswordService.passwordsTable, params);
+        console.log(params)
         const result = await executeQuery(passwordQuery.query, passwordQuery.values);
         return result.insertId;
     }

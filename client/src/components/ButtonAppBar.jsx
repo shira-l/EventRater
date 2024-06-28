@@ -10,18 +10,21 @@ import Avatar from '@mui/material/Avatar';
 import Login from './Login.jsx';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../UserProvider';
 import PersistentDrawerRight from './PersistentDrawerRight.jsx';
+import auth from '../auth.js';
 
 
 export default function ButtonAppBar(props) {
-
+    const { user, setCurrentUser } = useContext(UserContext);
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-    const [displayLogIn, setDisplayLogIn] = useState(props.isLoggedIn)
     const [anchorElUser, setAnchorElUser] = useState(null);
-    useEffect(() => {
-        setDisplayLogIn(props.isLoggedIn)
-    }, [])
+    const handleLogout = () => {
+        auth.logout();
+        setCurrentUser(null);
+    };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -29,12 +32,22 @@ export default function ButtonAppBar(props) {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const handleSetting = (setting) => {
+        switch (setting) {
+            case "Logout":
+                handleLogout();
+                break;
+
+            default:
+                break;
+        }
+    }
     return (
         <AppBar position="fixed" >
             <Toolbar>
                 <PersistentDrawerRight />
                 <Link to={"/Home"}>הכל לאירוע</Link>
-                {displayLogIn ? <Login /> :
+                {user == null ? <Login /> :
                     <Box>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -57,7 +70,7 @@ export default function ButtonAppBar(props) {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}>
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting} onClick={() => { handleSetting(setting) }}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}

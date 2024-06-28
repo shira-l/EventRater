@@ -21,11 +21,10 @@ export class UserService {
 
     async registerUser(params) {
         const { email, userName, password } = params;
-        const userExists = await this.userExists(email, userName);
+        const userExists = await this.userExists(email);
         if (userExists) {
             throw new Error("User already exists");
         }
-
         const passwordService = new PasswordService();
         const passwordId = await passwordService.addPassword({ password: password });
         const userId = await this.addUser({ email: email, userName: userName, passwordId: passwordId });

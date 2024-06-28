@@ -4,6 +4,7 @@ import {logErrors} from './middleware/logError.js';
 import cors from 'cors';
 import {verifyToken} from './middleware/authenticateToken.js'
 import {loginRouter} from './router/loginRouter.js';
+import cookieParser from 'cookie-parser';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
@@ -40,13 +41,13 @@ const mailOptions = {
   
 const app = express();
 
-app.use(cors());
-// app.use(cors({
-//     origin: '*',
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // מתודות המורשות
-//     allowedHeaders: ['Content-Type', 'Authorization'] // כותרות מותרות
-// }));
-
+app.use(cors({
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // מתודות המורשות
+    allowedHeaders: ['Content-Type', 'Authorization'] ,// כותרות מותרות
+    credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 app.use('/authentication',loginRouter);
 // app.use(allowCrossDomain);

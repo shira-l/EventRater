@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React,{useContext} from 'react'
 import { APIrequests } from '../APIrequests.js'
 import { useForm } from "react-hook-form";
 import Button from '@mui/material/Button';
@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormInputs } from './formInputs.jsx';
-
+import {UserContext} from '../UserProvider';
 export default function UserRegistrationForm(props) {
     const APIrequest = new APIrequests()
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -20,6 +20,7 @@ export default function UserRegistrationForm(props) {
         }
     })
     const { generatePasswordHash, setOpen } = props;
+    const {setCurrentUser}=useContext(UserContext);
     const handleClose = () => {
         setOpen(false);
     }
@@ -29,10 +30,13 @@ export default function UserRegistrationForm(props) {
         const hash_password = generatePasswordHash(userDetails.password);
         const response = await APIrequest.postRequest(`/authentication/register`, { "userName": userDetails.userName, "email": userDetails.email, "password": hash_password });
         if (!response.ok)
-            alert('error, please ')
+            alert(response.message)
         else{
-            const data = response.json();
-            alert(data)
+            const data =await response.json();
+            delete userDetails.password;
+            const newUser={...data,...userDetails};
+            localStorage.setItem("currentUser",JSON.stringify(newUser));
+            setCurrentUser(newUser);
         }
        
     }
