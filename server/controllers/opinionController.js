@@ -6,7 +6,7 @@ export class OpinionController {
 
     async getOpinionsByBusiness(req, res, next){
         try {
-            const resultItem = await OpinionController.opinionService.getOpinionByBusiness(req.params);
+            const resultItem = await OpinionController.opinionService.getOpinionByBusiness(req.query);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -37,7 +37,7 @@ export class OpinionController {
                 return res.status(400).json({ message: error.details[0].message });
             }
             
-            const businessId = req.params.businessId;
+            const businessId = req.query.businessId;
 
             const userId = req.userId;
             if (!userId) {

@@ -2,8 +2,8 @@ import express from 'express';
 import { businessRouter } from './router/businessRouter.js'
 import {logErrors} from './middleware/logError.js';
 import cors from 'cors';
-import {verifyToken} from './middleware/authenticateToken.js'
 import {loginRouter} from './router/loginRouter.js';
+import {opinionRouter} from './router/opinionRouter.js';
 import cookieParser from 'cookie-parser';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
@@ -52,11 +52,11 @@ app.use(express.json());
 app.use('/authentication',loginRouter);
 // app.use(allowCrossDomain);
 app.use('/businesses', businessRouter);
-// app.use(verifyToken)
+app.use('/opinions', opinionRouter);
 app.use(logErrors);
 
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8083;
 
 
 app.listen(PORT, (err) => {
