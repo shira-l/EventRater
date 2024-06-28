@@ -6,8 +6,8 @@ export const verifyToken = (req, res, next) => {
         return res.sendStatus(403).send("not access Token");
 
     try {
-            const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-            req.user = verified;
+            const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || 'mySuperSecretKey123');
+            req.userId = verified.userId;
         return next();
     } catch (err) {
         return res.status(401).send("Invalid Token");
@@ -19,7 +19,7 @@ export const createToken = (payload) => {
         if (!payload) {
             throw new Error('Payload dont find');
         }
-        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET || 'mySuperSecretKey123');
         return accessToken;
     } catch (error) {
         console.error('Error creating token:', error);

@@ -51,11 +51,11 @@ app.use(express.json());
 app.use('/authentication',loginRouter);
 // app.use(allowCrossDomain);
 app.use('/businesses', businessRouter);
-app.use(verifyToken)
+// app.use(verifyToken)
 app.use(logErrors);
 
 
-const PORT = process.env.PORT || 8083;
+const PORT = process.env.PORT || 8080;
 
 
 app.listen(PORT, (err) => {

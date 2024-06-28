@@ -1,7 +1,7 @@
 export class Queries {
 
     getQuery(table, columns, joinTables = [], params = {}) {
-        const DB = process.env.DB_NAME;
+        const DB = process.env.DB_NAME || 'project';
         let query = `SELECT ${columns} FROM ${DB}.${table}`;
         const values = [];
 
@@ -39,7 +39,7 @@ export class Queries {
     }
 
     postQuery(table, data){
-        const DB = process.env.DB_NAME;
+        const DB = process.env.DB_NAME || 'project';
         const columns = Object.keys(data).join(', ');
         const placeholders = Object.keys(data).map(() => '?').join(', ');
         const values = Object.values(data);

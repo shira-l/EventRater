@@ -1,10 +1,12 @@
 import {OpinionService} from '../service/OpinionService.js'
+import { opinionSchema } from '../validations/opinionValidations.js';
 
 export class OpinionController {
     static opinionService = new OpinionService();
-    async getOpinions(req, res, next){
+
+    async getOpinionsByBusiness(req, res, next){
         try {
-            const resultItem = await OpinionController.opinionService.getOpinions(req.params);
+            const resultItem = await OpinionController.opinionService.getOpinionByBusiness(req.params);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -34,12 +36,15 @@ export class OpinionController {
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
             }
+            
+            const businessId = req.params.businessId;
 
+            const userId = req.userId;
             if (!userId) {
                 return res.status(401).json({ message: "User ID is required" });
             }
 
-            const newOpinion = { ...req.body, userId };
+            const newOpinion = { ...req.body, userId: userId, businessId: businessId };
             const resultItem = await OpinionController.opinionService.addOpinion(newOpinion);
             res.status(201).json({ status: 201, data: resultItem });
         }
