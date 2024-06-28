@@ -1,12 +1,12 @@
 const auth = {
     isAuthenticated: () => {
-      return !!localStorage.getItem('user');
+      return !!localStorage.getItem('currentUser');
     },
     login: (myUser) => {
-      localStorage.setItem('user', 'myUser');
+      localStorage.setItem('currentUser', JSON.stringify(myUser));
     },
     logout: () => {
-      localStorage.removeItem('user');
+      localStorage.removeItem('currentUser');
     }
   };
   

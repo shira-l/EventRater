@@ -4,15 +4,16 @@ export class APIrequests {
         try {
             const response = await fetch('http://localhost:8083' + url, {
                 method: 'POST',
+                'credentials': 'include',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(body)
             });
             return response;
-        } catch(error) {
+        } catch (error) {
             throw error;
-        };      
+        };
     }
 
     async getRequest(url, params = {}) {
@@ -25,8 +26,8 @@ export class APIrequests {
                 }
             });
             return response;
-        } catch(error) {
+        } catch (error) {
             throw error;
-        };      
+        };
     }
 }
