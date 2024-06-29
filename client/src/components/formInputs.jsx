@@ -1,5 +1,7 @@
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
+import React, { useState } from 'react';
+import OtpInput from 'react-otp-input';
 export class FormInputs {
     static emailInput(props) {
         const { register, errors } = props
@@ -53,5 +55,18 @@ export class FormInputs {
                 }
             })} />
             <InputLabel>{errors.userName?.message}</InputLabel></>
+    }
+   static otpInput(props) {
+        const [otp, setOtp] = useState('');
+
+        return (
+            <OtpInput
+                value={otp}
+                onChange={setOtp}
+                numInputs={4}
+                renderSeparator={<span>-</span>}
+                renderInput={(props) => <input {...props} />}
+            />
+        );
     }
 }
