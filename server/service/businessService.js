@@ -8,10 +8,10 @@ export class BusinessService {
 
     async getBusinessByCategory(params) {
         const queries = new Queries();
-        const columns = "idBusiness, businessName, locationName ,COUNT(idOpinion),AVERAGE(rating)";
+        const columns = "idBusiness, businessName, locationName ,COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
         const joinTables = [
             { table: 'categories', condition: `Businesses.category = categories.idCategory` },
-            { table: 'locations', condition: `Businesses.location = locations.idLocations` },
+            { table: 'locations', condition: `Businesses.location = locations.idLocation` },
             { table: 'opinions', condition: `businesses.idBusiness = opinions.businessId` }
         ];
         params["categoryName"]=params["category"];
