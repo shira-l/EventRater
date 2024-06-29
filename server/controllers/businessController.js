@@ -29,9 +29,27 @@ export class BusinessController {
             next(err)
         }
     }
-}
+    
+    async addBusiness(req, res, next) {
+        try {
+            const { error } = userSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
 
-{
+            const idUser = await LoginController.userService.registerUser(req.body);
+            const token = createToken({ id: idUser });
+            return res
+                .cookie('x-access-token', token, { httpOnly: true })
+                .json({ id: idUser });
+        } catch (ex) {
+            const err = {};
+            err.statusCode = 500;
+            err.message = ex.message;
+            next(err);
+        }
+    }
+
 
 
 }

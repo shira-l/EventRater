@@ -11,7 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UserRegistrationForm from './UserRegistrationForm.jsx'
-import { FormInputs } from './formInputs.jsx';
+import { FormInputs } from './FormInputs.jsx';
 import { UserContext } from '../UserProvider.jsx';
 export default function Login() {
   const APIrequest = new APIrequests()
@@ -77,6 +77,7 @@ export default function Login() {
           <DialogContentText> ברוך שובך! אנא היכנס כדי להמשיך</DialogContentText>
           <FormInputs.emailInput register={register} errors={errors}/>
           <FormInputs.passwordInput register={register} errors={errors}/>
+          <FormInputs.otpInput/>
 
           <DialogContentText>אינך רשום עדיין ?<Link onClick={handleRegister}>הירשם</Link></DialogContentText>
         </DialogContent>
