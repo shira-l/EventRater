@@ -11,7 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UserRegistrationForm from './UserRegistrationForm.jsx'
-import { FormInputs } from './FormInputs.jsx';
+import {FormInputs} from './formInputs.jsx';
 import { UserContext } from '../UserProvider.jsx';
 export default function Login() {
   const APIrequest = new APIrequests()

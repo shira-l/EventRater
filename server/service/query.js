@@ -1,6 +1,6 @@
 export class Queries {
 
-    getQuery(table, columns, joinTables = [], params = {}) {
+    getQuery(table, columns, joinTables = [], params = {}, groupBy = '') {
         const DB = process.env.DB_NAME || 'project';
         let query = `SELECT ${columns} FROM ${DB}.${table}`;
         const values = [];
@@ -23,6 +23,10 @@ export class Queries {
 
         if (conditionsArray.length > 0) {
             query += ` WHERE ${conditionsArray.join(' AND ')}`;
+        }
+
+        if (groupBy) {
+            query += ` GROUP BY ${groupBy}`;
         }
 
         if (params.sort) {
