@@ -143,16 +143,12 @@ export default function Businesses() {
             sortBy(lastAction.type);
         }
     }
-    const sortBy = (event) => {
+    const sortBy =async(event) => {
         let start = seeMore.current ? businesses.length : 0
         let value = seeMore.current ? event : event.target.value;
-        navigate(`/home/users/${id}/businesses/?sortBy=${value}`)
-
-        fetch(`http://localhost:8080/businesses?userId=${id}&sort=${value}&start=${start}&range=${range}`, {
-            method: 'GET'
-        })
-            .then(response => response.json())
-            .then((json) => {
+        navigate(`/businesses/:category?sortBy=${value}`)
+        const response = await APIrequest.getRequest(`/businesses?category=${category}&sort=${value}&start=${start}&range=${range}`)
+       const json= await response.json();
                 if (json.status != 200) {
                     alert(json.error)
                 }
@@ -163,10 +159,10 @@ export default function Businesses() {
                     else { setBusinesses(json.data); setDisplaySeeMore(true) };
                     seeMore.current = false;
                     json.data.length < range ? setDisplaySeeMore(false) : setDisplaySeeMore(true);
-                    setLastAction({ action: "sort", type: `${value}` });
+
                 }
-            })
-    }
+            }
+
     return (<>
         <ButtonAppBar />
         <div id='businessesTop' dir='rtl'>
@@ -186,14 +182,14 @@ export default function Businesses() {
             </div>
             <div id='select'>
                 <h4 id="sortTitle">מיין לפי:</h4>
-                <Select options={options}  />
+                <Select options={options} onChange={sortBy} />
             </div>
         </div>
         {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
         <h3 id="businessesHeader">businesses List</h3>
         <div id='container'>
             {businesses.map((business, index) =>
-                <Link key={index}><div className='business_in_list' dir='rtl'>{business.businessName}  </div></Link>)}
+                <Link key={index}><div className='business_in_list'>{business.businessName}  </div></Link>)}
         </div>
     </>)
 }

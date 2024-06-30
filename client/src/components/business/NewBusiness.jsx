@@ -5,32 +5,38 @@ import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
 export default function NewBusiness() {
     const APIrequest = new APIrequests()
-    const [businessId, setBusinessId] = useState(0)
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const [formDisplay, setformDisplay] = useState("basic")
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             email: '',
-            name: '',
+            userName: '',
         }
     })
     const sendOtpCode = async (businessDetails) => {
         try {
-            const response = await APIrequest.postRequest(`/businesses`, { "email": businessDetails.email, "businessName": businessDetails.name });
-            if (!response.ok)
-                alert('error, please try egain whith anouther email or password or sign up')
+            const requestBody = {
+                "email": businessDetails.email,
+                "userName": businessDetails.userName
+            }
+            const response = await APIrequest.postRequest(`/businesses`,requestBody);
+            if (!response.ok) {
+                alert("The join request failed, please try again")
+                reset()
+            }
             else {
-                const businessId = await response.json();
-                setBusinessId(businessId);
+                setformDisplay("otp")
             }
         }
         catch (error) {
             alert(error.message)
+            reset()
         }
-
+        
     }
-    return (<><form onSubmit={handleSubmit(sendOtpCode)}>
+    return (<><form onSubmit={handleSubmit(sendOtpCode) }>
         <FormInputs.userNameInput register={register} errors={errors} />
         <FormInputs.emailInput register={register} errors={errors} />
-        {businessId!=0&&<FormInputs.otpInput/>}
         <Button type="submit">שלח</Button>
-    </form></>)
+    </form>
+    {formDisplay == "otp" && <FormInputs.otpInput />}</>)
 }

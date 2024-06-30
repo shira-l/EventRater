@@ -15,7 +15,7 @@ import { FormInputs } from './formInputs.jsx';
 import { UserContext } from '../UserProvider.jsx';
 export default function Login() {
   const APIrequest = new APIrequests()
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
       email: '',
       password: '',
@@ -44,20 +44,26 @@ export default function Login() {
   const login = async (userDetails) => {
     handleClose();
     const hash_password = generatePasswordHash(userDetails.password);
-    try { const response = await APIrequest.postRequest(`/authentication/login`, { "email": userDetails.email, "password": hash_password });
-    if (!response.ok)
-      alert('error, please try egain whith anouther email or password or sign up')
-    else {
-      const data = await response.json();
-      delete userDetails.password;
-      const newUser = { ...data.user, ...userDetails };
-      localStorage.setItem("currentUser", JSON.stringify(newUser));
-      setCurrentUser(newUser);
-    } }
-    catch(error){
+    const requestBody = {
+      "email": userDetails.email,
+      "password": hash_password
+    };
+    try {
+      const response = await APIrequest.postRequest(`/authentication/login`, requestBody);
+      if (!response.ok)
+        alert('error, please try egain whith anouther email or password or sign up')
+      else {
+        const data = await response.json();
+        delete userDetails.password;
+        const newUser = { ...data.user, ...userDetails };
+        localStorage.setItem("currentUser", JSON.stringify(newUser));
+        setCurrentUser(newUser);
+      }
+    }
+    catch (error) {
       alert(error.message)
     }
-    
+    reset()
   }
 
 

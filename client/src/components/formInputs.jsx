@@ -39,7 +39,7 @@ export class FormInputs {
         const { register, errors } = props
         return <><TextField autoFocus margin="normal" name="name"
             label="שם משתמש" type="text" variant="standard"
-            {...register("name", {
+            {...register("userName", {
                 required: "אנא הזן שם משתמש",
                 pattern: {
                     value: /^[a-z\u0590-\u05fe]+$/i,
@@ -63,7 +63,9 @@ export class FormInputs {
             <OtpInput
                 value={otp}
                 onChange={setOtp}
-                numInputs={4}
+                numInputs={6}
+                shouldAutoFocus:true
+                skipDefaultStyles:true
                 renderSeparator={<span>-</span>}
                 renderInput={(props) => <input {...props} />}
             />

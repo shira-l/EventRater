@@ -2,7 +2,7 @@ import express from 'express';
 import { businessRouter } from './router/businessRouter.js'
 import {logErrors} from './middleware/logError.js';
 import cors from 'cors';
-import {loginRouter} from './router/loginRouter.js';
+import {loginRouter} from './router/authRouter.js';
 import {opinionRouter} from './router/opinionRouter.js';
 import cookieParser from 'cookie-parser';
 import nodemailer from 'nodemailer';

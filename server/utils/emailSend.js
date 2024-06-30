@@ -19,7 +19,7 @@ export const sendMailOtp = async (params) => {
         let info = await transporter.sendMail({
             from: " michalla37@gmail.com",
             to: params.to,
-            subject: 'Hello ✔',
+            subject: `Hi  ${params.name}✔`,
             html: `
         <div
           class="container"

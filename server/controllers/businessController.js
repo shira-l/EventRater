@@ -1,6 +1,7 @@
 import { BusinessService } from '../service/businessService.js'
-import { businessSchema } from '../validations/BusinessValidation.js'
+import { basicBusinessSchema } from '../validations/BusinessValidation.js'
 import { createToken } from '../middleware/authenticateToken.js';
+
 export class BusinessController {
     static businessService = new BusinessService();
     async getBusinessByCategory(req, res, next) {
@@ -34,7 +35,7 @@ export class BusinessController {
     async addBusiness(req, res, next) {
         try {
             console.log(req.body)
-            const { error } = businessSchema.validate(req.body);
+            const { error } = basicBusinessSchema.validate(req.body);
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
             }

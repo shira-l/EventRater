@@ -8,12 +8,13 @@ export class UserService {
 
     async userExists(email) {
         const columns = "1";
-        const {query, values} = UserService.queries.getQuery(UserService.table, columns, [], { email: email });
+        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], { email: email, isBusiness: false ,isActive:true});
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
 
     async addUser(params) {
+        console("add user")
         const userQuery = UserService.queries.postQuery(UserService.table, params);
         const result = await executeQuery(userQuery.query, userQuery.values);
         return result.insertId;
@@ -27,7 +28,8 @@ export class UserService {
         }
         const passwordService = new PasswordService();
         const passwordId = await passwordService.addPassword({ password: password });
-        const userId = await this.addUser({ email: email, userName: userName, passwordId: passwordId });
+        const newUser = { email: email, userName: userName, passwordId: passwordId,isBusiness:false, isActive: true }
+        const userId = await this.addUser(newUser);
 
         if (!userId) {
             throw new Error("Failed to create user");
@@ -42,7 +44,7 @@ export class UserService {
         const joinTables = [
             { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
         ];
-        const {query, values} = UserService.queries.getQuery(UserService.table, columns, joinTables, { email: email });
+        const { query, values } = UserService.queries.getQuery(UserService.table, columns, joinTables, { email: email, isBusiness: false });
 
         const users = await executeQuery(query, values);
         if (!users || users.length === 0) {
