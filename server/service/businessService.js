@@ -8,7 +8,7 @@ export class BusinessService {
     static queries = new Queries();
     async getBusinessByCategory(params) {
         const queries = new Queries();
-        const columns = "idBusiness, businessName, locationName , price, COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
+        const columns = "idBusiness, businessName, locationName , price,COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
         const joinTables = [
             { table: 'categories', condition: `Businesses.category = categories.idCategory` },
             { table: 'locations', condition: `Businesses.location = locations.idLocation` },
@@ -34,8 +34,8 @@ export class BusinessService {
 
 
     async businessExist(email,columns) {
-        const myColumns = columns||"1";
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, myColumns, [], { email: email, isActive: true });
+        const columns = columns||"1";
+        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { email: email, isActive: true });
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
@@ -64,16 +64,29 @@ export class BusinessService {
         }
 
     }
+
+    async businessExist(email) {
+        const columns ="1";
+        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { email: email, isActive: true });
+        const users = await executeQuery(query, values);
+        return users.length > 0;
+    }
+    async addBusiness(params) {
+        const userQuery = BusinessService.queries.postQuery(BusinessService.tableName, params);
+        const result = await executeQuery(userQuery.query, userQuery.values);
+        return result.insertId>0;
+    }
+    
     async verifyEmail(req, res) {
         const { email, otp } = req.body;
-        const user = await validateUserSignUp(email, otp);
+        const user = await this.validateUserSignUp(email, otp);
         res.send(user);
     }
 
 
 
     async validateUserSignUp(email, otp) {
-        const userOtp = await businessExist(email,"otp")
+        const userOtp = await this.businessExist(email,"otp")
         if (!userOtp) {
           throw new Error('business is not exists')
         }
@@ -85,4 +98,9 @@ export class BusinessService {
         });
         return [true, updatedUser];
     };
+    async deleteBusiness(businessId){
+        const { query, values } = BusinessService.queries.deleteQuery(BusinessService.tableName, businessId);
+        const result = await executeQuery(query, values);
+        return result;
+    }
 }

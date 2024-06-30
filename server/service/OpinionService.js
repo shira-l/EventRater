@@ -20,4 +20,9 @@ export class OpinionService {
         const result = await executeQuery(query, values);
         return result.insertId;
     }
+    async deleteOpinion(opinionId){
+        const { query, values } = OpinionService.queries.deleteQuery(OpinionService.tableName, opinionId);
+        const result = await executeQuery(query, values);
+        return result;
+    }
 }

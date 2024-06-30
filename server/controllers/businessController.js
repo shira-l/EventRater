@@ -1,9 +1,9 @@
 import { BusinessService } from '../service/businessService.js'
-import {businessSchema} from '../validations/BsinessValidation.js'
+import { businessSchema } from '../validations/BusinessValidation.js'
 import { createToken } from '../middleware/authenticateToken.js';
 export class BusinessController {
     static businessService = new BusinessService();
-    async getBusinessByCategory(req, res, next){
+    async getBusinessByCategory(req, res, next) {
         try {
             const resultItem = await BusinessController.businessService.getBusinessByCategory(req.query);
             res.status(200).json({ status: 200, data: resultItem });
@@ -17,7 +17,7 @@ export class BusinessController {
         }
     }
 
-    async getBusinessById(req, res, next){
+    async getBusinessById(req, res, next) {
         try {
             const resultItem = await BusinessController.businessService.getBusinessById(req.params);
             res.status(200).json({ status: 200, data: resultItem });
@@ -30,7 +30,7 @@ export class BusinessController {
             next(err)
         }
     }
-    
+
     async addBusiness(req, res, next) {
         try {
             console.log(req.body)
@@ -50,7 +50,17 @@ export class BusinessController {
             next(err);
         }
     }
+    async deleteBusiness(req, res, next) {
+        try {
+            await BusinessController.businessService.deleteBussiness(req.params);
+            res.status(200).json({ status: 200 });
+        }
+    catch(ex) {
+        const err = {};
+        err.statusCode = 500;
+        err.message = ex;
+        next(err);
+    }
 
-
-
+    }
 }
