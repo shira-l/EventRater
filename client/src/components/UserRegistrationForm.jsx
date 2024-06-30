@@ -14,7 +14,7 @@ export default function UserRegistrationForm(props) {
     const APIrequest = new APIrequests()
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
-            userName: '',
+            name: '',
             email: '',
             password: '',
         }
@@ -28,7 +28,7 @@ export default function UserRegistrationForm(props) {
     const registerUser = async (userDetails) => {
         handleClose();
         const hash_password = generatePasswordHash(userDetails.password);
-        const response = await APIrequest.postRequest(`/authentication/register`, { "userName": userDetails.userName, "email": userDetails.email, "password": hash_password });
+        const response = await APIrequest.postRequest(`/authentication/register`, { "userName": userDetails.name, "email": userDetails.email, "password": hash_password });
         if (!response.ok)
             alert(response.message)
         else{

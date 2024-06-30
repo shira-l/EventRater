@@ -1,5 +1,6 @@
 import { BusinessService } from '../service/businessService.js'
-
+import {businessSchema} from '../validations/BsinessValidation.js'
+import { createToken } from '../middleware/authenticateToken.js';
 export class BusinessController {
     static businessService = new BusinessService();
     async getBusinessByCategory(req, res, next){
@@ -32,12 +33,12 @@ export class BusinessController {
     
     async addBusiness(req, res, next) {
         try {
-            const { error } = userSchema.validate(req.body);
+            console.log(req.body)
+            const { error } = businessSchema.validate(req.body);
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
             }
-
-            const idUser = await LoginController.userService.registerUser(req.body);
+            const idUser = await BusinessController.businessService.signUpBusiness(req.body);
             const token = createToken({ id: idUser });
             return res
                 .cookie('x-access-token', token, { httpOnly: true })

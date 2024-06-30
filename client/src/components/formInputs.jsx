@@ -37,9 +37,9 @@ export class FormInputs {
     }
     static userNameInput(props) {
         const { register, errors } = props
-        return <><TextField autoFocus margin="normal" name="userName"
+        return <><TextField autoFocus margin="normal" name="name"
             label="שם משתמש" type="text" variant="standard"
-            {...register("userName", {
+            {...register("name", {
                 required: "אנא הזן שם משתמש",
                 pattern: {
                     value: /^[a-z\u0590-\u05fe]+$/i,
