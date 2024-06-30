@@ -8,7 +8,7 @@ export class BusinessService {
     static queries = new Queries();
     async getBusinessByCategory(params) {
         const queries = new Queries();
-        const columns = "idBusiness, businessName, locationName ,COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
+        const columns = "idBusiness, businessName, locationName , price, COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
         const joinTables = [
             { table: 'categories', condition: `Businesses.category = categories.idCategory` },
             { table: 'locations', condition: `Businesses.location = locations.idLocation` },
@@ -16,8 +16,8 @@ export class BusinessService {
         ];
         params["categoryName"] = params["category"];
         delete params["category"];
-        params["isActive"] = true;
-        const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params, "idBusiness");
+        params["Businesses.isActive"] = true;
+        const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params, "idBusiness, businessName, locationName");
         const result = await executeQuery(query, values);
         return result;
     }
@@ -34,8 +34,8 @@ export class BusinessService {
 
 
     async businessExist(email,columns) {
-        const columns = columns||"1";
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { email: email, isActive: true });
+        const myColumns = columns||"1";
+        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, myColumns, [], { email: email, isActive: true });
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
