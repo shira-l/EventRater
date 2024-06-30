@@ -16,7 +16,7 @@ export class BusinessService {
         params["categoryName"] = params["category"];
         delete params["category"];
         params["isActive"] = true;
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params);
+        const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params, "idBusiness");
         const result = await executeQuery(query, values);
         return result;
     }
