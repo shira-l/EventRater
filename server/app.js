@@ -7,7 +7,7 @@ import {opinionRouter} from './router/opinionRouter.js';
 import cookieParser from 'cookie-parser';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-
+import otpGenerator from 'otp-generator';
 dotenv.config();
 
 
@@ -16,6 +16,8 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
   secure: false, // use SSL
   auth: {
+    // user:'slazarov@g.jct.ac.il',
+    // pass:'jrqHXtmu'
     user:'michalla37@gmail.com',
     pass: 'kqjf zowc lqej cqbi',
   }
@@ -37,6 +39,32 @@ const mailOptions = {
 //     console.log('Email sent:', info.response);
 //   }
 // });
+// index.js
+
+import{ Auth, LoginCredentials } from "two-step-auth";
+
+// async function login(emailId) {
+//   try {
+//     const res = await Auth(emailId, "Company Name");
+//     console.log(res);
+//     console.log(res.mail);
+//     console.log(res.OTP);
+//     console.log(res.success);
+//   } catch (error) {
+//     console.log("error",error);
+//   }
+// }
+
+// // This should have less secure apps enabled
+// LoginCredentials.mailID = "slazarov@g.jct.ac.il"; 
+
+// // You can store them in your env variables and
+// // access them, it will work fine
+// LoginCredentials.password = "jrqHXtmu"; 
+// LoginCredentials.use = true;
+
+// // Pass in the mail ID you need to verify
+// login("michalla37@gmail.com"); 
 
   
 const app = express();

@@ -1,4 +1,4 @@
-import {OpinionService} from '../service/OpinionService.js'
+import {OpinionService} from '../service/opinionService.js'
 import { opinionSchema } from '../validations/opinionValidations.js';
 
 export class OpinionController {
