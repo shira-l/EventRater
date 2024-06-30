@@ -8,7 +8,8 @@ export class BusinessService {
     static queries = new Queries();
     async getBusinessByCategory(params) {
         const queries = new Queries();
-        const columns = "idBusiness, businessName, locationName , price,COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
+
+        const columns = "idBusiness, businessName, locationName , price, COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
         const joinTables = [
             { table: 'categories', condition: `Businesses.category = categories.idCategory` },
             { table: 'locations', condition: `Businesses.location = locations.idLocation` },
@@ -16,7 +17,7 @@ export class BusinessService {
         ];
         params["categoryName"] = params["category"];
         delete params["category"];
-        params["Businesses.isActive"] = true;
+        params["isActive"] = true;
         const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params, "idBusiness, businessName, locationName");
         const result = await executeQuery(query, values);
         return result;
@@ -31,19 +32,6 @@ export class BusinessService {
     //     const { encrypt, compare } = require('../services/crypto');
     // const { generateOTP } = require('../services/OTP');
     // const { sendMail } = require('../services/MAIL');
-
-
-    async businessExist(email,columns) {
-        const columns = columns||"1";
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { email: email, isActive: true });
-        const users = await executeQuery(query, values);
-        return users.length > 0;
-    }
-    async addBusiness(params) {
-        const userQuery = BusinessService.queries.postQuery(BusinessService.tableName, params);
-        const result = await executeQuery(userQuery.query, userQuery.values);
-        return result.insertId;
-    }
     async signUpBusiness(params) {
         const { email, businessName } = params;
         const isExisting = await this.businessExist(email);
