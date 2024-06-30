@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 import { APIrequests } from '../APIrequests.js'
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { useState,useContext } from 'react';
+import { useState, useContext } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,7 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UserRegistrationForm from './UserRegistrationForm.jsx'
-import { FormInputs } from './FormInputs.jsx';
+import { FormInputs } from './formInputs.jsx';
 import { UserContext } from '../UserProvider.jsx';
 export default function Login() {
   const APIrequest = new APIrequests()
@@ -24,7 +24,7 @@ export default function Login() {
 
   const [open, setOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
-  const {setCurrentUser}=useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
   const handleClickOpen = () => {
     setOpen(true);
   }
@@ -44,16 +44,20 @@ export default function Login() {
   const login = async (userDetails) => {
     handleClose();
     const hash_password = generatePasswordHash(userDetails.password);
-    const response = await APIrequest.postRequest(`/authentication/login`, { "email": userDetails.email, "password": hash_password });
+    try { const response = await APIrequest.postRequest(`/authentication/login`, { "email": userDetails.email, "password": hash_password });
     if (!response.ok)
       alert('error, please try egain whith anouther email or password or sign up')
-  else{
-      const data =await response.json();
+    else {
+      const data = await response.json();
       delete userDetails.password;
-      const newUser={...data.user,...userDetails};
-      localStorage.setItem("currentUser",JSON.stringify(newUser));
+      const newUser = { ...data.user, ...userDetails };
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
       setCurrentUser(newUser);
-  }
+    } }
+    catch(error){
+      alert(error.message)
+    }
+    
   }
 
 
@@ -64,7 +68,7 @@ export default function Login() {
       <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
         התחבר
       </Button>
-      <Dialog 
+      <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -75,9 +79,9 @@ export default function Login() {
         <DialogTitle>התחבר</DialogTitle>
         <DialogContent>
           <DialogContentText> ברוך שובך! אנא היכנס כדי להמשיך</DialogContentText>
-          <FormInputs.emailInput register={register} errors={errors}/>
-          <FormInputs.passwordInput register={register} errors={errors}/>
-          <FormInputs.otpInput/>
+          <FormInputs.emailInput register={register} errors={errors} />
+          <FormInputs.passwordInput register={register} errors={errors} />
+          <FormInputs.otpInput />
 
           <DialogContentText>אינך רשום עדיין ?<Link onClick={handleRegister}>הירשם</Link></DialogContentText>
         </DialogContent>
@@ -86,7 +90,7 @@ export default function Login() {
           <Button type="submit">שמור</Button>
         </DialogActions>
       </Dialog>
-      {openRegister && <UserRegistrationForm generatePasswordHash={generatePasswordHash} setOpen={setOpenRegister}/>}
+      {openRegister && <UserRegistrationForm generatePasswordHash={generatePasswordHash} setOpen={setOpenRegister} />}
     </React.Fragment>
   );
 }

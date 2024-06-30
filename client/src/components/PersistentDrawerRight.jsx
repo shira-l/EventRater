@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -26,6 +27,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerRight() {
+    const navigate = useNavigate();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
 
@@ -36,9 +38,18 @@ export default function PersistentDrawerRight() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const navigateTo = (target) => {
+        switch (target) {
+            case "יצירת עסק חדש":
+                navigate('/businesses/newBusiness')
+                break;
 
+            default:
+                break;
+        }
+    }
     return (
-        <Box sx={{ display: 'flex'}}>
+        <Box sx={{ display: 'flex' }}>
             <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -66,9 +77,9 @@ export default function PersistentDrawerRight() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    {['יצירת עסק חדש', 'לעסק שלי'].map((text, index) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={()=>navigateTo(text) }>
                                 <ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                 </ListItemIcon>
@@ -77,8 +88,8 @@ export default function PersistentDrawerRight() {
                         </ListItem>
                     ))}
                 </List>
-                  <Divider />
-      </Drawer> 
+                <Divider />
+            </Drawer>
         </Box>
     );
 }

@@ -33,8 +33,8 @@ export class BusinessService {
     // const { sendMail } = require('../services/MAIL');
 
 
-    async businessExist(email) {
-        const columns = "1";
+    async businessExist(email,columns) {
+        const columns = columns||"1";
         const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { email: email, isActive: true });
         const users = await executeQuery(query, values);
         return users.length > 0;
@@ -48,7 +48,7 @@ export class BusinessService {
         const { email, businessName } = params;
         const isExisting = await this.businessExist(email);
         if (isExisting) {
-            throw new Error("User already exists");
+            throw new Error("business already exists");
         }
         const otpGenerated = generateOTP();
         console.log(otpGenerated)
@@ -73,14 +73,12 @@ export class BusinessService {
 
 
     async validateUserSignUp(email, otp) {
-        const user = await User.findOne({
-            email,
-        });
-        if (!user) {
-            return [false, 'User not found'];
+        const userOtp = await businessExist(email,"otp")
+        if (!userOtp) {
+          throw new Error('business is not exists')
         }
-        if (user && user.otp !== otp) {
-            return [false, 'Invalid OTP'];
+        if (userOtp !== otp) {
+           throw new Error('Invalid OTP');
         }
         const updatedUser = await User.findByIdAndUpdate(user._id, {
             $set: { active: true },
