@@ -39,11 +39,16 @@ export class Queries {
     }
 
     postQuery(table, data){
-        const DB = process.env.DB_NAME || 'project';
         const columns = Object.keys(data).join(', ');
         const placeholders = Object.keys(data).map(() => '?').join(', ');
         const values = Object.values(data);
-        const query = `INSERT INTO ${DB}.${table} (${columns}) VALUES (${placeholders})`;
+        const query = `INSERT INTO ${table} (${columns}) VALUES (${placeholders})`;
         return { query, values };
+    }
+    deleteQuery(table,idObject) {
+        const key=Object.keys(idObject)
+        const value=Object.values(idObject)
+        const query = `UPDATE project.${table} SET isActive =0 WHERE ${key} = ? AND isActive =1 `;
+        return {query,value};
     }
 }

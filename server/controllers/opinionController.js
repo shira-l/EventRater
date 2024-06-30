@@ -46,4 +46,16 @@ export class OpinionController {
             next(err);
         }
     }
+   async deleteOpinion(req, res, next){
+    try {
+     await OpinionController.opinionService.deleteOpinion(req.params);
+    res.status(200).json({ status: 200 });
+   }
+   catch (ex) {
+    const err = {};
+    err.statusCode = 500;
+    err.message = ex;
+    next(err);
+}
+}  
 }

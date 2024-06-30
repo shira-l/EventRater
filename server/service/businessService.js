@@ -7,7 +7,6 @@ export class BusinessService {
     static tableName = "businesses";
     static queries = new Queries();
     async getBusinessByCategory(params) {
-        const queries = new Queries();
         const columns = "idBusiness, businessName, locationName ,COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
         const joinTables = [
             { table: 'categories', condition: `Businesses.category = categories.idCategory` },
@@ -17,7 +16,7 @@ export class BusinessService {
         params["categoryName"] = params["category"];
         delete params["category"];
         params["isActive"] = true;
-        const { query, values } = queries.getQuery(BusinessService.tableName, columns, joinTables, params);
+        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params);
         const result = await executeQuery(query, values);
         return result;
     }
@@ -31,19 +30,6 @@ export class BusinessService {
     //     const { encrypt, compare } = require('../services/crypto');
     // const { generateOTP } = require('../services/OTP');
     // const { sendMail } = require('../services/MAIL');
-
-
-    async businessExist(email,columns) {
-        const columns = columns||"1";
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { email: email, isActive: true });
-        const users = await executeQuery(query, values);
-        return users.length > 0;
-    }
-    async addBusiness(params) {
-        const userQuery = BusinessService.queries.postQuery(BusinessService.tableName, params);
-        const result = await executeQuery(userQuery.query, userQuery.values);
-        return result.insertId;
-    }
     async signUpBusiness(params) {
         const { email, businessName } = params;
         const isExisting = await this.businessExist(email);
@@ -64,16 +50,29 @@ export class BusinessService {
         }
 
     }
+
+    async businessExist(email) {
+        const columns ="1";
+        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { email: email, isActive: true });
+        const users = await executeQuery(query, values);
+        return users.length > 0;
+    }
+    async addBusiness(params) {
+        const userQuery = BusinessService.queries.postQuery(BusinessService.tableName, params);
+        const result = await executeQuery(userQuery.query, userQuery.values);
+        return result.insertId>0;
+    }
+    
     async verifyEmail(req, res) {
         const { email, otp } = req.body;
-        const user = await validateUserSignUp(email, otp);
+        const user = await this.validateUserSignUp(email, otp);
         res.send(user);
     }
 
 
 
     async validateUserSignUp(email, otp) {
-        const userOtp = await businessExist(email,"otp")
+        const userOtp = await this.businessExist(email,"otp")
         if (!userOtp) {
           throw new Error('business is not exists')
         }
@@ -85,4 +84,9 @@ export class BusinessService {
         });
         return [true, updatedUser];
     };
+    async deleteBusiness(businessId){
+        const { query, values } = BusinessService.queries.deleteQuery(BusinessService.tableName, businessId);
+        const result = await executeQuery(query, values);
+        return result;
+    }
 }

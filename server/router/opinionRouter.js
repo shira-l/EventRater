@@ -7,7 +7,7 @@ const opinionController = new OpinionController();
 
 opinionRouter.get("/", opinionController.getOpinionsByBusiness);
 opinionRouter.post("/:businessId", verifyToken, opinionController.addOpinion);
-
+opinionRouter.delete("/:opinionId",verifyToken,opinionController.deleteOpinion);
 
 export {
     opinionRouter
