@@ -52,7 +52,14 @@ export class Queries {
     deleteQuery(table,idObject) {
         const key=Object.keys(idObject)
         const value=Object.values(idObject)
-        const query = `UPDATE project.${table} SET isActive =0 WHERE ${key} = ? AND isActive =1 `;
+        const query = `UPDATE ${table} SET isActive =0 WHERE ${key} = ? AND isActive =1 `;
         return {query,value};
+    }
+    updateQuery(table,columns,data) {
+        const keys= Object.keys(columns).map(() => '?').join(', ');
+        const placeholders = Object.keys(data).map(() => '?').join(', ');
+        const values = [...Object.values(columns),...Object.values(data)];
+        const query = `UPDATE ${table} SET ${keys} WHERE ${placeholders}`;
+        return { query, values };
     }
 }
