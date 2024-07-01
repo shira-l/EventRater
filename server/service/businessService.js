@@ -8,7 +8,7 @@ export class BusinessService {
     static tableName = "businesses";
     static queries = new Queries();
     async getBusinessByCategory(params) {
-        const columns = "idBusiness, userName, locationName ,COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
+        const columns = "idBusiness, userName, locationName, price, COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
         const joinTables = [
             { table: 'categories', condition: `Businesses.category = categories.idCategory` },
             { table: 'locations', condition: `Businesses.location = locations.idLocation` },
@@ -17,7 +17,7 @@ export class BusinessService {
         ];
         params["categoryName"] = params["category"];
         delete params["category"];
-        params["isActive"] = true;
+        params["users.isActive"] = '1';
         const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params, "idBusiness");
         const result = await executeQuery(query, values);
         return result;

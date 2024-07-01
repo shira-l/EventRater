@@ -18,7 +18,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Home" element={<Home />} />
           <Route path="businesses">
-              <Route path=':category' element={<Businesses />} />
+              {/* <Route path=':category' element={<Businesses />} /> */}
+              <Route index element={<Businesses />} />
               <Route path=':idBusiness' element={<Business />} />
               <Route path='new-business' element={<NewBusiness />} />
             </Route>

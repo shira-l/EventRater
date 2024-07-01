@@ -6,6 +6,7 @@ import './BusinessList.css';
 const BusinessList = ({ businesses }) => {
 
     const getMinPrice = (prices) => {
+        console.log(prices);
         return Math.min(...prices.map(price => price.price));
       };
 
