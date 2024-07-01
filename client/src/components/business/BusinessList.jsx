@@ -15,7 +15,7 @@ const BusinessList = ({ businesses }) => {
             {businesses.map((business) => (
                 <Link to={`/businesses/${business.idBusiness}`} key={business.idBusiness} className="business-link">
                     <div className="business-item">
-                        <h2 className="business-name">{business.businessName}</h2>
+                        <h2 className="business-name">{business.userName}</h2>
                         <p className="business-location">Location: {business.locationName}</p>
                         <p className="business-price"> Price: {getMinPrice(business.price)}</p>
                         <div className="business-rating">

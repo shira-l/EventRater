@@ -15,6 +15,26 @@ export class BusinessService {
             { table: 'opinions', condition: `businesses.idBusiness = opinions.businessId` },
             { table: 'users', condition: `businesses.userId = users.idUser` }
         ];
+        params["users.isActive"] = '1';
+        console.log(params);
+
+        if(params.sort!=undefined){
+            console.log(params);
+            let sortBy = "";
+            switch (params.sort) {
+                case 'rating':
+                    sortBy = 'averageRating DESC';
+                    break;
+                case 'price':
+                    sortBy = `price DESC`;
+                    break;
+                case 'Alphabetical':
+                    sortBy = `userName ASC`;
+                    break;
+                }
+            params["sort"] = sortBy;
+        }
+
         params["categoryName"] = params["category"];
         delete params["category"];
         params["users.isActive"] = '1';
@@ -23,15 +43,18 @@ export class BusinessService {
         return result;
     }
 
-    async getBusinessById(idParam) {
-        //const columns=
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, idParam);
+    async getBusinessById(params) {
+        const columns = "userName, about, email, phone, locationName, price";
+        const joinTables = [
+            { table: 'categories', condition: `Businesses.category = categories.idCategory` },
+            { table: 'locations', condition: `Businesses.location = locations.idLocation` },
+            { table: 'users', condition: `businesses.userId = users.idUser` }
+        ];
+        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params);
         const result = await executeQuery(query, values);
         return result;
     }
-    //     const { encrypt, compare } = require('../services/crypto');
-    // const { generateOTP } = require('../services/OTP');
-    // const { sendMail } = require('../services/MAIL');
+
     async signUpBusiness(params) {
         const { email, userName } = params;
         const isExisting = await this.businessExist(email);
