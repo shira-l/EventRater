@@ -9,7 +9,7 @@ export class LoginController {
         try {
             const user = await LoginController.userService.loginUser(req.body);
             const token = createToken({ id: user.idUser });
-            return res.cookie('x-access-token', token, { httpOnly: true }).json({ user: user });
+            return res.cookie('x-access-token', token, { httpOnly: true ,secure: true, maxAge: 259200000 }).json({ user: user });
         }
         catch (ex) {
             const err = {}
@@ -28,7 +28,7 @@ export class LoginController {
             const idUser = await LoginController.userService.registerUser(req.body);
             const token = createToken({ id: idUser });
             return res
-                .cookie('x-access-token', token, { httpOnly: true })
+                .cookie('x-access-token', token, { httpOnly: true,secure: true, maxAge: 259200000 })
                 .json({ id: idUser });
         } catch (ex) {
             const err = {};

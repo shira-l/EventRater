@@ -10,6 +10,7 @@ import { useState } from "react";
 export default function NewBusiness() {
     const APIrequest = new APIrequests()
     const [otp, setOtp] = useState('')
+    const [businessDetails, setBusinessDetails] = useState(null)
     const [open, setOpen] = useState(false);
     const [formDisplay, setformDisplay] = useState("basic")
 
@@ -31,6 +32,10 @@ export default function NewBusiness() {
                 reset()
             }
             else {
+                if (businessDetails == null) {
+                    const userId = response.json().id;
+                    setBusinessDetails({ ...businessDetails, userId: userId });
+                }
                 handleClickOpen(true)
             }
         }
@@ -39,8 +44,18 @@ export default function NewBusiness() {
             reset()
         }
     }
-    const verifyOtp = () => {
-       alert(otp)
+    const verifyOtp = async () => {
+        try {
+            const requestBody = { userId: userId, otp: otp };
+            const response = await APIrequest.postRequest(`/businesses/verify`, requestBody);
+            if (!response.ok) {
+                alert("The code you entered is incorrect, please try again")
+                reset()
+            }
+        }
+        catch (error) {
+            alert(error.message)
+        }
     }
     const handleClickOpen = () => {
         setOpen(true);
@@ -68,6 +83,8 @@ export default function NewBusiness() {
             </DialogContent>
             <DialogActions>
                 <Button type="submit">to verify</Button>
+                <Button onClick={() => sendOtpCode(userDetails)}>resending</Button>
+                <Button onClick={handleClose}>בטל</Button>
             </DialogActions>
         </Dialog> </>)
 }

@@ -1,6 +1,6 @@
-import {OpinionService} from '../service/opinionService.js'
-import { opinionSchema } from '../validations/opinionValidations.js';
 
+import { opinionSchema } from '../validations/opinionValidations.js';
+import { OpinionService } from '../service/OpinionService.js';
 export class OpinionController {
     static opinionService = new OpinionService();
 
