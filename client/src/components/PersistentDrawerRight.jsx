@@ -41,7 +41,7 @@ export default function PersistentDrawerRight() {
     const navigateTo = (target) => {
         switch (target) {
             case "יצירת עסק חדש":
-                navigate('/businesses/newBusiness')
+                navigate('/businesses/new-business')
                 break;
 
             default:
@@ -70,7 +70,7 @@ export default function PersistentDrawerRight() {
                 anchor="right"
                 open={open}
             >
-                <DrawerHeader>
+                <DrawerHeader dir='rtl'>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>

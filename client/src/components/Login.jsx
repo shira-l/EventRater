@@ -54,8 +54,8 @@ export default function Login() {
         alert('error, please try egain whith anouther email or password or sign up')
       else {
         const data = await response.json();
-        delete userDetails.password;
-        const newUser = { ...data.user, ...userDetails };
+        console.log(data)
+        const newUser = { ...data.user, email:userDetails.email };
         localStorage.setItem("currentUser", JSON.stringify(newUser));
         setCurrentUser(newUser);
       }
@@ -70,9 +70,9 @@ export default function Login() {
 
 
   return (
-    <React.Fragment>
-      <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
-        התחבר
+    <React.Fragment >  
+      <Button variant="outlined" color="inherit" onClick={handleClickOpen} >
+      Login
       </Button>
       <Dialog
         open={open}
@@ -82,7 +82,7 @@ export default function Login() {
           onSubmit: handleSubmit(login),
         }}
       >
-        <DialogTitle>התחבר</DialogTitle>
+        <DialogTitle>Login</DialogTitle>
         <DialogContent>
           <DialogContentText> ברוך שובך! אנא היכנס כדי להמשיך</DialogContentText>
           <FormInputs.emailInput register={register} errors={errors} />

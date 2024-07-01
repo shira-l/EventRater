@@ -22,9 +22,9 @@ const Business = () => {
                 <Tab label="Contact" />
                 <Tab label="Gallery" />
             </Tabs>
-            {tabValue === 0 && <Comments businessId={idBusiness} />}
+            {/* {tabValue === 0 && <Comments businessId={idBusiness} />}
             {tabValue === 1 && <Contact businessId={idBusiness} />}
-            {tabValue === 2 && <Gallery businessId={idBusiness} />}
+            {tabValue === 2 && <Gallery businessId={idBusiness} />} */}
         </div>
     );
 };

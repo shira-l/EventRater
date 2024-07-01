@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,6 +17,7 @@ import auth from '../auth.js';
 
 
 export default function ButtonAppBar(props) {
+    const navigate = useNavigate()
     const { user, setCurrentUser } = useContext(UserContext);
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -45,10 +46,8 @@ export default function ButtonAppBar(props) {
     return (
         <AppBar position="fixed" >
             <Toolbar>
-                <PersistentDrawerRight />
-                <Link to={"/Home"}>הכל לאירוע</Link>
-                {user == null ? <Login /> :
-                    <Box>
+                {user == null ? <Box sx={{ flexGrow: 10}}><Login /></Box> :
+                    <Box sx={{ flexGrow: 10}}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -77,6 +76,10 @@ export default function ButtonAppBar(props) {
                         </Menu>
                     </Box>
                 }
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() =>navigate("/Home")}>
+                    EVENTS
+                </Typography>
+                <PersistentDrawerRight />
             </Toolbar>
         </AppBar>
     );

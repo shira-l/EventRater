@@ -7,23 +7,25 @@ async function executeQuery(query, params) {
         const connection = mysql.createConnection({
             host: 'localhost',
             user: 'root',
-            port: 3306,
-            database: process.env.DB_NAME || 'project',
-            password: process.env.PASSWORD || '1234'
+            port: 8080,
+            database: process.env.DB_NAME || 'last_project',
+            password: process.env.PASSWORD || 'shiraAHRV3125!'
         });
 
         connection.connect(err => {
             if (err) {
+                console.log("error:",err)
                 reject(err);
                 return;
             }
 
             connection.execute(query, params, (error, results) => {
                 if (error) {
+                    console.log("error:",error)
                     reject(error);
                     return;
                 }
-             
+
                 resolve(results);
                 connection.end();
             });

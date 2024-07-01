@@ -8,15 +8,16 @@ export class UserService {
 
     async userExists(email) {
         const columns = "1";
-        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], { email: email, isBusiness: false ,isActive:true});
+        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], { email: email, isBusiness: false, isActive: true });
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
 
     async addUser(params) {
-        console("add user")
+        console.log("add user")
         const userQuery = UserService.queries.postQuery(UserService.table, params);
         const result = await executeQuery(userQuery.query, userQuery.values);
+        console.log(result)
         return result.insertId;
     }
 
@@ -28,7 +29,7 @@ export class UserService {
         }
         const passwordService = new PasswordService();
         const passwordId = await passwordService.addPassword({ password: password });
-        const newUser = { email: email, userName: userName, passwordId: passwordId,isBusiness:false, isActive: true }
+        const newUser = { email: email, userName: userName, passwordId: passwordId, isActive: true }
         const userId = await this.addUser(newUser);
 
         if (!userId) {
@@ -40,7 +41,7 @@ export class UserService {
     async loginUser(params) {
         const email = params.email;
         const password = params.password;
-        const columns = "idUser, userName, password";
+        const columns = "idUser, userName,password";
         const joinTables = [
             { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
         ];
@@ -56,7 +57,7 @@ export class UserService {
         if (!isMatch) {
             throw new Error("Invalid username or password");
         }
-
+        delete users[0].password
         return users[0];
     }
 }
