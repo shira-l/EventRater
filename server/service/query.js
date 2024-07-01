@@ -1,13 +1,12 @@
 export class Queries {
 
     getQuery(table, columns, joinTables = [], params = {}, groupBy = '') {
-        const DB = process.env.DB_NAME || 'project';
-        let query = `SELECT ${columns} FROM ${DB}.${table}`;
+        let query = `SELECT ${columns} FROM ${table}`;
         const values = [];
 
         if (joinTables.length > 0) {
             joinTables.forEach((join) => {
-                query += ` JOIN ${DB}.${join.table} ON ${join.condition}`;
+                query += ` JOIN ${join.table} ON ${join.condition}`;
             });
         }
 

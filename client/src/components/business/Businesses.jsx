@@ -201,7 +201,7 @@
 
 
 import { useEffect, useState, useRef } from 'react';
-import { useSearchParams } from "react-router-dom";
+import { Outlet, useSearchParams } from "react-router-dom";
 import ButtonAppBar from '../ButtonAppBar.jsx';
 import { APIrequests } from '../../APIrequests.js';
 import Select from 'react-select';
@@ -281,6 +281,7 @@ export default function Businesses() {
             <h3 id="businessesHeader">businesses</h3>
             <BusinessList businesses={businesses} />
             {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
+            
         </>
     );
 }

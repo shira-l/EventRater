@@ -64,7 +64,8 @@ export default function NewBusiness() {
     const handleClose = () => {
         setOpen(false);
     }
-    return (<><form onSubmit={handleSubmit(sendOtpCode)}>
+    return (<>
+    <form onSubmit={handleSubmit(sendOtpCode)}>
         <FormInputs.userNameInput register={register} errors={errors} />
         <FormInputs.emailInput register={register} errors={errors} />
         <Button type="submit">שלח</Button>
