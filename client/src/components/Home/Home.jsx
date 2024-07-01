@@ -29,15 +29,15 @@ function Home() {
         <br />
         ! בעל מקצוע לא יכול לקנות את המיקום שלו ברשימה. רק הלקוחות קובעים</p>
         <div className="images-container">
-          <Link to="/businesses/orchestra">
+          <Link to="/businesses?category=orchestra">
             <img src={orchestraImage} alt="Orchestra" className="category-image" />
             <p>תזמורות</p>
           </Link>
-          <Link to="/businesses/photographer">
+          <Link to="/businesses?category=photographer">
             <img src={photographerImage} alt="Photographer" className="category-image" />
             <p>צלמים</p>
           </Link>
-          <Link to="/businesses/flowers">
+          <Link to="/businesses?category=flowers">
             <img src={flowersImage} alt="Flowers" className="category-image" />
             <p>פרחים</p>
           </Link>

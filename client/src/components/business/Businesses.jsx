@@ -201,7 +201,7 @@
 
 
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import ButtonAppBar from '../ButtonAppBar.jsx';
 import { APIrequests } from '../../APIrequests.js';
 import Select from 'react-select';
@@ -209,7 +209,9 @@ import BusinessList from './BusinessList';
 import './Businesses.css';
 
 export default function Businesses() {
-    const { category } = useParams();
+    const [searchParams] = useSearchParams();
+    const category = searchParams.get('category');
+    // const { category } = useSearchParams();
     const [businesses, setBusinesses] = useState([]);
     const [sortBy, setSortBy] = useState('');
     const APIrequest = new APIrequests();
