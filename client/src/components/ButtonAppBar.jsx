@@ -14,11 +14,13 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../UserProvider';
 import PersistentDrawerRight from './PersistentDrawerRight.jsx';
 import auth from '../auth.js';
+import Button from '@mui/material/Button';
 
 
 export default function ButtonAppBar(props) {
     const navigate = useNavigate()
     const { user, setCurrentUser } = useContext(UserContext);
+    const [openLogin, setOpenLogin] = useState(false);
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
     const [anchorElUser, setAnchorElUser] = useState(null);
     const handleLogout = () => {
@@ -46,37 +48,41 @@ export default function ButtonAppBar(props) {
     return (
         <AppBar position="fixed" >
             <Toolbar>
-                {user == null ? <Box sx={{ flexGrow: 10}}><Login /></Box> :
-                    <Box sx={{ flexGrow: 10}}>
-                        <Tooltip title="Open settings">
+                <Box sx={{ flexGrow: 10 }}>
+                    {user == null ? <><Button variant="outlined" color="inherit" onClick={() => setOpenLogin(true)} sx={{ flexGrow: 10 }}>
+                        Login
+                    </Button>
+                        {openLogin && <Login setOpen={setOpenLogin}/>}
+                    </> :
+                        <><Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}>
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={() => { handleSetting(setting) }}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                }
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() =>navigate("/Home")}>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}>
+                                {settings.map((setting) => (
+                                    <MenuItem key={setting} onClick={() => { handleSetting(setting) }}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu></>
+                    }
+                </Box>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => navigate("/Home")}>
                     EVENTS
                 </Typography>
                 <PersistentDrawerRight />

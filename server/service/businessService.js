@@ -82,11 +82,12 @@ export class BusinessService {
 
     }
     async verifyUserSignUp(params) {
-        const { email, otp } = params;
+        console.log("service otp")
+        const { userId, otp } = params;
         const userService = new UserService();
         const hashOTP = await bcrypt.hash(otp, 10);
         const columns="otp"
-        const userOtp = await userService.getUserByValue({ email: email, isBusiness: true }, columns)
+        const userOtp = await userService.getUserByValue({ userId: userId, isBusiness: true }, columns)
         if (!userOtp) {
             throw new Error('business is not exists')
         }

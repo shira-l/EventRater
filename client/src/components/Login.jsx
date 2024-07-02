@@ -12,8 +12,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UserRegistrationForm from './UserRegistrationForm.jsx'
 import { FormInputs } from './formInputs.jsx';
-import { UserContext } from '../UserProvider.jsx';
-export default function Login() {
+import { UserContext } from '../UserProvider.jsx'
+
+;
+export default function Login(props) {
   const APIrequest = new APIrequests()
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
@@ -21,14 +23,10 @@ export default function Login() {
       password: '',
     }
   })
-
-  const [open, setOpen] = useState(false);
+  const{setOpen}=props;
   const [openRegister, setOpenRegister] = useState(false);
   const { setCurrentUser } = useContext(UserContext);
-  const handleClickOpen = () => {
-    setOpen(true);
-  }
-
+  
   const handleClose = () => {
     setOpen(false);
   }
@@ -71,11 +69,8 @@ export default function Login() {
 
   return (
     <React.Fragment >  
-      <Button variant="outlined" color="inherit" onClick={handleClickOpen} >
-      Login
-      </Button>
       <Dialog
-        open={open}
+        open={true}
         onClose={handleClose}
         PaperProps={{
           component: 'form',
@@ -84,14 +79,14 @@ export default function Login() {
       >
         <DialogTitle>Login</DialogTitle>
         <DialogContent>
-          <DialogContentText> ברוך שובך! אנא היכנס כדי להמשיך</DialogContentText>
+          <DialogContentText>Welcome back! Please sign in to continue</DialogContentText>
           <FormInputs.emailInput register={register} errors={errors} />
           <FormInputs.passwordInput register={register} errors={errors} />
-          <DialogContentText>אינך רשום עדיין ?<Link onClick={handleRegister}>הירשם</Link></DialogContentText>
+          <DialogContentText>Not registered yet?<Link onClick={handleRegister}>register</Link></DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>בטל</Button>
-          <Button type="submit">שמור</Button>
+          <Button onClick={handleClose}>cencel</Button>
+          <Button type="submit">login</Button>
         </DialogActions>
       </Dialog>
       {openRegister && <UserRegistrationForm generatePasswordHash={generatePasswordHash} setOpen={setOpenRegister} />}
