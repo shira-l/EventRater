@@ -4,7 +4,7 @@ import { Tabs, Tab } from '@mui/material';
 import ButtonAppBar from '../ButtonAppBar.jsx';
 import { APIrequests } from '../../APIrequests.js';
 import './Business.css';
-import Comments from './Comments';
+import Reviews from './Reviews';
 // import Contact from './Contact';
 // import Gallery from './Gallery';
 
@@ -16,7 +16,7 @@ const Business = () => {
     const businessFromList = location.state?.business || {};
     const [tabValue, setTabValue] = useState(0);
     const [business, setBusiness] = useState();
-    const [comments, setComments] = useState([]);
+    const [reviews, setReviews] = useState([]);
     // const [gallery, setGallery] = useState([]);
     // const [contact, setContact] = useState({});
     const [loading, setLoading] = useState(true);
@@ -47,23 +47,23 @@ const Business = () => {
             }
         };
 
-        const getComments = async () => {
+        const getReviews = async () => {
             try {
-                const url = `/opinions?businessId=${idBusiness}`;
+                const url = `/reviews?businessId=${idBusiness}`;
                 const response = await APIrequest.getRequest(url);
                 const json = await response.json();
                 if (json.status !== 200) {
                     alert(json.error);
                 } else {
-                    setComments(json.data);
+                    setReviews(json.data);
                 }
             } catch (error) {
-                console.error('Error fetching comments:', error);
+                console.error('Error fetching reviews:', error);
             }
         };
     
         getBusiness();
-        getComments();
+        getReviews();
     }, []);
     
 
@@ -78,11 +78,11 @@ const Business = () => {
                 <h1>{business.userName}</h1>
                 <p>About: {business.about}</p>
                 <Tabs value={tabValue} onChange={handleChange} aria-label="business detail tabs">
-                    <Tab label="Comments" />
+                    <Tab label="Reviews" />
                     {/* <Tab label="Contact" />
                     <Tab label="Gallery" /> */}
                 </Tabs>
-                {tabValue === 0 && <Comments comments={comments} />}
+                {tabValue === 0 && <Reviews reviews={reviews} />}
                 {/* {tabValue === 1 && <Contact contact={contact} />}
                 {tabValue === 2 && <Gallery gallery={gallery} />} */}
             </div>

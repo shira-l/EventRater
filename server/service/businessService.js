@@ -8,11 +8,11 @@ export class BusinessService {
     static tableName = "businesses";
     static queries = new Queries();
     async getBusinessByCategory(params) {
-        const columns = "idBusiness, userName, locationName, price, COUNT(idOpinion) AS opinionCount,AVG(rating) AS averageRating";
+        const columns = "idBusiness, userName, locationName, price, COUNT(idReview) AS reviewCount,AVG(rating) AS averageRating";
         const joinTables = [
             { table: 'categories', condition: `Businesses.category = categories.idCategory` },
             { table: 'locations', condition: `Businesses.location = locations.idLocation` },
-            { table: 'opinions', condition: `businesses.idBusiness = opinions.businessId` },
+            { table: 'reviews', condition: `businesses.idBusiness = reviews.businessId` },
             { table: 'users', condition: `businesses.userId = users.idUser` }
         ];
         params["users.isActive"] = '1';

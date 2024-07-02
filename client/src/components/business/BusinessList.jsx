@@ -19,7 +19,7 @@ const BusinessList = ({ businesses }) => {
                         <p className="business-location">Location: {business.locationName}</p>
                         {/* <p className="business-price"> Price: {getMinPrice(business.price)}</p> */}
                         <div className="business-rating">
-                            <span>Comments: {business.opinionCount}</span>
+                            <span>Reviews: {business.reviewCount}</span>
                             <br />
                             <span>Average Rating
                                 <ReactStars
