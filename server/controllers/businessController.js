@@ -52,12 +52,14 @@ export class BusinessController {
         }
     }
     async verifyOtp(req, res, next) {
-        try { 
-            console.log("controller otp")
-             await BusinessController.businessService.verifyUserSignUp(req.body);
-            res.status(200).json({ status: 200 });
-         }
-         catch (ex) {
+        try {
+            let isvalide=await BusinessController.businessService.verifyBusinessSignUp(req.body);
+            console.log(isvalide)
+            return res.status(200).json({ status: isvalide })
+           // res.status(401).json({ status: 401,message:"The code entered is incorrect, please try again" });
+         
+        }
+        catch (ex) {
             const err = {};
             err.statusCode = 500;
             err.message = ex.message;

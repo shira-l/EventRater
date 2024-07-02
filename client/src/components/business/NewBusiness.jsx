@@ -10,7 +10,7 @@ import { useState } from "react";
 export default function NewBusiness() {
     const APIrequest = new APIrequests()
     const [otp, setOtp] = useState('')
-    const [businessDetails, setBusinessDetails] = useState({})
+    const [businessDetails, setBusinessDetails] = useState(null)
     const [open, setOpen] = useState(false);
     const [formDisplay, setformDisplay] = useState(false)
 
@@ -22,6 +22,7 @@ export default function NewBusiness() {
     })
     const sendOtpCode = async (businessDetailsInput) => {
         try {
+            console.log("business1",businessDetails)
             const requestBody = {
                 "email": businessDetailsInput.email,
                 "userName": businessDetailsInput.userName
@@ -32,9 +33,9 @@ export default function NewBusiness() {
                 reset()
             }
             else {
-                console.log(businessDetails)
                 if (businessDetails== null) {
-                    const userId =await response.json().id;
+                    const json =await response.json();
+                    const userId=await json.id;
                     console.log("userId",userId)
                     setBusinessDetails({ ...businessDetailsInput, userId: userId });
                 }
@@ -54,9 +55,11 @@ export default function NewBusiness() {
                 alert("The code you entered is incorrect, please try again")
                 setOtp('')
             }
+            else
             alert("success")
         }
         catch (error) {
+            console.log(error)
             alert(error.message)
         }
     }

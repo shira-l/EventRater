@@ -68,35 +68,36 @@ export class BusinessService {
             await sendMailOtp({ to: email, OTP: otpGenerated, name: userName });
             const userService = new UserService();
             const hashOTP = await bcrypt.hash(otpGenerated, 10);
-            if (business.length)
+            let idUser;
+            if (business.length) {
                 await userService.updateUser({ otp: hashOTP }, { email: email, isBusiness: true })
+                idUser = business[0].idUser
+            }
             else {
                 const newBusiness = { email: email, userName: userName, isBusiness: true, otp: hashOTP };
-                const idUser = await userService.addUser(newBusiness);
-                return idUser
+                idUser = await userService.addUser(newBusiness);
             }
+            return idUser
 
         } catch (error) {
             throw new Error('Unable to sign up, Please try again later', error);
         }
 
     }
-    async verifyUserSignUp(params) {
-        console.log("service otp")
+    async verifyBusinessSignUp(params) {
         const { userId, otp } = params;
         const userService = new UserService();
-        const hashOTP = await bcrypt.hash(otp, 10);
-        const columns="otp"
-        const userOtp = await userService.getUserByValue({ userId: userId, isBusiness: true }, columns)
-        if (!userOtp) {
+        const columns = "otp"
+        const userOtp = await userService.getUserByValue({ idUser: userId, isBusiness: true }, columns)
+        if (!userOtp.length) {
             throw new Error('business is not exists')
         }
-        if (userOtp !== hashOTP) {
-            throw new Error('Invalid OTP');
-        }
+       return await bcrypt.compare(otp,userOtp[0].otp)
     };
+
+
     async businessActive(email) {
-        const columns = "isActive";
+        const columns = "idUser,isActive";
         const userService = new UserService();
         const isActive = await userService.getUserByValue({ email: email, isBusiness: true }, columns)
         return isActive;
@@ -113,7 +114,7 @@ export class BusinessService {
         await executeQuery(query, values);
     }
 
-   
+
     async deleteBusiness(businessId) {
         const { query, values } = BusinessService.queries.deleteQuery(BusinessService.tableName, businessId);
         const result = await executeQuery(query, values);

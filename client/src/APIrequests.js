@@ -4,9 +4,9 @@ export class APIrequests {
         try {
             const response = await fetch('http://localhost:8083' + url, {
                 method: 'POST',
-                'credentials': 'include',
+                credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-type': 'application/json',
                 },
                 body: JSON.stringify(body)
             });

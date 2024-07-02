@@ -58,6 +58,7 @@ export class UserService {
         return result.insertId;
     }
     async updateUser(data, conditions) {
+        console.log("update",data)
         const { query, values } = UserService.queries.updateQuery(UserService.table, data, conditions);
         await executeQuery(query, values);
     }
