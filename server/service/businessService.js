@@ -18,7 +18,7 @@ export class BusinessService {
         params["users.isActive"] = '1';
         console.log(params);
 
-        if(params.sort!=undefined){
+        if (params.sort != undefined) {
             console.log(params);
             let sortBy = "";
             switch (params.sort) {
@@ -31,7 +31,7 @@ export class BusinessService {
                 case 'Alphabetical':
                     sortBy = `userName ASC`;
                     break;
-                }
+            }
             params["sort"] = sortBy;
         }
 
@@ -44,10 +44,10 @@ export class BusinessService {
     }
 
     async getBusinessById(params) {
-        const columns = "about, email, phone";
+        const columns = "userName, about, email, phone, locationName, price";
         const joinTables = [
-            // { table: 'categories', condition: `Businesses.category = categories.idCategory` },
-            // { table: 'locations', condition: `Businesses.location = locations.idLocation` },
+            { table: 'categories', condition: `Businesses.category = categories.idCategory` },
+            { table: 'locations', condition: `Businesses.location = locations.idLocation` },
             { table: 'users', condition: `businesses.userId = users.idUser` }
         ];
         const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params);
@@ -57,8 +57,8 @@ export class BusinessService {
 
     async signUpBusiness(params) {
         const { email, userName } = params;
-        const isExisting = await this.businessExist(email);
-        if (isExisting) {
+        const business = await this.businessActive(email);
+        if (business.length && business[0].isActive) {
             throw new Error("business already exists");
         }
         const otpGenerated = otpGenerator.generate(6, {
@@ -67,56 +67,54 @@ export class BusinessService {
             specialChars: false,
         });
         try {
-            await sendMailOtp({
-                to: email,
-                OTP: otpGenerated,
-                name: userName
-            });
+            await sendMailOtp({ to: email, OTP: otpGenerated, name: userName });
             const userService = new UserService();
             const hashOTP = await bcrypt.hash(otpGenerated, 10);
-            const newBusiness = { email: email, userName: userName, isBusiness: true, otp: hashOTP };
-            const idUser = await userService.addUser(newBusiness);
-            return idUser
+            if (business.length)
+                await userService.updateUser({ otp: hashOTP }, { email: email, isBusiness: true })
+            else {
+                const newBusiness = { email: email, userName: userName, isBusiness: true, otp: hashOTP };
+                const idUser = await userService.addUser(newBusiness);
+                return idUser
+            }
+
         } catch (error) {
             throw new Error('Unable to sign up, Please try again later', error);
         }
 
     }
-
-    async businessExist(email) {
-        const columns = "1";
-        const joinTables = [{ table: 'users', condition: `businesses.userId = users.idUser` }];
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, { email: email, isBusiness: true, isActive: true });
-        const users = await executeQuery(query, values);
-        return users.length > 0;
-    }
-    async addBusiness(params) {
-        const userQuery = BusinessService.queries.postQuery(BusinessService.tableName, params);
-        const result = await executeQuery(userQuery.query, userQuery.values);
-        return result.insertId > 0;
-    }
-
-    async verifyEmail(req, res) {
-        const { email, otp } = req.body;
-        const user = await this.validateUserSignUp(email, otp);
-        res.send(user);
-    }
-
-
-
-    async validateUserSignUp(email, otp) {
-        const userOtp = await this.businessExist(email, "otp")
+    async verifyUserSignUp(params) {
+        const { email, otp } = params;
+        const userService = new UserService();
+        const hashOTP = await bcrypt.hash(otp, 10);
+        const columns="otp"
+        const userOtp = await userService.getUserByValue({ email: email, isBusiness: true }, columns)
         if (!userOtp) {
             throw new Error('business is not exists')
         }
-        if (userOtp !== otp) {
+        if (userOtp !== hashOTP) {
             throw new Error('Invalid OTP');
         }
-        const updatedUser = await User.findByIdAndUpdate(user._id, {
-            $set: { active: true },
-        });
-        return [true, updatedUser];
     };
+    async businessActive(email) {
+        const columns = "isActive";
+        const userService = new UserService();
+        const isActive = await userService.getUserByValue({ email: email, isBusiness: true }, columns)
+        return isActive;
+    }
+
+    async addBusiness(params) {
+        const { query, values } = BusinessService.queries.postQuery(BusinessService.tableName, params);
+        const result = await executeQuery(query, values);
+        return result.insertId > 0;
+    }
+
+    async updateBusiness(data, conditions) {
+        const { query, values } = BusinessService.queries.updateQuery(BusinessService.tableName, data, conditions);
+        await executeQuery(query, values);
+    }
+
+   
     async deleteBusiness(businessId) {
         const { query, values } = BusinessService.queries.deleteQuery(BusinessService.tableName, businessId);
         const result = await executeQuery(query, values);

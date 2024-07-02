@@ -5,10 +5,10 @@ import './BusinessList.css';
 
 const BusinessList = ({ businesses }) => {
 
-    const getMinPrice = (prices) => {
-        console.log(prices);
-        return Math.min(...prices.map(price => price.price));
-      };
+    // const getMinPrice = (prices) => {
+    //     console.log(prices);
+    //     return Math.min(...prices.map(price => price.price));
+    //   };
 
     return (
         <div className="business-list">
@@ -17,7 +17,7 @@ const BusinessList = ({ businesses }) => {
                     <div className="business-item">
                         <h2 className="business-name">{business.userName}</h2>
                         <p className="business-location">Location: {business.locationName}</p>
-                        <p className="business-price"> Price: {getMinPrice(business.price)}</p>
+                        {/* <p className="business-price"> Price: {getMinPrice(business.price)}</p> */}
                         <div className="business-rating">
                             <span>Comments: {business.opinionCount}</span>
                             <br />

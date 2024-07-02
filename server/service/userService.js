@@ -6,21 +6,6 @@ export class UserService {
     static queries = new Queries();
     static table = "users";
 
-    async userExists(email) {
-        const columns = "1";
-        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], { email: email, isBusiness: false, isActive: true });
-        const users = await executeQuery(query, values);
-        return users.length > 0;
-    }
-
-    async addUser(params) {
-        console.log("add user")
-        const userQuery = UserService.queries.postQuery(UserService.table, params);
-        const result = await executeQuery(userQuery.query, userQuery.values);
-        console.log(result)
-        return result.insertId;
-    }
-
     async registerUser(params) {
         const { email, userName, password } = params;
         const userExists = await this.userExists(email);
@@ -59,5 +44,26 @@ export class UserService {
         }
         delete users[0].password
         return users[0];
+    }
+    async userExists(email) {
+        const columns = "1";
+        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], { email: email, isBusiness: false, isActive: true });
+        const users = await executeQuery(query, values);
+        return users.length > 0;
+    }
+
+    async addUser(params) {
+        const userQuery = UserService.queries.postQuery(UserService.table, params);
+        const result = await executeQuery(userQuery.query, userQuery.values);
+        return result.insertId;
+    }
+    async updateUser(data, conditions) {
+        const { query, values } = UserService.queries.updateQuery(UserService.table, data, conditions);
+        await executeQuery(query, values);
+    }
+    async getUserByValue(value, columns) {
+        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], value);
+        const result = await executeQuery(query, values);
+        return result;
     }
 }

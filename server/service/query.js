@@ -1,13 +1,12 @@
 export class Queries {
 
     getQuery(table, columns, joinTables = [], params = {}, groupBy = '') {
-        const DB = process.env.DB_NAME || 'project';
-        let query = `SELECT ${columns} FROM ${DB}.${table}`;
+        let query = `SELECT ${columns} FROM ${table}`;
         const values = [];
 
         if (joinTables.length > 0) {
             joinTables.forEach((join) => {
-                query += ` JOIN ${DB}.${join.table} ON ${join.condition}`;
+                query += ` JOIN ${join.table} ON ${join.condition}`;
             });
         }
 
@@ -56,8 +55,8 @@ export class Queries {
         return {query,value};
     }
     updateQuery(table,columns,data) {
-        const keys= Object.keys(columns).map(() => '?').join(', ');
-        const placeholders = Object.keys(data).map(() => '?').join(', ');
+        const keys= Object.keys(columns).map((column) => `${column}=?`).join(', ');
+        const placeholders = Object.keys(data).map((key) => `${key}=?`).join(' AND ');
         const values = [...Object.values(columns),...Object.values(data)];
         const query = `UPDATE ${table} SET ${keys} WHERE ${placeholders}`;
         return { query, values };
