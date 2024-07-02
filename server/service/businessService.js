@@ -44,10 +44,8 @@ export class BusinessService {
     }
 
     async getBusinessById(params) {
-        const columns = "userName, about, email, phone, locationName, price";
+        const columns = " about, email, phone";
         const joinTables = [
-            { table: 'categories', condition: `Businesses.category = categories.idCategory` },
-            { table: 'locations', condition: `Businesses.location = locations.idLocation` },
             { table: 'users', condition: `businesses.userId = users.idUser` }
         ];
         const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params);

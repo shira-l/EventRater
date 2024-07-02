@@ -6,7 +6,7 @@ export class OpinionService {
     static queries = new Queries();
 
     async getOpinionByBusiness(params) {
-        const columns = "rating, description, productionDate";
+        const columns = "rating, description, productionDate, userName";
         const joinTables = [
             { table: 'users', condition: `Users.idUser = Opinions.userId` },
         ];
