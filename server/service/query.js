@@ -55,8 +55,8 @@ export class Queries {
         return {query,value};
     }
     updateQuery(table,columns,data) {
-        const keys= Object.keys(columns).map(() => '?').join(', ');
-        const placeholders = Object.keys(data).map(() => '?').join(', ');
+        const keys= Object.keys(columns).map((column) => `${column}=?`).join(', ');
+        const placeholders = Object.keys(data).map((key) => `${key}=?`).join(' AND ');
         const values = [...Object.values(columns),...Object.values(data)];
         const query = `UPDATE ${table} SET ${keys} WHERE ${placeholders}`;
         return { query, values };

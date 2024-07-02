@@ -12,7 +12,7 @@ export default function NewBusiness() {
     const [otp, setOtp] = useState('')
     const [businessDetails, setBusinessDetails] = useState(null)
     const [open, setOpen] = useState(false);
-    const [formDisplay, setformDisplay] = useState("basic")
+    const [formDisplay, setformDisplay] = useState(false)
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
@@ -32,8 +32,9 @@ export default function NewBusiness() {
                 reset()
             }
             else {
-                if (businessDetails == null) {
+                if (businessDetails== null) {
                     const userId = response.json().id;
+                    console.log("userId",userId)
                     setBusinessDetails({ ...businessDetails, userId: userId });
                 }
                 handleClickOpen(true)
@@ -46,17 +47,19 @@ export default function NewBusiness() {
     }
     const verifyOtp = async () => {
         try {
-            const requestBody = { userId: userId, otp: otp };
+            const requestBody = { userId: businessDetails.userId, otp: otp };
             const response = await APIrequest.postRequest(`/businesses/verify`, requestBody);
             if (!response.ok) {
                 alert("The code you entered is incorrect, please try again")
-                reset()
+                setOtp('')
             }
+            alert("success")
         }
         catch (error) {
             alert(error.message)
         }
     }
+
     const handleClickOpen = () => {
         setOpen(true);
     }
@@ -85,7 +88,7 @@ export default function NewBusiness() {
             <DialogActions>
                 <Button type="submit">to verify</Button>
                 <Button onClick={() => sendOtpCode(userDetails)}>resending</Button>
-                <Button onClick={handleClose}>בטל</Button>
+                <Button onClick={handleClose}>cencel</Button>
             </DialogActions>
         </Dialog> </>)
 }
