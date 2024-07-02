@@ -13,7 +13,7 @@ const BusinessList = ({ businesses }) => {
     return (
         <div className="business-list">
             {businesses.map((business) => (
-                <Link to={`/businesses/${business.idBusiness}`} key={business.idBusiness} className="business-link">
+                <Link to={{pathname: `/businesses/${business.idBusiness}`, state: {business}}} key={business.idBusiness} className="business-link">
                     <div className="business-item">
                         <h2 className="business-name">{business.userName}</h2>
                         <p className="business-location">Location: {business.locationName}</p>
