@@ -10,7 +10,7 @@ import { useState } from "react";
 export default function NewBusiness() {
     const APIrequest = new APIrequests()
     const [otp, setOtp] = useState('')
-    const [businessDetails, setBusinessDetails] = useState(null)
+    const [businessDetails, setBusinessDetails] = useState({})
     const [open, setOpen] = useState(false);
     const [formDisplay, setformDisplay] = useState(false)
 
@@ -20,11 +20,11 @@ export default function NewBusiness() {
             userName: '',
         }
     })
-    const sendOtpCode = async (businessDetails) => {
+    const sendOtpCode = async (businessDetailsInput) => {
         try {
             const requestBody = {
-                "email": businessDetails.email,
-                "userName": businessDetails.userName
+                "email": businessDetailsInput.email,
+                "userName": businessDetailsInput.userName
             }
             const response = await APIrequest.postRequest(`/businesses`, requestBody);
             if (!response.ok) {
@@ -32,10 +32,11 @@ export default function NewBusiness() {
                 reset()
             }
             else {
+                console.log(businessDetails)
                 if (businessDetails== null) {
-                    const userId = response.json().id;
+                    const userId =await response.json().id;
                     console.log("userId",userId)
-                    setBusinessDetails({ ...businessDetails, userId: userId });
+                    setBusinessDetails({ ...businessDetailsInput, userId: userId });
                 }
                 handleClickOpen(true)
             }

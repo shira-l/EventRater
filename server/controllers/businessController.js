@@ -53,6 +53,7 @@ export class BusinessController {
     }
     async verifyOtp(req, res, next) {
         try { 
+            console.log("controller otp")
              await BusinessController.businessService.verifyUserSignUp(req.body);
             res.status(200).json({ status: 200 });
          }
