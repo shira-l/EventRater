@@ -13,13 +13,13 @@ const BusinessList = ({ businesses }) => {
     return (
         <div className="business-list">
             {businesses.map((business) => (
-                <Link to={{pathname: `/businesses/${business.idBusiness}`, state: {business}}} key={business.idBusiness} className="business-link">
+                <Link to={`/businesses/${business.idBusiness}`} state={{ business }} key={business.idBusiness} className="business-link">
                     <div className="business-item">
                         <h2 className="business-name">{business.userName}</h2>
                         <p className="business-location">Location: {business.locationName}</p>
                         {/* <p className="business-price"> Price: {getMinPrice(business.price)}</p> */}
                         <div className="business-rating">
-                            <span>Comments: {business.opinionCount}</span>
+                            <span>Reviews: {business.reviewCount}</span>
                             <br />
                             <span>Average Rating
                                 <ReactStars

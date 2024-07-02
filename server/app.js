@@ -3,7 +3,7 @@ import { businessRouter } from './router/businessRouter.js'
 import {logErrors} from './middleware/logError.js';
 import cors from 'cors';
 import {loginRouter} from './router/authRouter.js';
-import {opinionRouter} from './router/opinionRouter.js';
+import {reviewRouter} from './router/reviewRouter.js';
 import cookieParser from 'cookie-parser';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
@@ -80,7 +80,7 @@ app.use(express.json());
 app.use('/authentication',loginRouter);
 // app.use(allowCrossDomain);
 app.use('/businesses', businessRouter);
-app.use('/opinions', opinionRouter);
+app.use('/reviews', reviewRouter);
 app.use(logErrors);
 
 

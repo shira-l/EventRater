@@ -3,19 +3,23 @@ import { useParams, useLocation } from 'react-router-dom';
 import { Tabs, Tab } from '@mui/material';
 import ButtonAppBar from '../ButtonAppBar.jsx';
 import { APIrequests } from '../../APIrequests.js';
-import Comments from './Comments';
+import './Business.css';
+import Reviews from './Reviews';
 // import Contact from './Contact';
 // import Gallery from './Gallery';
 
 const Business = () => {
     const { idBusiness } = useParams();
     const location = useLocation();
-    const initialBusiness = location.state?.business || {};
+    console.log("location status" ,location.state);
+
+    const businessFromList = location.state?.business || {};
     const [tabValue, setTabValue] = useState(0);
-    const [business, setBusiness] = useState(initialBusiness);
-    const [comments, setComments] = useState([]);
-    const [gallery, setGallery] = useState([]);
-    const [contact, setContact] = useState({});
+    const [business, setBusiness] = useState();
+    const [reviews, setReviews] = useState([]);
+    // const [gallery, setGallery] = useState([]);
+    // const [contact, setContact] = useState({});
+    const [loading, setLoading] = useState(true);
     const APIrequest = new APIrequests();
 
     const handleChange = (event, newValue) => {
@@ -23,29 +27,49 @@ const Business = () => {
     };
 
     useEffect(() => {
-        const fetchAdditionalData = async () => {
+        const getBusiness = async () => {
             try {
-                const response = await APIrequest.getRequest(`/businesses/${idBusiness}`);
-                const data = await response.json();
-                if (response.status === 200) {
-                    setBusiness(data.business);
-                    setComments(data.comments);
-                    setGallery(data.gallery);
-                    setContact(data.contact);
+                const url = `/businesses/${idBusiness}`;
+                const response = await APIrequest.getRequest(url);
+                const json = await response.json();
+                if (json.status !== 200) {
+                    alert(json.error);
                 } else {
-                    console.error('Error fetching business data:', data.error);
+                    const newBusinesses = {...businessFromList, ...json.data[0]};
+                    console.log(newBusinesses);
+                    setBusiness(newBusinesses);
                 }
+        
             } catch (error) {
                 console.error('Error fetching business data:', error);
+            } finally {
+                setLoading(false);
             }
-            console.log(businessData);
-            console.log(businessData)
         };
 
-        if (!initialBusiness.idBusiness) {
-            fetchAdditionalData();
-        }
-    }, [idBusiness, initialBusiness]);
+        const getReviews = async () => {
+            try {
+                const url = `/reviews?businessId=${idBusiness}`;
+                const response = await APIrequest.getRequest(url);
+                const json = await response.json();
+                if (json.status !== 200) {
+                    alert(json.error);
+                } else {
+                    setReviews(json.data);
+                }
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        };
+    
+        getBusiness();
+        getReviews();
+    }, []);
+    
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
@@ -54,13 +78,13 @@ const Business = () => {
                 <h1>{business.userName}</h1>
                 <p>About: {business.about}</p>
                 <Tabs value={tabValue} onChange={handleChange} aria-label="business detail tabs">
-                    <Tab label="Comments" />
-                    <Tab label="Contact" />
-                    <Tab label="Gallery" />
+                    <Tab label="Reviews" />
+                    {/* <Tab label="Contact" />
+                    <Tab label="Gallery" /> */}
                 </Tabs>
-                {tabValue === 0 && <Comments comments={comments} />}
-                {tabValue === 1 && <Contact contact={contact} />}
-                {tabValue === 2 && <Gallery gallery={gallery} />}
+                {tabValue === 0 && <Reviews reviews={reviews} />}
+                {/* {tabValue === 1 && <Contact contact={contact} />}
+                {tabValue === 2 && <Gallery gallery={gallery} />} */}
             </div>
         </>
     );

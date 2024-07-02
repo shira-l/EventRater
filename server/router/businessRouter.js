@@ -7,8 +7,9 @@ const businessController = new BusinessController();
 console.log("business router")
 businessRouter.get("/:idBusiness",businessController.getBusinessById);
 businessRouter.get("/",businessController.getBusinessByCategory);
-businessRouter.post("/",businessController.addBusiness)
-businessRouter.post("/verify",verifyToken,businessController.verifyOtp)
+businessRouter.post("/",businessController.addBusiness);
+businessRouter.post("/verify",verifyToken,businessController.verifyOtp);
+
 export {
     businessRouter
 }

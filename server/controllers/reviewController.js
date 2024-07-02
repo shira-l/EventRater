@@ -1,12 +1,12 @@
 
-import { opinionSchema } from '../validations/opinionValidations.js';
-import { OpinionService } from '../service/OpinionService.js';
-export class OpinionController {
-    static opinionService = new OpinionService();
+import { reviewSchema } from '../validations/reviewValidations.js';
+import { ReviewService } from '../service/reviewService.js';
+export class ReviewController {
+    static reviewService = new ReviewService();
 
-    async getOpinionsByBusiness(req, res, next){
+    async getReviewsByBusiness(req, res, next){
         try {
-            const resultItem = await OpinionController.opinionService.getOpinionByBusiness(req.query);
+            const resultItem = await ReviewController.reviewService.getReviewByBusiness(req.query);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -17,9 +17,9 @@ export class OpinionController {
         }
     }
 
-    async getOpinionById(req, res, next){
+    async getReviewById(req, res, next){
         try {
-            const resultItem = await OpinionController.opinionService.getOpinionById(req.params);
+            const resultItem = await ReviewController.reviewService.getReviewById(req.params);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -30,13 +30,13 @@ export class OpinionController {
         }
     }
 
-    async addOpinion(req, res, next) {
+    async addReview(req, res, next) {
         try {
-            const { error } = opinionSchema.validate(req.body);
+            const { error } = reviewSchema.validate(req.body);
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
             }
-            const resultItem = await OpinionController.opinionService.addOpinion(req.body);
+            const resultItem = await ReviewController.reviewService.addReview(req.body);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -46,9 +46,9 @@ export class OpinionController {
             next(err);
         }
     }
-   async deleteOpinion(req, res, next){
+   async deleteReview(req, res, next){
     try {
-     await OpinionController.opinionService.deleteOpinion(req.params);
+     await ReviewController.reviewService.deleteReview(req.params);
     res.status(200).json({ status: 200 });
    }
    catch (ex) {
