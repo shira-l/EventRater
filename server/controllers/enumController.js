@@ -1,11 +1,11 @@
 
-import { ReviewService } from '../service/reviewService.js';
+import {EnumService} from '../service/enumService.js'
 export class EnumController {
-    static reviewService = new ReviewService();
+    static enumService = new EnumService();
 
     async getEnum(req, res, next){
         try {
-            const resultItem = await ReviewController.reviewService.getReviewByBusiness(req.params);
+            const resultItem = await EnumController.enumService.getEnumValues(req.params);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {

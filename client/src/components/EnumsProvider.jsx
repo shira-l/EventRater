@@ -6,12 +6,12 @@ const EnumsProvider = ({ children }) => {
   const APIrequest = new APIrequests()
   const getEnum = async (myEnum) => {
     try {
-      const response = await APIrequest.getRequest(`enums/${myEnum}`)
+      const response = await APIrequest.getRequest(`/enums/${myEnum}`)
       const json = await response.json()
       if (!response.ok)
         console.error(json.message)
       else
-        return json.data
+        return await json.data
     }
     catch (error) {
       console.error(error.message)

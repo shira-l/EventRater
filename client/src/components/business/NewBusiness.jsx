@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
-import { BusinessForm } from "./BusinessForm";
+import  BusinessForm  from "./BusinessForm";
 export default function NewBusiness() {
     const APIrequest = new APIrequests()
     const [otp, setOtp] = useState('')

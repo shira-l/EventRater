@@ -169,7 +169,6 @@ export default function Login(props) {
       </Button>
       <Dialog
         open={open}
-        open={open}
         onClose={handleClose}
         PaperProps={{
           component: 'form',
@@ -192,5 +191,3 @@ export default function Login(props) {
     </React.Fragment>
   );
 }
-
-export default Login;

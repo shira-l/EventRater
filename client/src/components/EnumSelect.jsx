@@ -8,21 +8,22 @@ import Select from '@mui/material/Select';
 export default function EnumSelect(props){
 
 
-    const{currentEnum,enumValues,handleChange}=props;
+    const{value,currentEnum,enumValues,handleChange}=props;
+    console.log(enumValues)
 return(<>
  <FormControl required sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="demo-simple-select-required-label">{currentEnum}</InputLabel>
         <Select
           labelId="demo-simple-select-required-label"
           id="demo-simple-select-required"
-          value={age}
+          value={value}
           label={`${currentEnum} *`}
           onChange={handleChange}
         >
           <MenuItem value="">
             <em>{currentEnum}</em>
           </MenuItem>
-          {enumValues.map(element=><MenuItem key={element.id}value={element.id}>{element.name}</MenuItem>)}
+          {enumValues.map((el,i)=><MenuItem key={i}value={Object.values(el)[0]}>{Object.values(obj)[1]}</MenuItem>)}
         </Select>
         <FormHelperText>Required</FormHelperText>
       </FormControl>
