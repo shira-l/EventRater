@@ -43,7 +43,7 @@ export default function Businesses() {
         if (json.status !== 200) {
             alert(json.error);
         } else {
-            const newBusinesses = seeMore.current ? [...businesses, ...json.data] : json.data;
+            const newBusinesses = [...businesses, ...json.data];
             setBusinesses(newBusinesses);
             setDisplaySeeMore(json.data.length >= range);
             seeMore.current = false;

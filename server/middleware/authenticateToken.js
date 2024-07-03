@@ -7,7 +7,7 @@ export const verifyToken = (req, res, next) => {
 
     try {
             const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || 'mySuperSecretKey123');
-            req.userId = verified.userId;
+            req.body.userId = verified.id;
         return next();
     } catch (err) {
         return res.status(401).send("Invalid Token");

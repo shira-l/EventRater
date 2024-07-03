@@ -1,66 +1,12 @@
-// import React, { useState } from 'react';
-// import ReactStars from 'react-rating-stars-component';
-// import { APIrequests } from '../../APIrequests.js';
-
-
-// const AddReview = ({ businessId }) => {
-//   const [reviewText, setReviewText] = useState('');
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
-//       if (!token) {
-//         alert('You need to be logged in to add a review.');
-//         history.push('/login');
-//         return;
-//       }
-
-//     //   const requestBody = {
-//     //     "rating": parse,
-//     //     "description": parse,
-//     //     "userId": businessDetails.email,
-//     //     "businessId": businessDetails.userName
-//     //     }
-//     //     const response = await APIrequest.postRequest(`/reviews`, requestBody);
-
-
-//       await axios.post('/api/reviews', { reviewText, businessId }, config);
-//       alert('Review added successfully');
-//       setReviewText('');
-//     } catch (error) {
-//       if (error.response && error.response.status === 401) {
-//         alert('You need to be logged in to add a review.');
-//         history.push('/login');
-//       } else {
-//         alert('Error adding review');
-//       }
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <textarea
-//         value={reviewText}
-//         onChange={(e) => setReviewText(e.target.value)}
-//         placeholder="Add your review"
-//         required
-//       />
-//       <button type="submit">Submit</button>
-//     </form>
-//   );
-// };
-
-// export default AddReview;
-
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import ReactStars from 'react-rating-stars-component';
 import { APIrequests } from '../../APIrequests.js';
 import { UserContext } from '../../UserProvider';
+import { useParams } from 'react-router-dom';
 
 
-const AddReview = ({ businessId }) => {
-    console.log(businessId);
+const AddReview = ({closeAddReview, addNewReview}) => {
+    const { idBusiness } = useParams();
     const { user } = useContext(UserContext);
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(0);
@@ -75,19 +21,24 @@ const AddReview = ({ businessId }) => {
 
         try {
             const APIrequest = new APIrequests();
-            const reviewData = {
+            const date = convertToMySQLDateTime(new Date().toDateString());
+            const newReview = {
                 "rating": rating,
                 "description": reviewText,
-                "userId": user.id,
-                "businessId": businessId
+                "userId": user.idUser,
+                "businessId": idBusiness,
+                "productionDate": date
             }
-            const response = await APIrequest.postRequest(`/reviews`, reviewData);
-            if(response.statusCode === 200) {
+            // const response = await APIrequest.postRequest(`/reviews&sort=productionDate`, reviewData);
+            const response = await APIrequest.postRequest(`/reviews`, newReview);
+            if(response.status === 200) {
                 alert('Your review was added successfully');
+                newReview.userName = new Date().toISOString();
+                addNewReview(newReview);
+                closeAddReview();
             }
             setReviewText('');
             setRating(0);
-            setShowAddReview(false); 
         } catch (error) {
             alert('Error adding review');
         }
@@ -116,3 +67,16 @@ const AddReview = ({ businessId }) => {
 };
 
 export default AddReview;
+
+const convertToMySQLDateTime = (isoDate) => {
+    const date = new Date(isoDate);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const dd = String(date.getDate()).padStart(2, '0');
+    const hh = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+    const ss = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+};
+
