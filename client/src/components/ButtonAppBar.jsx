@@ -49,11 +49,9 @@ export default function ButtonAppBar(props) {
         <AppBar position="fixed" >
             <Toolbar>
                 <Box sx={{ flexGrow: 10 }}>
-                    {user == null ? <><Button variant="outlined" color="inherit" onClick={() => setOpenLogin(true)} sx={{ flexGrow: 10 }}>
-                        Login
-                    </Button>
-                        {openLogin && <Login setOpen={setOpenLogin}/>}
-                    </> :
+                    {user == null ?
+                       <Login />
+                        :
                         <><Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

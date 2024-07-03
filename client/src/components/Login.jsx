@@ -12,9 +12,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UserRegistrationForm from './UserRegistrationForm.jsx'
 import { FormInputs } from './formInputs.jsx';
-import { UserContext } from '../UserProvider.jsx'
+import { UserContext } from '../UserProvider.jsx';
 
-;
+
 export default function Login(props) {
   const APIrequest = new APIrequests()
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -23,10 +23,12 @@ export default function Login(props) {
       password: '',
     }
   })
-  const{setOpen}=props;
+ const [open,setOpen]=useState(false)
   const [openRegister, setOpenRegister] = useState(false);
   const { setCurrentUser } = useContext(UserContext);
-  
+  const handleOpen = () => {
+    setOpen(true);
+  }
   const handleClose = () => {
     setOpen(false);
   }
@@ -53,7 +55,7 @@ export default function Login(props) {
       else {
         const data = await response.json();
         console.log(data)
-        const newUser = { ...data.user, email:userDetails.email };
+        const newUser = { ...data.user, email: userDetails.email };
         localStorage.setItem("currentUser", JSON.stringify(newUser));
         setCurrentUser(newUser);
       }
@@ -68,9 +70,12 @@ export default function Login(props) {
 
 
   return (
-    <React.Fragment >  
+    <React.Fragment >
+      <Button variant="outlined" color="inherit" onClick={handleOpen}>
+        Login
+      </Button>
       <Dialog
-        open={true}
+        open={open}
         onClose={handleClose}
         PaperProps={{
           component: 'form',

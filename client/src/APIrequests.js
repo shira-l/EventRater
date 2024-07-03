@@ -5,10 +5,10 @@ export class APIrequests {
             const response = await fetch('http://localhost:8083' + url, {
                 method: 'POST',
                 credentials: 'include',
+                body: JSON.stringify(body),
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(body)
             });
             return response;
         } catch (error) {

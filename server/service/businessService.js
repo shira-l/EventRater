@@ -92,7 +92,8 @@ export class BusinessService {
         if (!userOtp.length) {
             throw new Error('business is not exists')
         }
-       return await bcrypt.compare(otp,userOtp[0].otp)
+        let compare=await bcrypt.compare(otp,userOtp[0].otp);
+       return compare;
     };
 
 

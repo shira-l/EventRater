@@ -56,16 +56,16 @@ export default function UserRegistrationForm(props) {
                     onSubmit: handleSubmit(registerUser),
                 }}
             >
-                <DialogTitle>הירשם</DialogTitle>
+                <DialogTitle>Register</DialogTitle>
                 <DialogContent>
-                    <DialogContentText> ברוך הבא! אנא היכנס כדי להמשיך</DialogContentText>
+                    <DialogContentText>Welcome! Please sign up to continue</DialogContentText>
                     <FormInputs.userNameInput register={register} errors={errors} />
                     <FormInputs.emailInput register={register} errors={errors} />
                     <FormInputs.passwordInput register={register} errors={errors} />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>בטל</Button>
-                    <Button type="submit">שמור</Button>
+                    <Button onClick={handleClose}>cencel</Button>
+                    <Button type="submit">save</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

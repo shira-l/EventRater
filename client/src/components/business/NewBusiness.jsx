@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
+import { BusinessForm } from "./BusinessForm";
 export default function NewBusiness() {
     const APIrequest = new APIrequests()
     const [otp, setOtp] = useState('')
@@ -22,7 +23,6 @@ export default function NewBusiness() {
     })
     const sendOtpCode = async (businessDetailsInput) => {
         try {
-            console.log("business1",businessDetails)
             const requestBody = {
                 "email": businessDetailsInput.email,
                 "userName": businessDetailsInput.userName
@@ -59,8 +59,7 @@ export default function NewBusiness() {
             alert("success")
         }
         catch (error) {
-            console.log(error)
-            alert(error.message)
+            alert(error.stack)
         }
     }
 
@@ -72,7 +71,7 @@ export default function NewBusiness() {
         setOpen(false);
     }
     return (<>
-    <form onSubmit={handleSubmit(sendOtpCode)}>
+   {formDisplay?<><form onSubmit={handleSubmit(sendOtpCode)}>
         <FormInputs.userNameInput register={register} errors={errors} />
         <FormInputs.emailInput register={register} errors={errors} />
         <Button type="submit">שלח</Button>
@@ -94,5 +93,6 @@ export default function NewBusiness() {
                 <Button onClick={() => sendOtpCode(userDetails)}>resending</Button>
                 <Button onClick={handleClose}>cencel</Button>
             </DialogActions>
-        </Dialog> </>)
+        </Dialog></>:
+        <BusinessForm/>  }</>)
 }
