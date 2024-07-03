@@ -82,7 +82,8 @@ const Business = () => {
                     {/* <Tab label="Contact" />
                     <Tab label="Gallery" /> */}
                 </Tabs>
-                {tabValue === 0 && <Reviews reviews={reviews} businessId={idBusiness} />}
+                {tabValue === 0 && <Reviews reviews={reviews} />}
+                {/* {tabValue === 0 && <Reviews reviews={reviews} businessId={idBusiness} />} */}
                 {/* {tabValue === 1 && <Contact contact={contact} />}
                 {tabValue === 2 && <Gallery gallery={gallery} />} */}
             </div>

@@ -1,4 +1,4 @@
-import { FormInputs } from "../formInputs"
+import { FormInputs } from "../FormInputs"
 import { useForm } from "react-hook-form";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -56,7 +56,7 @@ export default function NewBusiness() {
                 setOtp('')
             }
             else
-            alert("success")
+            {alert("success")}
         }
         catch (error) {
             alert(error.stack)

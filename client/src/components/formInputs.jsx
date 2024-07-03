@@ -60,6 +60,7 @@ export class FormInputs {
     }
    static otpInput(props) {
         const {otp, setOtp} = props;
+
         return (
             <OtpInput
                 value={otp}
