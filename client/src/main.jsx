@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import UserProvider from './UserProvider.jsx'
-import EnumsProvider from './components/EnumsProvider.jsx'
+import { PrimeReactProvider } from 'primereact/api';
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <React.StrictMode>
-    <UserProvider>
-      <EnumsProvider> <App /></EnumsProvider>
+    <PrimeReactProvider>
+      <UserProvider>
+      <App />
     </UserProvider>
+    </PrimeReactProvider>
+
   </React.StrictMode>,
 )
