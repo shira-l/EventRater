@@ -2,6 +2,7 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import React, { useState } from 'react';
 import OtpInput from 'react-otp-input';
+import { InputMask } from "primereact/inputmask";
 import { border } from '@mui/system';
 export class FormInputs {
     static emailInput(props) {
@@ -59,7 +60,6 @@ export class FormInputs {
     }
    static otpInput(props) {
         const {otp, setOtp} = props;
-
         return (
             <OtpInput
                 value={otp}
@@ -72,4 +72,15 @@ export class FormInputs {
             />
         );
     }
+    static phoneInput(props){
+        const { register } = props
+        return (
+            <InputMask placeholder="Enter phone number" id="phone"
+            { ...register("phone",{
+                require:"please enter your phone number"
+            })} mask="999-999-9999" />
+    )
+}
+        
+        
 }

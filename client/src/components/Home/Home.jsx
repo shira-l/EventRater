@@ -5,16 +5,37 @@ import orchestraImage from '../../images/WhatsApp-Image-2018-06-19-at-12.47.13.j
 import photographerImage from '../../images/photographer.png';
 import flowersImage from '../../images/flowers.png';
 import ButtonAppBar from '../ButtonAppBar.jsx'
+import { APIrequests } from '../../APIrequests.js';
 import './Home.css'
 
 function Home() {
-  //const [isLoggedIn, setIsLoggedIn] = useState(true);
+const APIrequest=new APIrequests()
   const navigate = useNavigate();
-
   useEffect(() => {
-    //setIsLoggedIn(auth.isAuthenticated());
-  }, []);
+    if (localStorage.getItem("locations"))
+      saveInLocalStorage("locations")
+    if (localStorage.getItem("categories"))
+      saveInLocalStorage("categories")
+  }, [])
+  const saveInLocalStorage = async (myEnum) => {
+    const enunData = await getEnum(myEnum);
+    localStorage.setItem(myEnum, JSON.stringify(enunData));
+  }
 
+
+  const getEnum = async (myEnum) => {
+    try {
+      const response = await APIrequest.getRequest(`/enums/${myEnum}`)
+      const json = await response.json()
+      if (!response.ok)
+        console.error(json.message)
+      else
+        return json.data
+    }
+    catch (error) {
+      console.error(error.message)
+    }
+  }
  
   return (<>
   
