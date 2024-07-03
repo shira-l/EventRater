@@ -5,14 +5,12 @@ import ButtonAppBar from '../ButtonAppBar.jsx';
 import { APIrequests } from '../../APIrequests.js';
 import './Business.css';
 import Reviews from './Reviews';
-// import Contact from './Contact';
+import Contact from './Contact';
 // import Gallery from './Gallery';
 
 const Business = () => {
     const { idBusiness } = useParams();
     const location = useLocation();
-    console.log("location status" ,location.state);
-
     const businessFromList = location.state?.business || {};
     const [tabValue, setTabValue] = useState(0);
     const [business, setBusiness] = useState();
@@ -22,6 +20,7 @@ const Business = () => {
     const APIrequest = new APIrequests();
 
     const handleChange = (event, newValue) => {
+        console.log("business",business);
         setTabValue(newValue);
     };
 
@@ -62,13 +61,12 @@ const Business = () => {
                 <p>About: {business.about}</p>
                 <Tabs value={tabValue} onChange={handleChange} aria-label="business detail tabs">
                     <Tab label="Reviews" />
-                    {/* <Tab label="Contact" />
-                    <Tab label="Gallery" /> */}
+                    <Tab label="Contact" />
+                    {/* <Tab label="Gallery" /> */}
                 </Tabs>
-                {tabValue === 0 && <Reviews/>}
-                {/* {tabValue === 0 && <Reviews reviews={reviews} businessId={idBusiness} />} */}
-                {/* {tabValue === 1 && <Contact contact={contact} />}
-                {tabValue === 2 && <Gallery gallery={gallery} />} */}
+                {tabValue === 0 && <Reviews key="reviews" />}
+                {tabValue === 1 && <Contact key="contact" business={business} />}
+                {/* {tabValue === 2 && <Gallery gallery={gallery} />} */}
             </div>
         </>
     );

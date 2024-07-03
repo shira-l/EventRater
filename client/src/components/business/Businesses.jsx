@@ -15,44 +15,51 @@ export default function Businesses() {
     const APIrequest = new APIrequests();
     const [displaySeeMore, setDisplaySeeMore] = useState(false);
     const seeMore = useRef(false);
-    const range = 15;
+    const range = 7;
     const options = [
         { value: 'rating', label: 'דירוג' },
         { value: 'price', label: 'מחיר' },
         { value: 'Alphabetical', label: 'סדר אלפביתי' }
     ];
 
+    console.log('type: ' + typeof businesses)
+
     useEffect(() => {
-        getBusinesses();
+        getBusinesses(true);
+        console.log('type: ' + typeof businesses)
     }, [category, sortBy, searchQuery]);
 
-    const getBusinesses = async () => {
+    useEffect(() => {
+        setDisplaySeeMore(businesses.length % range === 0 && businesses.length !== 0)
+    }, [businesses]);
+
+
+    const getBusinesses = async (reset) => {
         let start = seeMore.current ? businesses.length : 0;
         let url = `/businesses?category=${category}&start=${start}&range=${range}`;
-
         if (sortBy) {
             url += `&sort=${sortBy}`;
         }
-
         if (searchQuery) {
             url += `&search=${searchQuery}`;
         }
-
         const response = await APIrequest.getRequest(url);
         const json = await response.json();
-        if (json.status !== 200) {
-            alert(json.error);
+        if (json.status === 200) {
+            console.log('type: ' + typeof businesses)
+            if(reset){
+                setBusinesses( json.data );
+            } else {
+                setBusinesses( businesses => [...businesses, ...json.data] );
+            }
         } else {
-            const newBusinesses = [...businesses, ...json.data];
-            setBusinesses(newBusinesses);
-            setDisplaySeeMore(json.data.length >= range);
-            seeMore.current = false;
+            alert(json.error);
         }
     };
 
     const handleSeeMore = () => {
         seeMore.current = true;
-        getBusinesses();
+        getBusinesses(false);
     };
 
     const handleSortChange = (selectedOption) => {
@@ -65,7 +72,6 @@ export default function Businesses() {
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        getBusinesses();
     };
 
     return (

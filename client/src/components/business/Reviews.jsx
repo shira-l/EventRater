@@ -15,9 +15,10 @@ const Reviews = () => {
     const [reviews, setReviews] = useState([]);
     const [displaySeeMore, setDisplaySeeMore] = useState(false);
     const seeMore = useRef(false);
-    const range = 15;
+    const range = 7;
     const { idBusiness } = useParams();
     const APIrequest = new APIrequests();
+    const sort = "productionDate DESC";
     
     useEffect(() => {
         if (reviews.length === 0) {
@@ -25,17 +26,20 @@ const Reviews = () => {
         }
     }, []);
 
+    useEffect(() => {
+        setDisplaySeeMore(reviews.length % range === 0 && reviews.length !== 0)
+    }, [reviews]);
+
     const getReviews = async () => {
         try {
-            const sort = "productionDate DESC";
-            let start = seeMore.current ? businesses.length : 0;
-            const url = `/reviews?businessId=${idBusiness}&start=${start}&range=${range}&sort=${sort}`;
+            const start = seeMore.current ? reviews.length : 0;
+            const url = `/reviews?businessId=${idBusiness}&sort=${sort}&start=${start}&range=${range}`;
             const response = await APIrequest.getRequest(url);
             const json = await response.json();
             if (json.status !== 200) {
                 alert(json.error);
             } else {
-                setReviews(json.data);
+                setReviews(reviews => [...reviews, ...json.data]);
                 setDisplaySeeMore(json.data.length >= range);
                 seeMore.current = false;    
             }

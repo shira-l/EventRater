@@ -21,7 +21,7 @@ const AddReview = ({closeAddReview, addNewReview}) => {
 
         try {
             const APIrequest = new APIrequests();
-            const date = convertToMySQLDateTime(new Date().toDateString());
+            const date = convertToMySQLDateTime(new Date().toISOString());
             const newReview = {
                 "rating": rating,
                 "description": reviewText,
@@ -29,11 +29,11 @@ const AddReview = ({closeAddReview, addNewReview}) => {
                 "businessId": idBusiness,
                 "productionDate": date
             }
-            // const response = await APIrequest.postRequest(`/reviews&sort=productionDate`, reviewData);
             const response = await APIrequest.postRequest(`/reviews`, newReview);
             if(response.status === 200) {
                 alert('Your review was added successfully');
-                newReview.userName = new Date().toISOString();
+                const user = JSON.parse(localStorage.getItem('currentUser'));
+                newReview.userName = user.userName;
                 addNewReview(newReview);
                 closeAddReview();
             }
@@ -66,8 +66,6 @@ const AddReview = ({closeAddReview, addNewReview}) => {
     );
 };
 
-export default AddReview;
-
 const convertToMySQLDateTime = (isoDate) => {
     const date = new Date(isoDate);
     const yyyy = date.getFullYear();
@@ -76,7 +74,9 @@ const convertToMySQLDateTime = (isoDate) => {
     const hh = String(date.getHours()).padStart(2, '0');
     const min = String(date.getMinutes()).padStart(2, '0');
     const ss = String(date.getSeconds()).padStart(2, '0');
-    
+
     return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
 };
 
+
+export default AddReview;

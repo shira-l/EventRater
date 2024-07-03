@@ -2,7 +2,7 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import React, { useState } from 'react';
 import OtpInput from 'react-otp-input';
-import { InputMask } from "primereact/inputmask";
+import {InputMask} from 'primereact/inputmask';
 import { border } from '@mui/system';
 export class FormInputs {
     static emailInput(props) {

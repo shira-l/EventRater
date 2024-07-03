@@ -4,6 +4,7 @@ import ReactStars from 'react-rating-stars-component';
 import './BusinessList.css';
 
 const BusinessList = ({ businesses }) => {
+    console.log('BusinessList',businesses);
 
     // const getMinPrice = (prices) => {
     //     console.log(prices);

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import EnumSelect from "../EnumSelect";
-import { FormInputs } from "../formInputs";
+import { FormInputs } from "../FormInputs";
 import CryptoJS from 'crypto-js';
 import { APIrequests } from '../../APIrequests';
 import { useForm } from "react-hook-form";
