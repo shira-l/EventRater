@@ -8,7 +8,7 @@ console.log("business router")
 businessRouter.get("/:idBusiness",businessController.getBusinessById);
 businessRouter.get("/",businessController.getBusinessByCategory);
 businessRouter.post("/",businessController.addBusiness);
-businessRouter.post("/verify",verifyToken,businessController.verifyOtp);
+businessRouter.post("/verify",businessController.verifyOtp);
 
 export {
     businessRouter

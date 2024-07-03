@@ -57,7 +57,7 @@ import React, { useState, useContext } from 'react';
 import ReactStars from 'react-rating-stars-component';
 import { APIrequests } from '../../APIrequests.js';
 import { UserContext } from '../../UserProvider';
-// import {Login} from '../../Login.js';
+
 
 const AddReview = ({ businessId }) => {
     console.log(businessId);

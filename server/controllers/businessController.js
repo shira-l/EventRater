@@ -3,6 +3,7 @@ import { basicBusinessSchema } from '../validations/BusinessValidation.js'
 import { createToken } from '../middleware/authenticateToken.js';
 // import { date } from 'joi';
 
+
 export class BusinessController {
     static businessService = new BusinessService();
     async getBusinessByCategory(req, res, next) {
@@ -54,11 +55,9 @@ export class BusinessController {
     }
     async verifyOtp(req, res, next) {
         try {
-            let isvalide=await BusinessController.businessService.verifyBusinessSignUp(req.body);
-            console.log(isvalide)
-            return res.status(200).json({ status: isvalide })
-           // res.status(401).json({ status: 401,message:"The code entered is incorrect, please try again" });
-         
+            await BusinessController.businessService.verifyBusinessSignUp(req.body);
+            return res.status(200).json({ status: 200 }) 
+           // return res.status(401).json({ status: 401, message: "The code entered is incorrect, please try again" });
         }
         catch (ex) {
             const err = {};
