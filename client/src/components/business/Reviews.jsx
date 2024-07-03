@@ -2,32 +2,39 @@ import React, { useState, useContext  } from 'react';
 import AddReview from './AddReview.jsx';
 import ReactStars from 'react-rating-stars-component';
 import { UserContext } from '../../UserProvider.jsx';
+import Login from '../Login';
 
 
 
-const Reviews = ({ reviews, businessId }) => {
+const Reviews = ({ reviews }) => {
     const { user } = useContext(UserContext);
     const [showAddReview, setShowAddReview] = useState(false);
+    const [openLogin, setOpenLogin] = useState(false);
 
-    // const handleAddReview = () => {
-    //     if (!user) {
-    //         alert('You need to be logged in to add a review.');
-    //     } else {
-    //         setShowAddReview(prevState => !prevState);
-    //     }
-    // };
+    const handleAddReview = () => {
+        if (!user) {
+            setOpenLogin(true);
+        } else {
+            setShowAddReview(prevState => !prevState);
+        }
+    };
 
     const closeAddReview = () => {
         setShowAddReview(false);
     };
 
+    const handleCloseLogin = () => {
+        setOpenLogin(false);
+    };
+
+
     return (
         <div className="reviews-container">
-            <button onClick={setShowAddReview(!showAddReview)} className="add-review-button">
+            <button onClick={()=>handleAddReview()} className="add-review-button">
                 Add Review
             </button>
-            {showAddReview && <AddReview businessId={businessId} closeAddReview={closeAddReview}/>}
-            {/* {showAddReview && {user == null ? <Box sx={{ flexGrow: 10}}><Login /></Box> : <AddReview businessId={businessId} closeAddReview={closeAddReview}/>}} */}
+            {showAddReview ? <AddReview businessId={4} closeAddReview={closeAddReview}/> : 
+            <Login open={openLogin} onClose={handleCloseLogin} /> }
             {reviews.map(review => (
                 <div key={review.idOpinion} className="review-item">
                     <div className="review-header">

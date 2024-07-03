@@ -57,8 +57,8 @@ export class FormInputs {
             })} />
             <InputLabel>{errors.userName?.message}</InputLabel></>
     }
-   static otpInput(props) {
-        const {otp, setOtp} = props;
+    static otpInput(props) {
+        const { otp, setOtp } = props;
 
         return (
             <OtpInput

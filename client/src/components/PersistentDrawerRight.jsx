@@ -40,7 +40,7 @@ export default function PersistentDrawerRight() {
     };
     const navigateTo = (target) => {
         switch (target) {
-            case "New business" :
+            case "New business":
                 navigate('/businesses/new-business')
                 break;
 
@@ -79,7 +79,7 @@ export default function PersistentDrawerRight() {
                 <List>
                     {['New business', 'לעסק שלי'].map((text, index) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton onClick={()=>navigateTo(text) }>
+                            <ListItemButton onClick={() => navigateTo(text)}>
                                 <ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                 </ListItemIcon>

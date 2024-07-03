@@ -77,7 +77,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
-// app.use('/authentication',loginRouter);
+app.use('/authentication',loginRouter);
 // app.use(allowCrossDomain);
 app.use('/businesses', businessRouter);
 app.use('/reviews', reviewRouter);
