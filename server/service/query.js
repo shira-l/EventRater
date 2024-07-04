@@ -50,9 +50,9 @@ export class Queries {
     }
     deleteQuery(table,idObject) {
         const key=Object.keys(idObject)
-        const value=Object.values(idObject)
+        const values=Object.values(idObject)
         const query = `UPDATE ${table} SET isActive =0 WHERE ${key} = ? AND isActive =1 `;
-        return {query,value};
+        return {query,values};
     }
     updateQuery(table,columns,data) {
         const keys= Object.keys(columns).map((column) => `${column}=?`).join(', ');

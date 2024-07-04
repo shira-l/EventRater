@@ -35,14 +35,14 @@ const Prices = () => {
 
     return (
         <div className="prices-container">
-            {prices.map(price => (
-                <div key={price.id} className="price-item">
-                    <h3>{price.itemDescription}</h3>
-                    <p>Price: ${price.itemPrice.toFixed(2)}</p>
-                    <hr />
-                </div>
-            ))}
+        {prices.map(price => (
+                <div key={price.id}>
+                <span>{price.itemDescription + "        "}</span>
+                <span>${price.itemPrice}</span>
         </div>
+        ))}
+    </div>
+
     );
 };
 

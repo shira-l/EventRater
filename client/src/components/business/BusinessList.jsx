@@ -4,12 +4,7 @@ import ReactStars from 'react-rating-stars-component';
 import './BusinessList.css';
 
 const BusinessList = ({ businesses }) => {
-    console.log('BusinessList',businesses);
-
-    // const getMinPrice = (prices) => {
-    //     console.log(prices);
-    //     return Math.min(...prices.map(price => price.price));
-    //   };
+    console.log('BusinessList', businesses);
 
     return (
         <div className="business-list">
@@ -18,20 +13,20 @@ const BusinessList = ({ businesses }) => {
                     <div className="business-item">
                         <h2 className="business-name">{business.userName}</h2>
                         <p className="business-location">Location: {business.locationName}</p>
-                        {/* <p className="business-price"> Price: {getMinPrice(business.price)}</p> */}
+                        <div className="business-prices">
+                            <p>Price: ${business.minPrice} - ${business.maxPrice}</p>
+                        </div>
                         <div className="business-rating">
                             <span>Reviews: {business.reviewCount}</span>
                             <br />
-                            <span>Average Rating
-                                <ReactStars
-                                    count={5}
-                                    value={business.averageRating}
-                                    size={24}
-                                    isHalf={true}
-                                    edit={false}
-                                    activeColor="#ffd700"
-                                />
-                            </span>
+                            <ReactStars
+                                count={5}
+                                value={business.averageRating}
+                                size={24}
+                                isHalf={true}
+                                edit={false}
+                                activeColor="#ffd700"
+                            />
                         </div>
                     </div>
                 </Link>

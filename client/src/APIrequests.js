@@ -30,4 +30,20 @@ export class APIrequests {
             throw error;
         };
     }
+
+    async deleteRequest(url) {
+        try {
+            const response = await fetch('http://localhost:8083' + url, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
