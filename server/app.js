@@ -5,6 +5,7 @@ import cors from 'cors';
 import {authRouter} from './router/authRouter.js'
 import {reviewRouter} from './router/reviewRouter.js';
 import { enumRouter } from './router/enumRouter.js';
+import { priceRouter } from './router/priceRouter.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
@@ -21,6 +22,7 @@ app.use('/enums',enumRouter)
 app.use('/authentication',authRouter);
 app.use('/businesses', businessRouter);
 app.use('/reviews', reviewRouter);
+app.use('/price', priceRouter);
 app.use(logErrors);
 
 
