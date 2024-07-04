@@ -1,10 +1,11 @@
 import express from 'express';
 import { PriceController } from '../controllers/priceController.js';
 
-const router = express.Router();
+const priceRouter = express.Router();
+const priceController = new PriceController();
 
-router.get('/', PriceController.getPricesByBusiness);
-router.post('/', PriceController.addPrice);
-router.delete('/:id', PriceController.deletePrice);
+priceRouter.get('/', priceController.getPricesByBusiness);
+priceRouter.post('/', priceController.addPrice);
+priceRouter.delete('/:id', priceController.deletePrice);
 
-export default router;
+export { priceRouter }

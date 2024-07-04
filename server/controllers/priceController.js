@@ -1,4 +1,4 @@
-import { priceSchema } from '../validations/priceValidations.js';
+import { priceSchema } from '../validations/priceValidation.js';
 import { PriceService } from '../service/priceService.js';
 
 export class PriceController {
