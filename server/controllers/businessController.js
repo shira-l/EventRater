@@ -9,7 +9,7 @@ export class BusinessController {
     async getBusinessByCategory(req, res, next) {
         try {
             const resultItem = await BusinessController.businessService.getBusinessByCategory(req.query);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.json({ data: resultItem });
         }
         catch (ex) {
             const err = {
@@ -23,7 +23,7 @@ export class BusinessController {
     async getBusinessById(req, res, next) {
         try {
             const resultItem = await BusinessController.businessService.getBusinessById(req.params);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.json({ data: resultItem });
         }
         catch (ex) {
             const err = {
@@ -36,7 +36,6 @@ export class BusinessController {
 
     async addBusiness(req, res, next) {
         try {
-            console.log(req.body)
             const { error } = basicBusinessSchema.validate(req.body);
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
@@ -55,9 +54,11 @@ export class BusinessController {
     }
     async verifyOtp(req, res, next) {
         try {
-            await BusinessController.businessService.verifyBusinessSignUp(req.body);
-            return res.status(200).json({ status: 200 }) 
-           // return res.status(401).json({ status: 401, message: "The code entered is incorrect, please try again" });
+          //  const validate = await BusinessController.businessService.verifyBusinessSignUp(req.body);
+            //if (validate)
+                return res.json({});
+           // else
+               // return res.status(401).json({ message: "The code entered is incorrect, please try again" });
         }
         catch (ex) {
             const err = {};
@@ -66,10 +67,11 @@ export class BusinessController {
             next(err);
         }
     }
+
     async deleteBusiness(req, res, next) {
         try {
-            await BusinessController.businessService.deleteBussiness(req.params);
-            res.status(200).json({ status: 200 });
+            await BusinessController.businessService.deleteBusiness(req.params);
+            res.json({});
         }
         catch (ex) {
             const err = {};

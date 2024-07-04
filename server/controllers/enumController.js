@@ -6,7 +6,7 @@ export class EnumController {
     async getEnum(req, res, next){
         try {
             const resultItem = await EnumController.enumService.getEnumValues(req.params);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.json({ data: resultItem });
         }
         catch (ex) {
             const err = {}

@@ -7,20 +7,33 @@
         background-position: 120% -5%, 200% -40%;
     }
 }
-
+.p-sign-up{
+    padding: 100px 17% 30px 17%;
+    background-color:rgb(255, 246, 234) ;
+}
 .businessForn {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
+.price-form{
+    display: flex;
+}
+.forms-container{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+}
 .field {
     margin: 5px;
     display: flex;
     flex-direction: column;
 }
-
+ .form-buttons{
+    background-color: lightpink;
+    margin-top: 10px;
+ }
 input[type="file"] {
     display: none;
 }
@@ -31,7 +44,7 @@ input[type="file"] {
     position: relative;
     padding: 6px;
     cursor: pointer;
-    background: linear-gradient(270deg, #d34bb3, #f3d0e8);
+    background: linear-gradient(270deg, rgb(219, 53, 136), #f3d0e8);
     margin: 120px 45% 25px 0;
 }
 
@@ -43,6 +56,9 @@ input[type="file"] {
     border-radius: 50%;
 }
 
+.profile-div{
+    text-align: right;
+}
 .img-upload:before {
     content: "\f093";
     font-size: 90px;

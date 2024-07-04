@@ -7,7 +7,7 @@ export class ReviewController {
     async getReviewsByBusiness(req, res, next){
         try {
             const resultItem = await ReviewController.reviewService.getReviewByBusiness(req.query);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.json({ data: resultItem });
         }
         catch (ex) {
             const err = {}
@@ -20,7 +20,7 @@ export class ReviewController {
     async getReviewById(req, res, next){
         try {
             const resultItem = await ReviewController.reviewService.getReviewById(req.params);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.json({  data: resultItem });
         }
         catch (ex) {
             const err = {}
@@ -37,7 +37,7 @@ export class ReviewController {
                 return res.status(400).json({ message: error.details[0].message });
             }
             const resultItem = await ReviewController.reviewService.addReview(req.body);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.json({ data: resultItem });
         }
         catch (ex) {
             const err = {};
@@ -49,7 +49,7 @@ export class ReviewController {
    async deleteReview(req, res, next){
     try {
      await ReviewController.reviewService.deleteReview(req.params);
-    res.status(200).json({ status: 200 });
+    res.json({});
    }
    catch (ex) {
     const err = {};

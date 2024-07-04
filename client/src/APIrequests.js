@@ -10,7 +10,8 @@ export class APIrequests {
                     'Content-type': 'application/json',
                 },
             });
-            return response;
+            const data=response.json();
+            return data;
         } catch (error) {
             throw error;
         };
