@@ -22,7 +22,7 @@ app.use('/enums',enumRouter)
 app.use('/authentication',authRouter);
 app.use('/businesses', businessRouter);
 app.use('/reviews', reviewRouter);
-app.use('/price', priceRouter);
+app.use('/prices', priceRouter);
 app.use(logErrors);
 
 

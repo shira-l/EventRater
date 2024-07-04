@@ -92,6 +92,7 @@ import './Business.css';
 import Reviews from './Reviews';
 import Contact from './Contact.jsx';
 // import Gallery from './Gallery';
+import Prices from './Prices.jsx';
 
 const Business = () => {
     const { idBusiness } = useParams();
@@ -147,10 +148,12 @@ const Business = () => {
                 <Tabs value={tabValue} onChange={handleChange} aria-label="business detail tabs">
                     <Tab label="Reviews" />
                     <Tab label="Contact" />
+                    <Tab label="Prices" />
                     {/* <Tab label="Gallery" /> */}
                 </Tabs>
                 {tabValue === 0 && <Reviews key="reviews" />}
                 {tabValue === 1 && <Contact key="contact" business={business} />}
+                {tabValue === 2 && <Prices key="prices" />}
                 {/* {tabValue === 2 && <Gallery gallery={gallery} />} */}
             </div>
         </>

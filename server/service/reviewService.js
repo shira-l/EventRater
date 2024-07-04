@@ -6,10 +6,11 @@ export class ReviewService {
     static queries = new Queries();
 
     async getReviewByBusiness(params) {
-        const columns = "rating, description, productionDate, userName";
+        const columns = "idReview, rating, description, productionDate, userName";
         const joinTables = [
             { table: 'users', condition: `Users.idUser = Reviews.userId` },
         ];
+        params["reviews.isActive"] = '1';
         const { query, values } = ReviewService.queries.getQuery(ReviewService.tableName, columns, joinTables, params);
         const result = await executeQuery(query, values);
         return result;
@@ -20,8 +21,8 @@ export class ReviewService {
         const result = await executeQuery(query, values);
         return result.insertId;
     }
-    async deleteReview(reviewId){
-        const { query, values } = ReviewService.queries.deleteQuery(ReviewService.tableName, reviewId);
+    async deleteReview(idReview) {
+        const { query, values } = ReviewService.queries.deleteQuery(ReviewService.tableName, idReview);
         const result = await executeQuery(query, values);
         return result;
     }
