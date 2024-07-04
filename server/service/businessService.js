@@ -16,25 +16,6 @@ export class BusinessService {
             { table: 'users', condition: `businesses.userId = users.idUser` }
         ];
         params["users.isActive"] = '1';
-        console.log(params);
-
-        if (params.sort != undefined) {
-            console.log(params);
-            let sortBy = "";
-            switch (params.sort) {
-                case 'rating':
-                    sortBy = 'averageRating DESC';
-                    break;
-                case 'price':
-                    sortBy = `price DESC`;
-                    break;
-                case 'Alphabetical':
-                    sortBy = `userName ASC`;
-                    break;
-            }
-            params["sort"] = sortBy;
-        }
-
         params["categoryName"] = params["category"];
         delete params["category"];
         params["users.isActive"] = '1';
