@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import EnumSelect from "../EnumSelect";
-import { FormInputs } from "../FormInputs";
+import { FormInputs } from "../formInputs";
 import { APIrequests } from '../../APIrequests';
 import { useForm } from "react-hook-form";
 import './BusinessForm.css'
