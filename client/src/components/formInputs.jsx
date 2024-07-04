@@ -2,45 +2,78 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import React, { useState } from 'react';
 import OtpInput from 'react-otp-input';
-import {InputMask} from 'primereact/inputmask';
-import { border } from '@mui/system';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import { IconButton } from '@mui/material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Input } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 export class FormInputs {
     static emailInput(props) {
         const { register, errors } = props
-        return <><TextField autoFocus margin="normal" name="email"
-            label="כתובת אימייל" type="email" variant="standard"
-            {...register("email", {
-                required: "אנא הכנס את המייל שלך",
-                pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: '!אנא להזין דוא"ל תקף'
-                }
-            })} />
-            <InputLabel>{errors.email?.message}</InputLabel>
-        </>
+        return <> <FormControl sx={{ mt: 1, width: '22ch' }} variant="standard">
+            <TextField name="email"
+                label="email" type="text" variant="standard"
+                {...register("email", {
+                    required: "please enter your email",
+                    pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'please enter a valid email'
+                    }
+                })} />
+        </FormControl>
+            <InputLabel sx={{ ml: 1}}>{errors.email?.message}</InputLabel></>
     }
     static passwordInput(props) {
         const { register, errors } = props
-        return <><TextField autoFocus margin="normal" name="password"
-            label="סיסמה" type="password" variant="standard"
-            {...register("password", {
-                required: "אנא הזן סיסמה ",
-                minLength: {
-                    value: 8,
-                    message: "!סיסמה חייבת להיות באורך 8 תווים לפחות"
-                },
-                maxLength: {
-                    value: 20,
-                    message: "!סיסמה חייבת להיות באורך של 20 תווים לכל היותר"
+        const [showPassword, setShowPassword] = React.useState(false);
+
+        const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+        const handleMouseDownPassword = (event) => {
+            event.preventDefault();
+        };
+        return <><FormControl sx={{ m: 1 , width: '22ch' }} variant="standard">
+            <InputLabel>password</InputLabel>
+            <Input name="password" variant="standard"
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                        >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
                 }
-            })} />
-            <InputLabel>{errors.password?.message}</InputLabel>
-        </>
+                {...register("password", {
+                    required: "אנא הזן סיסמה ",
+                    minLength: {
+                        value: 8,
+                        message: "!סיסמה חייבת להיות באורך 8 תווים לפחות"
+                    },
+                    maxLength: {
+                        value: 20,
+                        message: "!סיסמה חייבת להיות באורך של 20 תווים לכל היותר"
+                    }
+                })} />
+        </FormControl>
+            <InputLabel>{errors.password?.message}</InputLabel></>
     }
     static userNameInput(props) {
         const { register, errors } = props
-        return <><TextField autoFocus margin="normal" name="name"
-            label="שם משתמש" type="text" variant="standard"
+        return <><TextField margin="normal" name="name"
+            label="user name" type="text" variant="standard"
+            InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <AccountCircle />
+                    </InputAdornment>
+                ),
+            }}
             {...register("userName", {
                 required: "אנא הזן שם משתמש",
                 pattern: {
@@ -56,10 +89,10 @@ export class FormInputs {
                     message: "!שם המשתמש חייב להיות באורך של 20 תווים לכל היותר"
                 }
             })} />
-            <InputLabel>{errors.userName?.message}</InputLabel></>
+            <InputLabel sx={{ ml: 1}}>{errors.userName?.message}</InputLabel></>
     }
-   static otpInput(props) {
-        const {otp, setOtp} = props;
+    static otpInput(props) {
+        const { otp, setOtp } = props;
 
         return (
             <OtpInput
@@ -73,15 +106,18 @@ export class FormInputs {
             />
         );
     }
-    static phoneInput(props){
-        const { register } = props
+    static phoneInput(props) {
+        const { register, errors } = props
         return (
-            <InputMask placeholder="Enter phone number" id="phone"
-            { ...register("phone",{
-                require:"please enter your phone number"
-            })} mask="999-999-9999" />
-    )
-}
-        
-        
+            <><TextField  id="phone" name='phone'
+                type="phone" margin="normal" variant="standard"
+                {...register("phone", {
+                    require: "please enter your phone number"
+                })} mask="999-999-9999" />
+                <InputLabel>{errors.phone?.message}</InputLabel></>
+
+        )
+    }
+
+
 }
