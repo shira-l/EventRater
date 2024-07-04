@@ -1,0 +1,75 @@
+@keyframes open {
+    0% {
+        background-position: 166% -25%, 220% -69%;
+    }
+
+    100% {
+        background-position: 120% -5%, 200% -40%;
+    }
+}
+
+.businessForn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.field {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    padding: 6px;
+    cursor: pointer;
+    background: linear-gradient(270deg, #d34bb3, #f3d0e8);
+    margin: 120px 45% 25px 0;
+}
+
+.img-wrap {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.img-upload:before {
+    content: "\f093";
+    font-size: 90px;
+    position: absolute;
+    padding-top: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #d34bb3;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #fff;
+}
+
+.img-upload:hover:before {
+    opacity: 1;
+}
+
+img {
+    width: auto;
+    height: 100%;
+}
+
+input::placeholder {
+    color: #bebebe;
+}
