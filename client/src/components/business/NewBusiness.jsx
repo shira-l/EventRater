@@ -1,4 +1,4 @@
-import { FormInputs } from "../FormInputs"
+import { FormInputs } from "../formInputs"
 import { useForm } from "react-hook-form";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -7,7 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
-import  BusinessForm  from "./BusinessForm";
+import ButtonAppBar from "../ButtonAppBar";
+import BusinessForm from "./BusinessForm";
 export default function NewBusiness() {
     const APIrequest = new APIrequests()
     const [otp, setOtp] = useState('')
@@ -28,38 +29,29 @@ export default function NewBusiness() {
                 "userName": businessDetailsInput.userName
             }
             const response = await APIrequest.postRequest(`/businesses`, requestBody);
-            if (!response.ok) {
-                alert("The join request failed, please try again")
-                reset()
+            if (businessDetails == null) {
+                const userId = await response.id;
+                setBusinessDetails({ ...businessDetailsInput, userId: userId });
             }
-            else {
-                if (businessDetails== null) {
-                    const json =await response.json();
-                    const userId=await json.id;
-                    console.log("userId",userId)
-                    setBusinessDetails({ ...businessDetailsInput, userId: userId });
-                }
-                handleClickOpen(true)
-            }
+            handleClickOpen(true)
         }
         catch (error) {
-            alert(error.message)
+            alert("The join request failed, please try again")
             reset()
         }
     }
     const verifyOtp = async () => {
         try {
             const requestBody = { userId: businessDetails.userId, otp: otp };
+            console.log(requestBody)
             const response = await APIrequest.postRequest(`/businesses/verify`, requestBody);
-            if (!response.ok) {
-                alert("The code you entered is incorrect, please try again")
-                setOtp('')
-            }
-            else
-            {alert("success")}
+            console.log("response", response)
+            alert("success")
         }
         catch (error) {
-            alert(error.stack)
+            console.log(error)
+            alert("The code you entered is incorrect, please try again")
+            setOtp('')
         }
     }
 
@@ -71,28 +63,34 @@ export default function NewBusiness() {
         setOpen(false);
     }
     return (<>
-   {formDisplay?<><form onSubmit={handleSubmit(sendOtpCode)}>
-        <FormInputs.userNameInput register={register} errors={errors} />
-        <FormInputs.emailInput register={register} errors={errors} />
-        <Button type="submit">שלח</Button>
-    </form>
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-                component: 'form',
-                onSubmit: verifyOtp,
-            }}
-        >
-            <DialogContent>
-                <DialogContentText> You received an email with a verification code</DialogContentText>
-                <FormInputs.otpInput setOtp={setOtp} otp={otp} />
-            </DialogContent>
-            <DialogActions>
+    <ButtonAppBar/>
+        {formDisplay ? <><form onSubmit={handleSubmit(sendOtpCode)}>
+            <FormInputs.userNameInput register={register} errors={errors} />
+            <FormInputs.emailInput register={register} errors={errors} />
+            <Button type="submit">שלח</Button>
+        </form>
+            <form action="" onSubmit={verifyOtp}><FormInputs.otpInput setOtp={setOtp} otp={otp} />
                 <Button type="submit">to verify</Button>
-                <Button onClick={() => sendOtpCode(userDetails)}>resending</Button>
-                <Button onClick={handleClose}>cencel</Button>
-            </DialogActions>
-        </Dialog></>:
-        <BusinessForm/>  }</>)
+            </form>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    component: 'form',
+                    onSubmit: verifyOtp,
+                }}
+            >
+                <DialogContent>
+                    <DialogContentText> You received an email with a verification code</DialogContentText>
+                    <FormInputs.otpInput setOtp={setOtp} otp={otp} />
+                </DialogContent>
+                <DialogActions>
+                    <Button type="submit">to verify</Button>
+                    <Button onClick={() => sendOtpCode(userDetails)}>resending</Button>
+                    <Button onClick={handleClose}>cancel</Button>
+                </DialogActions>
+            </Dialog>
+        </> :
+            <BusinessForm />}</>)
 }

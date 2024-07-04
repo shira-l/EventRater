@@ -9,7 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { FormInputs } from './FormInputs.jsx';
+import { FormInputs } from './formInputs.jsx';
 import { UserContext } from '../UserProvider.jsx';
 
 export default function Login({ open, onClose }) {
