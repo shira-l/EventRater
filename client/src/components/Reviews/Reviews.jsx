@@ -1,115 +1,3 @@
-// import React, { useEffect, useState, useContext, useRef } from 'react';
-// import { useParams } from 'react-router-dom';
-// import AddReview from './AddReview.jsx';
-// import ReactStars from 'react-rating-stars-component';
-// import { UserContext } from '../../UserProvider.jsx';
-// import { APIrequests } from '../../APIrequests.js';
-// import Login from '../Login';
-
-// const Reviews = () => {
-//     const { user } = useContext(UserContext);
-//     const [showAddReview, setShowAddReview] = useState(false);
-//     const [openLogin, setOpenLogin] = useState(false);
-//     const [reviews, setReviews] = useState([]);
-//     const [displaySeeMore, setDisplaySeeMore] = useState(false);
-//     const initialLoad = useRef(true);
-//     const seeMore = useRef(false);
-//     const range = 7;
-//     const { idBusiness } = useParams();
-//     const APIrequest = new APIrequests();
-//     const sort = "productionDate DESC";
-
-//     useEffect(() => {
-//         if (initialLoad.current) {
-//             getReviews();
-//             initialLoad.current = false;
-//         }
-//     }, []);
-
-//     useEffect(() => {
-//         setDisplaySeeMore(reviews.length % range === 0 && reviews.length !== 0);
-//     }, [reviews]);
-
-//     const getReviews = async () => {
-//         try {
-//             const start = seeMore.current ? reviews.length : 0;
-//             const url = `/reviews?businessId=${idBusiness}&sort=${sort}&start=${start}&range=${range}`;
-//             const response = await APIrequest.getRequest(url);
-//             const json = await response.json();
-//             if (json.status !== 200) {
-//                 alert(json.error);
-//             } else {
-//                 setReviews(reviews => seeMore.current ? [...reviews, ...json.data] : json.data);
-//                 setDisplaySeeMore(json.data.length >= range);
-//                 seeMore.current = false;    
-//             }
-//         } catch (error) {
-//             console.error('Error fetching reviews:', error);
-//         }
-//     };
-
-//     const handleAddReview = () => {
-//         if(openLogin) {
-//             setOpenLogin(false);
-//         } else if (!user) {
-//             setOpenLogin(true);
-//         } else {
-//             setShowAddReview(prevState => !prevState);
-//         }
-//     };
-
-//     const addNewReview = (newReview) => {
-//         setReviews(reviews => [newReview, ...reviews]);
-//     };
-
-//     const handleCloseLogin = () => {
-//         setOpenLogin(false);
-//     };
-
-//     const handleSeeMore = () => {
-//         seeMore.current = true;
-//         getReviews();
-//     };
-
-//     return (
-//         <div className="reviews-container">
-//             <button onClick={handleAddReview} className="add-review-button">
-//                 Add Review
-//             </button>
-//             {showAddReview ? 
-//                 <AddReview closeAddReview={() => setShowAddReview(false)} addNewReview={addNewReview}/> : 
-//                 <Login open={openLogin} onClose={handleCloseLogin} /> }
-//             {reviews.map(review => (
-//                 <div key={review.idOpinion} className="review-item">
-//                     <div className="review-header">
-//                         <p className="review-date">{formatDate(review.productionDate)}</p>
-//                         <p>{review.userName}</p>
-//                     </div>
-//                     <p className="review-description">{review.description}</p>
-//                     <ReactStars
-//                         count={5}
-//                         value={review.rating}
-//                         size={24}
-//                         isHalf={true}
-//                         edit={false}
-//                         activeColor="#ffd700"
-//                     />
-//                     <hr className="review-divider" />
-//                 </div>
-//             ))}
-//             {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
-//         </div>
-//     );
-// };
-
-// const formatDate = (dateString) => {
-//     const options = { year: 'numeric', month: 'short', day: 'numeric' };
-//     const date = new Date(dateString);
-//     return date.toLocaleDateString('en-US', options);
-// };
-
-// export default Reviews;
-
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import AddReview from './AddReview.jsx';
@@ -142,20 +30,34 @@ const Reviews = () => {
         setDisplaySeeMore(reviews.length % range === 0 && reviews.length !== 0);
     }, [reviews]);
 
+    // const getReviews = async () => {
+    //     try {
+    //         const start = seeMore.current ? reviews.length : 0;
+    //         const url = `/reviews?businessId=${idBusiness}&sort=${sort}&start=${start}&range=${range}`;
+    //         const response = await APIrequest.getRequest(url);
+    //         if (response.status !== 200) {
+    //             alert(response.error);
+    //         } else {
+    //             setReviews(reviews => seeMore.current ? [...reviews, ...response.data] : response.data);
+    //             setDisplaySeeMore(response.data.length >= range);
+    //             seeMore.current = false;
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching reviews:', error);
+    //     }
+    // };
+
+
     const getReviews = async () => {
         try {
             const start = seeMore.current ? reviews.length : 0;
             const url = `/reviews?businessId=${idBusiness}&sort=${sort}&start=${start}&range=${range}`;
             const response = await APIrequest.getRequest(url);
-            const json = await response.json();
-            if (json.status !== 200) {
-                alert(json.error);
-            } else {
-                setReviews(reviews => seeMore.current ? [...reviews, ...json.data] : json.data);
-                setDisplaySeeMore(json.data.length >= range);
-                seeMore.current = false;
-            }
+            setReviews(reviews => seeMore.current ? [...reviews, ...response.data] : response.data);
+            setDisplaySeeMore(response.data.length >= range);
+            seeMore.current = false;
         } catch (error) {
+            alert(response.error);
             console.error('Error fetching reviews:', error);
         }
     };
@@ -176,14 +78,15 @@ const Reviews = () => {
 
     const handleDeleteReview = async (reviewId) => {
         try {
-            const response = await APIrequest.deleteRequest(`/reviews/${reviewId}`);
-            const json = await response.json();
-            if (json.status !== 200) {
-                alert(json.error);
-            } else {
+            const url = `/reviews/${reviewId}`;
+            const response = await APIrequest.deleteRequest(url);
+            // const json = await response.json();
+            // if (json.status !== 200) {
+            //     alert(json.error);
+            // } else {
                 setReviews(reviews => reviews.filter(review => review.idReview !== reviewId));
                 alert("review successfully deleted");
-            }
+            // }
         } catch (error) {
             console.error('Error deleting review:', error);
         }

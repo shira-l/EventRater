@@ -1,14 +1,12 @@
 import React, { useState, useContext } from "react";
 import EnumSelect from "../EnumSelect";
 import { FormInputs } from "../formInputs";
-import { APIrequests } from '../../APIrequests';
 import { useForm } from "react-hook-form";
 import PriceOffersList from "../priceOffers";
 import './PersonalArea.css'
 import { useLocation } from "react-router-dom";
 
 export default function PersonalArea() {
-    const APIrequest = new APIrequests()
     const Location=useLocation()
     const businessDetails=Location.state.businessDetails;
     const { register, handleSubmit, formState: { errors }, reset } = useForm({

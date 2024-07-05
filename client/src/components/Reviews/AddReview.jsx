@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 const AddReview = ({closeAddReview, addNewReview}) => {
     const { idBusiness } = useParams();
-    const { user } = useContext(UserContext);
+    const user = JSON.parse(localStorage.getItem('currentUser'));
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(0);
 
@@ -29,14 +29,12 @@ const AddReview = ({closeAddReview, addNewReview}) => {
                 "businessId": idBusiness,
                 "productionDate": date
             }
-            const response = await APIrequest.postRequest(`/reviews`, newReview);
-            if(response.status === 200) {
-                alert('Your review was added successfully');
-                const user = JSON.parse(localStorage.getItem('currentUser'));
-                newReview.userName = user.userName;
-                addNewReview(newReview);
-                closeAddReview();
-            }
+            const url = `/reviews`;
+            const response = await APIrequest.postRequest(url, newReview);
+            alert('Your review was added successfully');
+            newReview.userName = user.userName;
+            addNewReview(newReview);
+            closeAddReview();
             setReviewText('');
             setRating(0);
         } catch (error) {
@@ -69,7 +67,7 @@ const AddReview = ({closeAddReview, addNewReview}) => {
 const convertToMySQLDateTime = (isoDate) => {
     const date = new Date(isoDate);
     const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
     const dd = String(date.getDate()).padStart(2, '0');
     const hh = String(date.getHours()).padStart(2, '0');
     const min = String(date.getMinutes()).padStart(2, '0');

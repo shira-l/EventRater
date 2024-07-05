@@ -36,7 +36,8 @@ export default function Login({ open, onClose }) {
       password: hash_password,
     };
     try {
-      const response = await APIrequest.postRequest('/authentication/login', requestBody);
+      const url = '/authentication/login';
+      const response = await APIrequest.postRequest(url, requestBody);
       const newUser = { ...response.user, email: userDetails.email };
       localStorage.setItem('currentUser', JSON.stringify(newUser));
       setCurrentUser(newUser);
@@ -55,15 +56,16 @@ export default function Login({ open, onClose }) {
       userName: userDetails.userName,
     };
     try {
-      const response = await APIrequest.postRequest('/authentication/register', requestBody);
+      const url = '/authentication/register';
+      const response = await APIrequest.postRequest(url, requestBody);
       setShowRegister(false);
-      delete userDetails.password
-      const newUser = { ...response.user, email: userDetails.email };
+      delete userDetails.password;
+      const newUser = { idUser: response.id, userName: userDetails.userName, email: userDetails.email };
       localStorage.setItem('currentUser', JSON.stringify(newUser));
       setCurrentUser(newUser);
     }
     catch (error) {
-      alert(error.message);
+      alert("You are already registered. Please log in with your credentials.");
     }
     reset();
   };

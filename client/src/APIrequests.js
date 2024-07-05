@@ -10,6 +10,9 @@ export class APIrequests {
                     'Content-type': 'application/json',
                 },
             });
+            if(response.status!=200){
+                throw new Error(response.statusText);
+            }
             const data=response.json();
             return data;
         } catch (error) {
@@ -26,6 +29,9 @@ export class APIrequests {
                     'Content-Type': 'application/json'
                 }
             });
+            if(response.status!=200){
+                throw new Error(response.statusText);
+            }
             const data=response.json()
             return data;
         } catch (error) {
@@ -42,7 +48,11 @@ export class APIrequests {
                     'Content-Type': 'application/json'
                 }
             });
-            return response;
+            if(response.status!=200){
+                throw new Error(response.error.message);
+            }
+            const data=response.json()
+            return data;
         } catch (error) {
             throw error;
         }

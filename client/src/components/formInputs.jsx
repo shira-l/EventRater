@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import { IconButton } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Input } from '@mui/material';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -51,14 +51,14 @@ export class FormInputs {
                     </InputAdornment>
                 }
                 {...register("password", {
-                    required: "אנא הזן סיסמה ",
+                    required: "Please enter a password.",
                     minLength: {
                         value: 8,
-                        message: "!סיסמה חייבת להיות באורך 8 תווים לפחות"
+                        message: "Password must be at least 8 characters long."
                     },
                     maxLength: {
                         value: 20,
-                        message: "!סיסמה חייבת להיות באורך של 20 תווים לכל היותר"
+                        message: "Password must be at most 20 characters long."
                     }
                 })} />
         </FormControl>
@@ -67,21 +67,21 @@ export class FormInputs {
     static userNameInput(props) {
         const { register, errors } = props
         return <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <AccountCircle sx={{ color: 'action.active', mr:1,paddingBottom:0.5, my: 0.5 }} /><TextField margin="normal" name="name"
-              sx={{width:'19.5ch'}}  label="user name" type="text" variant="standard"
+            <AccountCircle sx={{ color: 'action.active', mr: 1, paddingBottom: 0.5, my: 0.5 }} /><TextField margin="normal" name="name"
+                sx={{ width: '19.5ch' }} label="user name" type="text" variant="standard"
                 {...register("userName", {
-                    required: "אנא הזן שם משתמש",
+                    required: "Please enter a username.",
                     pattern: {
                         value: /^[a-z\u0590-\u05fe]+$/i,
-                        message: "נא להזין רק תווים אלפביתיים"
+                        message: "Please enter only alphabetic characters."
                     },
                     minLength: {
                         value: 2,
-                        message: "!שם המשתמש חייב להיות באורך 2 תווים לפחות"
+                        message: "Username must be at least 2 characters long."
                     },
                     maxLength: {
                         value: 20,
-                        message: "!שם המשתמש חייב להיות באורך של 20 תווים לכל היותר"
+                        message: "Username must be at most 20 characters long."
                     }
                 })} />
             <InputLabel sx={{ ml: 1 }}>{errors.userName?.message}</InputLabel> </Box>
