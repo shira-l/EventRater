@@ -14,7 +14,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 export class FormInputs {
     static emailInput(props) {
         const { register, errors } = props
-        return <> <FormControl sx={{ m: 1, width: '22ch' }} variant="standard">
+        return <div> <FormControl sx={{ m: 1, width: '22ch' }} variant="standard">
             <TextField name="email"
                 label="email" type="text" variant="standard"
                 {...register("email", {
@@ -25,7 +25,7 @@ export class FormInputs {
                     }
                 })} />
         </FormControl>
-            <InputLabel sx={{ ml: 1 }}>{errors.email?.message}</InputLabel></>
+            <InputLabel sx={{ ml: 1 }}>{errors.email?.message}</InputLabel></div>
     }
     static passwordInput(props) {
         const { register, errors } = props

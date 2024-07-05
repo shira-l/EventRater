@@ -41,17 +41,12 @@ export default function Login({ open, onClose }) {
     };
     try {
       const response = await APIrequest.postRequest('/authentication/login', requestBody);
-      if (!response.ok) {
-        alert('Error, please try again with different email or password');
-      } else {
-        const data = await response.json();
-        const newUser = { ...data.user, email: userDetails.email };
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        setCurrentUser(newUser);
-        close();
-      }
+      const newUser = { ...response.user, email: userDetails.email };
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+      setCurrentUser(newUser);
+      close();
     } catch (error) {
-      alert(error.message);
+      alert('Error, please try again with different email or password');
     }
     reset();
   };
@@ -65,13 +60,13 @@ export default function Login({ open, onClose }) {
     };
     try {
       const response = await APIrequest.postRequest('/authentication/register', requestBody);
-      if (!response.ok) {
-        alert('Registration failed, please try again');
-      } else {
-        alert('Registration successful! Please log in.');
-        setShowRegister(false);
-      }
-    } catch (error) {
+      setShowRegister(false);
+      delete userDetails.password
+      const newUser = { ...response.user, email: userDetails.email };
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+      setCurrentUser(newUser);
+    }
+    catch (error) {
       alert(error.message);
     }
     reset();
@@ -92,7 +87,7 @@ export default function Login({ open, onClose }) {
             onSubmit: handleSubmit(login),
           }}
         >
-          <DialogTitle>{'Login'}</DialogTitle>
+          <DialogTitle>Login</DialogTitle>
           <DialogContent>
             <>
               <FormInputs.emailInput register={register} errors={errors} />
@@ -104,7 +99,7 @@ export default function Login({ open, onClose }) {
           </DialogContent>
           <DialogActions>
             <Button onClick={close}>Cancel</Button>
-            <Button type="submit">{'Login'}</Button>
+            <Button type="submit">Login</Button>
           </DialogActions>
         </Dialog>
         :
@@ -116,7 +111,7 @@ export default function Login({ open, onClose }) {
             onSubmit: handleSubmit(registerUser),
           }}
         >
-          <DialogTitle>{'Register'}</DialogTitle>
+          <DialogTitle>Register</DialogTitle>
           <DialogContent>
             <>
               <FormInputs.userNameInput register={register} errors={errors} />

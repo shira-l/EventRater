@@ -4,10 +4,13 @@ import { FormInputs } from "../formInputs";
 import { APIrequests } from '../../APIrequests';
 import { useForm } from "react-hook-form";
 import PriceOffersList from "../priceOffers";
-import './BusinessForm.css'
+import './PersonalArea.css'
+import { useLocation } from "react-router-dom";
 
-export default function BusinessForm() {
+export default function PersonalArea() {
     const APIrequest = new APIrequests()
+    const Location=useLocation()
+    const businessDetails=Location.state.businessDetails;
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             email: '',
@@ -25,18 +28,21 @@ export default function BusinessForm() {
     const [location, setLocation] = useState();
     const [category, setCategory] = useState();
     const [priceOffers, setPriceOffers] = useState([])
+
     const handleLocation = (event) => {
         setLocation(event.target.value);
     };
+
     const handleCategories = (event) => {
         setCategory(event.target.value);
     };
 
     const addPrice = (priceDetails) => {
+        setPriceOffers([...priceOffers, priceDetails])
+        resetPrice();
         if (priceOffers.length == 4) {
             alert("You have used the amount of offers available to you")
         }
-        setPriceOffers([...priceOffers, priceDetails])
     }
     // const takePhoto = () => {
     //     if (!webCam) {

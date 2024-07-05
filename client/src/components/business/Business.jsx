@@ -89,7 +89,7 @@ import { Tabs, Tab } from '@mui/material';
 import ButtonAppBar from '../ButtonAppBar.jsx';
 import { APIrequests } from '../../APIrequests.js';
 import './Business.css';
-import Reviews from './Reviews';
+import Reviews from '../Reviews/Reviews.jsx';
 import Contact from './Contact.jsx';
 // import Gallery from './Gallery';
 import Prices from './Prices.jsx';
@@ -106,7 +106,7 @@ const Business = () => {
     const APIrequest = new APIrequests();
 
     const handleChange = (event, newValue) => {
-        console.log("business",business);
+        console.log("business", business);
         setTabValue(newValue);
     };
 
@@ -118,22 +118,16 @@ const Business = () => {
         try {
             const url = `/businesses/${idBusiness}`;
             const response = await APIrequest.getRequest(url);
-            const json = await response.json();
-            if (json.status !== 200) {
-                alert(json.error);
-            } else {
-                const newBusinesses = {...businessFromList, ...json.data[0]};
-                console.log(newBusinesses);
-                setBusiness(newBusinesses);
-            }
-    
+            const newBusinesses = { ...businessFromList, ...response.data[0] };
+            setBusiness(newBusinesses);
+
         } catch (error) {
             console.error('Error fetching business data:', error);
         } finally {
             setLoading(false);
         }
     };
-    
+
 
     if (loading) {
         return <div>Loading...</div>;

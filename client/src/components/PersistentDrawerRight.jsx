@@ -41,10 +41,11 @@ export default function PersistentDrawerRight() {
     const navigateTo = (target) => {
         switch (target) {
             case "New business":
-                navigate('/businesses/new-business')
+                navigate('/businesses/register')
                 break;
 
             default:
+                navigate('/businesses/login')
                 break;
         }
     }
@@ -77,7 +78,7 @@ export default function PersistentDrawerRight() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['New business', 'לעסק שלי'].map((text, index) => (
+                    {['New business', 'Personal Area'].map((text, index) => (
                         <ListItem key={text} disablePadding>
                             <ListItemButton onClick={() => navigateTo(text)}>
                                 <ListItemIcon>

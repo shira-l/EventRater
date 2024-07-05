@@ -11,31 +11,7 @@ import './Home.css'
 function Home() {
 const APIrequest=new APIrequests()
   const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem("locations"))
-      saveInLocalStorage("locations")
-    if (localStorage.getItem("categories"))
-      saveInLocalStorage("categories")
-  }, [])
-  const saveInLocalStorage = async (myEnum) => {
-    const enunData = await getEnum(myEnum);
-    localStorage.setItem(myEnum, JSON.stringify(enunData));
-  }
-
-
-  const getEnum = async (myEnum) => {
-    try {
-      const response = await APIrequest.getRequest(`/enums/${myEnum}`)
-      const json = await response.json()
-      if (!response.ok)
-        console.error(json.message)
-      else
-        return json.data
-    }
-    catch (error) {
-      console.error(error.message)
-    }
-  }
+  
  
   return (<>
   

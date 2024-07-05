@@ -44,7 +44,7 @@ input[type="file"] {
     position: relative;
     padding: 6px;
     cursor: pointer;
-    background: linear-gradient(270deg, rgb(219, 53, 136), #f3d0e8);
+    background: linear-gradient(270deg, lightpink, #f3d0e8);
     margin: 120px 45% 25px 0;
 }
 

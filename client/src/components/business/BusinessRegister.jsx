@@ -1,5 +1,6 @@
 import { FormInputs } from "../formInputs"
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,13 +10,18 @@ import SendIcon from '@mui/icons-material/Send';
 import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
 import ButtonAppBar from "../ButtonAppBar";
-import "./BusinessForm.css";
-export default function NewBusiness() {
+import "./PersonalArea.css";
+
+
+export default function BusinessRegister() {
+    const navigate = useNavigate()
     const APIrequest = new APIrequests()
     const [otp, setOtp] = useState('')
     const [businessDetails, setBusinessDetails] = useState(null)
     const [open, setOpen] = useState(false);
-
+    // navigate("/ggggg/", {state:{id:id}})
+    // const location = useLocation()ף
+    // const id = loction.state.id;
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             email: '',
@@ -40,17 +46,19 @@ export default function NewBusiness() {
             reset()
         }
     }
+
+
     const verifyOtp = async () => {
         try {
             const new_otp = otp
             const requestBody = { userId: businessDetails.userId, otp: new_otp };
-            console.log(requestBody)
             const response = await APIrequest.postRequest(`/businesses/verify`, requestBody);
-            console.log("response", response)
-            alert("success")
+            handleClose()
+            alert("Verification was successful. You are taken to your personal area")
+            navigate("/businesses/personal-area", { state: { businessDetails: businessDetails } })
         }
         catch (error) {
-            console.log(error)
+            console.error(error)
             alert("The code you entered is incorrect, please try again")
             setOtp('')
         }
@@ -64,6 +72,7 @@ export default function NewBusiness() {
         setOpen(false);
     }
     return (<>
+
         <ButtonAppBar />
         <p className="p-sign-up">
             <h2>Sign up for Events Rating, glad you came! </h2>
@@ -76,16 +85,16 @@ export default function NewBusiness() {
             After registration,
             we will verify the details and if everything is correct, you will be added to the site.
         </p>
+
+
         <form onSubmit={handleSubmit(sendOtpCode)} className="businessForn">
             <FormInputs.userNameInput register={register} errors={errors} />
             <FormInputs.emailInput register={register} errors={errors} />
-            <Button variant="contained" endIcon={<SendIcon />} sx={{
+            <Button variant="contained" endIcon={<SendIcon />} type="submit" sx={{
                 bgcolor: "lightpink", mt: "20px", '&:hover': {
                     backgroundColor: "rgb(255, 246, 234)"
                 }
-            }}>
-                Send
-            </Button>
+            }}>Send</Button>
         </form>
         <Dialog
             open={open}
@@ -95,7 +104,7 @@ export default function NewBusiness() {
                 onSubmit: verifyOtp,
             }}
         >
-            <DialogContent>
+            <DialogContent style={{display:"flex"}}>
                 <DialogContentText> You received an email with a verification code</DialogContentText>
                 <FormInputs.otpInput setOtp={setOtp} otp={otp} />
             </DialogContent>

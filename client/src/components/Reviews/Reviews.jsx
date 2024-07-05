@@ -116,7 +116,7 @@ import AddReview from './AddReview.jsx';
 import ReactStars from 'react-rating-stars-component';
 import { UserContext } from '../../UserProvider.jsx';
 import { APIrequests } from '../../APIrequests.js';
-import Login from '../Login';
+import Login from '../Login.jsx';
 
 const Reviews = () => {
     const { user } = useContext(UserContext);

@@ -26,7 +26,8 @@ export class APIrequests {
                     'Content-Type': 'application/json'
                 }
             });
-            return response;
+            const data=response.json()
+            return data;
         } catch (error) {
             throw error;
         };
