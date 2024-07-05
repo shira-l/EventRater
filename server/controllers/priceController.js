@@ -7,7 +7,7 @@ export class PriceController {
     async getPricesByBusiness(req, res, next) {
         try {
             const resultItems = await PriceController.priceService.getPricesByBusiness(req.query);
-            res.status(200).json({ status: 200, data: resultItems });
+            res.json({ data: resultItems });
         }
         catch (ex) {
             const err = {};
@@ -24,7 +24,7 @@ export class PriceController {
                 return res.status(400).json({ message: error.details[0].message });
             }
             const resultItem = await PriceController.priceService.addPrice(req.body);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.json({ data: resultItem });
         }
         catch (ex) {
             const err = {};
@@ -37,7 +37,7 @@ export class PriceController {
     async deletePrice(req, res, next) {
         try {
             await PriceController.priceService.deletePrice(req.params);
-            res.status(200).json({ status: 200 });
+            res.json({});
         }
         catch (ex) {
             const err = {};

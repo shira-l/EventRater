@@ -21,6 +21,13 @@ export class ReviewService {
         const result = await executeQuery(query, values);
         return result.insertId;
     }
+
+    async updateReview(params, data) {
+        const { query, values } = ReviewService.queries.updateQuery(ReviewService.tableName, data, params);
+        const result = await executeQuery(query, values);
+        return result;
+    }
+
     async deleteReview(idReview) {
         const { query, values } = ReviewService.queries.deleteQuery(ReviewService.tableName, idReview);
         const result = await executeQuery(query, values);
