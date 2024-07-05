@@ -137,7 +137,7 @@ export default function Businesses() {
                     </form>
                 </div>
                 <div id='select'>
-                    <h4 id="sortTitle">מיין לפי:</h4>
+                    <h4 id="sortTitle">sort:</h4>
                     <Select options={options} onChange={handleSortChange} />
                 </div>
             </div>

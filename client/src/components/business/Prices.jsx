@@ -13,12 +13,7 @@ const Prices = () => {
             try {
                 const url = `/prices?businessId=${idBusiness}`;
                 const response = await APIrequest.getRequest(url);
-                const json = await response.json();
-                if (json.status !== 200) {
-                    alert(json.error);
-                } else {
-                    setPrices(json.data);
-                }
+                setPrices(response.data);
             } catch (error) {
                 console.error('Error fetching prices:', error);
             } finally {

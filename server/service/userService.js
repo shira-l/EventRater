@@ -26,7 +26,7 @@ export class UserService {
     async loginUser(params) {
         const email = params.email;
         const password = params.password;
-        const columns = "idUser, userName,password";
+        const columns = "idUser, userName, password";
         const joinTables = [
             { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
         ];

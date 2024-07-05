@@ -34,7 +34,8 @@ export default function BusinessRegister() {
                 "email": businessDetailsInput.email,
                 "userName": businessDetailsInput.userName
             }
-            const response = await APIrequest.postRequest(`/businesses`, requestBody);
+            const url = `/businesses`;
+            const response = await APIrequest.postRequest(url, requestBody);
             if (businessDetails == null) {
                 const userId = await response.id;
                 setBusinessDetails({ ...businessDetailsInput, userId: userId });
@@ -71,11 +72,13 @@ export default function BusinessRegister() {
     const handleClose = () => {
         setOpen(false);
     }
+
+    // <h2>Sign up for Events Rating, glad you came! </h2>
+
     return (<>
 
         <ButtonAppBar />
         <p className="p-sign-up">
-            <h2>Sign up for Events Rating, glad you came! </h2>
             Events Rating website aims to be the most advanced website for the community of professionals in the field of events,
             and to give you and the website surfers an excellent experience.
             <br />

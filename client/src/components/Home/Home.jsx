@@ -5,11 +5,9 @@ import orchestraImage from '../../images/WhatsApp-Image-2018-06-19-at-12.47.13.j
 import photographerImage from '../../images/photographer.png';
 import flowersImage from '../../images/flowers.png';
 import ButtonAppBar from '../ButtonAppBar.jsx'
-import { APIrequests } from '../../APIrequests.js';
 import './Home.css'
 
 function Home() {
-const APIrequest=new APIrequests()
   const navigate = useNavigate();
   
  

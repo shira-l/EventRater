@@ -41,14 +41,10 @@ const Contact = ({ business }) => {
     const [openLogin, setOpenLogin] = useState(false);
 
     const handleEmailClick = (event) => {
-        // event.preventDefault(); // מניעת הפעלה של פעולת ברירת המחדל של הלינק
-
         if (user) {
             const subject = encodeURIComponent("הודעה מהאתר שלי");
             const messageText = encodeURIComponent("שלום וברכה");
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${business.email}&su=${subject}&body=${messageText}`;
-            
-            // פתיחת Gmail בחלון חדש
             window.open(gmailUrl);
         } else{
             setOpenLogin(true);
