@@ -28,6 +28,9 @@ export default function ButtonAppBar(props) {
         setCurrentUser(null);
     };
 
+    const handleCloseLogin=()=>{
+        setOpenLogin(false)
+    }
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -52,7 +55,7 @@ export default function ButtonAppBar(props) {
                     {user == null ? <><Button variant="outlined" color="inherit" onClick={() => setOpenLogin(true)} sx={{ flexGrow: 10 }}>
                         Login
                     </Button>
-                        {openLogin && <Login open={setOpenLogin} onClose={setOpenLogin}/>}
+                        <Login open={openLogin} onClose={handleCloseLogin}/>
                         </>
 :
                         <><Tooltip title="Open settings">

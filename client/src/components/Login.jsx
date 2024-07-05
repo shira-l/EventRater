@@ -24,10 +24,6 @@ export default function Login({ open, onClose }) {
   const { setCurrentUser } = useContext(UserContext);
   const [showRegister, setShowRegister] = useState(false);
 
-  const close = () => {
-    onClose();
-    setShowRegister(false);
-  };
 
   const generatePasswordHash = (password) => {
     return CryptoJS.SHA256(password).toString();
@@ -73,58 +69,62 @@ export default function Login({ open, onClose }) {
   };
 
   const handleRegister = () => {
+    onClose();
     setShowRegister(true);
   };
 
+  const closeRegister = () => {
+    setShowRegister(false)
+  }
+  
   return (
     <>
-      {!showRegister ?
-        <Dialog
-          open={open}
-          onClose={close}
-          PaperProps={{
-            component: 'form',
-            onSubmit: handleSubmit(login),
-          }}
-        >
-          <DialogTitle>Login</DialogTitle>
-          <DialogContent>
-            <>
-              <FormInputs.emailInput register={register} errors={errors} />
-              <FormInputs.passwordInput register={register} errors={errors} />
-              <DialogContentText>
-                Not registered yet?<Link onClick={handleRegister}>register</Link>
-              </DialogContentText>
-            </>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={close}>Cancel</Button>
-            <Button type="submit">Login</Button>
-          </DialogActions>
-        </Dialog>
-        :
-        <Dialog
-          open={open}
-          onClose={close}
-          PaperProps={{
-            component: 'form',
-            onSubmit: handleSubmit(registerUser),
-          }}
-        >
-          <DialogTitle>Register</DialogTitle>
-          <DialogContent>
-            <>
-              <FormInputs.userNameInput register={register} errors={errors} />
-              <FormInputs.emailInput register={register} errors={errors} />
-              <FormInputs.passwordInput register={register} errors={errors} />
-            </>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={close}>Cancel</Button>
-            <Button type="submit">{'Register'}</Button>
-          </DialogActions>
-        </Dialog>
-      }
+      <Dialog
+        open={open}
+        onClose={onClose}
+        PaperProps={{
+          component: 'form',
+          onSubmit: handleSubmit(login),
+        }}
+      >
+        <DialogTitle>Login</DialogTitle>
+        <DialogContent>
+          <>
+            <FormInputs.emailInput register={register} errors={errors} />
+            <FormInputs.passwordInput register={register} errors={errors} />
+            <DialogContentText>
+              Not registered yet?<Link onClick={handleRegister}>register</Link>
+            </DialogContentText>
+          </>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={close}>Cancel</Button>
+          <Button type="submit">Login</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={showRegister}
+        onClose={closeRegister}
+        PaperProps={{
+          component: 'form',
+          onSubmit: handleSubmit(registerUser),
+        }}
+      >
+        <DialogTitle>Register</DialogTitle>
+        <DialogContent>
+          <>
+            <FormInputs.userNameInput register={register} errors={errors} />
+            <FormInputs.emailInput register={register} errors={errors} />
+            <FormInputs.passwordInput register={register} errors={errors} />
+          </>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeRegister}>Cancel</Button>
+          <Button type="submit">{'Register'}</Button>
+        </DialogActions>
+      </Dialog>
+
     </>
   );
 }
