@@ -13,28 +13,6 @@ import BusinessLogin from './components/business/BusinessLogin.jsx';
 
 function App() {
 
-  useEffect(() => {
-    if (localStorage.getItem("locations"))
-      saveInLocalStorage("locations")
-    if (localStorage.getItem("categories"))
-      saveInLocalStorage("categories")
-  }, [])
-  const saveInLocalStorage = async (myEnum) => {
-    const enunData = await getEnum(myEnum);
-    localStorage.setItem(myEnum, JSON.stringify(enunData));
-  }
-
-  const getEnum = async (myEnum) => {
-    try {
-      const APIrequest=new APIrequests()
-      const response = await APIrequest.getRequest(`/enums/${myEnum}`)
-      return response.data
-    }
-    catch (error) {
-      console.error(error.message)
-    }
-  }
-
   return (
     <>
       <Router>

@@ -2,7 +2,7 @@ import { Queries } from "./query.js";
 import executeQuery from './db.js';
 
 export class PriceService {
-    static tableName = "Prices";
+    static tableName = "prices";
     static queries = new Queries();
 
     async getPricesByBusiness(params) {

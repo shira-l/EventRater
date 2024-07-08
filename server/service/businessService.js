@@ -2,6 +2,7 @@ import { Queries } from "./query.js"
 import executeQuery from './db.js';
 import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
+import {executeTransactionQuery} from './transaction.js'
 import { UserService } from "./userService.js";
 import bcrypt from 'bcrypt';
 export class BusinessService {
@@ -86,10 +87,9 @@ export class BusinessService {
         return isActive;
     }
 
-    async addBusiness(params) {
-        const { query, values } = BusinessService.queries.postQuery(BusinessService.tableName, params);
-        const result = await executeQuery(query, values);
-        return result.insertId > 0;
+    async addBusiness(data) {
+        const newBusinessId = await executeTransactionQuery(data);
+        return newBusinessId;
     }
 
     async updateBusiness(data, conditions) {

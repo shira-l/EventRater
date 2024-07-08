@@ -11,6 +11,7 @@ import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
 import ButtonAppBar from "../ButtonAppBar";
 import "./PersonalArea.css";
+import OTPInput, { ResendOTP } from "otp-input-react";
 
 
 export default function BusinessRegister() {
@@ -19,9 +20,6 @@ export default function BusinessRegister() {
     const [otp, setOtp] = useState('')
     const [businessDetails, setBusinessDetails] = useState(null)
     const [open, setOpen] = useState(false);
-    // navigate("/ggggg/", {state:{id:id}})
-    // const location = useLocation()ף
-    // const id = loction.state.id;
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             email: '',
@@ -34,7 +32,7 @@ export default function BusinessRegister() {
                 "email": businessDetailsInput.email,
                 "userName": businessDetailsInput.userName
             }
-            const url = `/businesses`;
+            const url = `/businesses/register`;
             const response = await APIrequest.postRequest(url, requestBody);
             if (businessDetails == null) {
                 const userId = await response.id;
@@ -51,15 +49,17 @@ export default function BusinessRegister() {
 
     const verifyOtp = async () => {
         try {
-            const new_otp = otp
-            const requestBody = { userId: businessDetails.userId, otp: new_otp };
+            const requestBody = { userId: businessDetails.userId, otp: otp };
             const response = await APIrequest.postRequest(`/businesses/verify`, requestBody);
             handleClose()
-            alert("Verification was successful. You are taken to your personal area")
-            navigate("/businesses/personal-area", { state: { businessDetails: businessDetails } })
+            if (response) {
+                alert("Verification was successful. You are taken to your personal area")
+                navigate("/businesses/personal-area", { state: { businessDetails: businessDetails } })
+            }
+
         }
         catch (error) {
-            console.error(error)
+            console.error(error.message)
             alert("The code you entered is incorrect, please try again")
             setOtp('')
         }
@@ -79,6 +79,7 @@ export default function BusinessRegister() {
 
         <ButtonAppBar />
         <p className="p-sign-up">
+            <h2>Sign up for Event Rating, glad you came!</h2>
             Events Rating website aims to be the most advanced website for the community of professionals in the field of events,
             and to give you and the website surfers an excellent experience.
             <br />
@@ -88,7 +89,6 @@ export default function BusinessRegister() {
             After registration,
             we will verify the details and if everything is correct, you will be added to the site.
         </p>
-
 
         <form onSubmit={handleSubmit(sendOtpCode)} className="businessForn">
             <FormInputs.userNameInput register={register} errors={errors} />
@@ -104,12 +104,13 @@ export default function BusinessRegister() {
             onClose={handleClose}
             PaperProps={{
                 component: 'form',
-                onSubmit: verifyOtp,
+                onSubmit: handleSubmit(verifyOtp),
             }}
         >
-            <DialogContent style={{display:"flex"}}>
+            <DialogContent style={{ display: "flex" }}>
                 <DialogContentText> You received an email with a verification code</DialogContentText>
-                <FormInputs.otpInput setOtp={setOtp} otp={otp} />
+                <OTPInput value={otp} onChange={setOtp} autoFocus OTPLength={6} otpType="number" disabled={false} secure />
+                <ResendOTP onResendClick={sendOtpCode} />
             </DialogContent>
             <DialogActions>
                 <Button type="submit">to verify</Button>

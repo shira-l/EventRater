@@ -1,5 +1,5 @@
 import { BusinessService } from '../service/businessService.js'
-import { basicBusinessSchema } from '../validations/BusinessValidation.js'
+import { basicBusinessSchema, businessSchema } from '../validations/BusinessValidation.js'
 import { createToken } from '../middleware/authenticateToken.js';
 // import { date } from 'joi';
 
@@ -34,7 +34,7 @@ export class BusinessController {
         }
     }
 
-    async addBusiness(req, res, next) {
+    async registerBusiness(req, res, next) {
         try {
             const { error } = basicBusinessSchema.validate(req.body);
             if (error) {
@@ -54,20 +54,35 @@ export class BusinessController {
     }
     async verifyOtp(req, res, next) {
         try {
-          //  const validate = await BusinessController.businessService.verifyBusinessSignUp(req.body);
-            //if (validate)
+            const validate = await BusinessController.businessService.verifyBusinessSignUp(req.body);
+            if (validate)
                 return res.json({});
-           // else
-               // return res.status(401).json({ message: "The code entered is incorrect, please try again" });
+            else
+                return res.status(401).json({ message: "The code entered is incorrect, please try again" });
         }
         catch (ex) {
             const err = {};
-            err.statusCode = 500;
+            err.statusCode = ex.errno;
             err.message = ex.message;
             next(err);
         }
     }
 
+    async addBUsiness(req, res, next) {
+        try {
+            const { error } = businessSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+            const idBusiness = await BusinessController.businessService.addBusiness(req.body);
+            res.json({ data: idBusiness });
+        } catch (ex) {
+            const err = {};
+            err.statusCode = ex.errno;
+            err.message = ex.message;
+            next(err);
+        }
+    }
     async deleteBusiness(req, res, next) {
         try {
             await BusinessController.businessService.deleteBusiness(req.params);

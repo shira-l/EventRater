@@ -10,9 +10,6 @@ export class APIrequests {
                     'Content-type': 'application/json',
                 },
             });
-            if(response.status!=200){
-                throw new Error(response.statusText);
-            }
             const data=response.json();
             return data;
         } catch (error) {

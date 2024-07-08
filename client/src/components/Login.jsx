@@ -41,7 +41,7 @@ export default function Login({ open, onClose }) {
       const newUser = { ...response.user, email: userDetails.email };
       localStorage.setItem('currentUser', JSON.stringify(newUser));
       setCurrentUser(newUser);
-      close();
+      onClose();
     } catch (error) {
       alert('Error, please try again with different email or password');
     }
@@ -78,7 +78,7 @@ export default function Login({ open, onClose }) {
   const closeRegister = () => {
     setShowRegister(false)
   }
-  
+
   return (
     <>
       <Dialog
@@ -100,7 +100,7 @@ export default function Login({ open, onClose }) {
           </>
         </DialogContent>
         <DialogActions>
-          <Button onClick={close}>Cancel</Button>
+          <Button onClick={onClose}>Cancel</Button>
           <Button type="submit">Login</Button>
         </DialogActions>
       </Dialog>
@@ -123,7 +123,7 @@ export default function Login({ open, onClose }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeRegister}>Cancel</Button>
-          <Button type="submit">{'Register'}</Button>
+          <Button type="submit">Register</Button>
         </DialogActions>
       </Dialog>
 

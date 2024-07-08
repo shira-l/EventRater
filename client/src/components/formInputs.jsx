@@ -87,12 +87,13 @@ export class FormInputs {
             <InputLabel sx={{ ml: 1 }}>{errors.userName?.message}</InputLabel> </Box>
     }
     static otpInput(props) {
-        const { otp, setOtp } = props;
-
+       // const [otp, setOtp] = useState('');
+        const { register } = props
         return (
             <OtpInput
-                value={otp}
-                onChange={setOtp}
+                // value={otp}
+                // onChange={setOtp}
+                {...register("otp",{})}
                 numInputs={6}
                 shouldAutoFocus:true
                 skipDefaultStyles:true
@@ -152,7 +153,7 @@ export class FormInputs {
                     message: "Description too short"
                 },
                 maxLength: {
-                    value: 20,
+                    value: 30,
                     message: "Description too long"
                 }
             })} />
