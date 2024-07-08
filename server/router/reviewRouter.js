@@ -7,7 +7,7 @@ const reviewController = new ReviewController();
 
 reviewRouter.get("/", reviewController.getReviewsByBusiness);
 reviewRouter.post("/", verifyToken, reviewController.addReview);
-// reviewRouter.post("/", reviewController.addReview);
+reviewRouter.put("/:idReview",verifyToken, reviewController.updateReview);
 reviewRouter.delete("/:idReview",verifyToken,reviewController.deleteReview);
 
 export {

@@ -55,4 +55,24 @@ export class APIrequests {
         }
     }
 
+    async putRequest(url, body) {
+        try {
+            const response = await fetch('http://localhost:8083' + url, {
+                method: 'PUT',
+                credentials: 'include',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            });
+            if (response.status !== 200) {
+                throw new Error(response.statusText);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }

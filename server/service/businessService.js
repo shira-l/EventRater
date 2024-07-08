@@ -27,7 +27,7 @@ export class BusinessService {
     }
 
     async getBusinessById(params) {
-        const columns = " about, email, phone";
+        const columns = "about, email, phone";
         const joinTables = [
             { table: 'users', condition: `businesses.userId = users.idUser` }
         ];

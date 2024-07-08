@@ -1,18 +1,23 @@
-import React, { useState, useContext, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import ReactStars from 'react-rating-stars-component';
 import { APIrequests } from '../../APIrequests.js';
-import { UserContext } from '../../UserProvider';
 import { useParams } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-
-const AddReview = ({closeAddReview, addNewReview}) => {
+const AddReview = ({ closeAddReview, addNewReview, isUpdate, reviewToUpdate }) => {
     const { idBusiness } = useParams();
     const user = JSON.parse(localStorage.getItem('currentUser'));
-    const [reviewText, setReviewText] = useState('');
-    const [rating, setRating] = useState(0);
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+        defaultValues: isUpdate ? reviewToUpdate : { description: '', rating: 0 },
+        shouldUnregister: false
+    });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const rating = watch('rating');
+
+    const onSubmit = async (data) => {
         if (!user) {
             alert('You need to be logged in to add a review.');
             history.push('/login');
@@ -22,45 +27,65 @@ const AddReview = ({closeAddReview, addNewReview}) => {
         try {
             const APIrequest = new APIrequests();
             const date = convertToMySQLDateTime(new Date().toISOString());
-            const newReview = {
-                "rating": rating,
-                "description": reviewText,
+
+            const review = {
+                "rating": data.rating,
+                "description": data.description,
                 "userId": user.idUser,
                 "businessId": idBusiness,
-                "productionDate": date
-            }
-            const url = `/reviews`;
-            const response = await APIrequest.postRequest(url, newReview);
-            alert('Your review was added successfully');
-            newReview.userName = user.userName;
-            addNewReview(newReview);
+                "productionDate": isUpdate ? convertToMySQLDateTime(reviewToUpdate.productionDate) : date
+            };
+            // const review = {
+            //     "rating": data.rating,
+            //     "description": data.description,
+            // }
+            // if (!isUpdate){
+            //     review.userId=user.idUser,
+            //     review.businessId=idBusiness,
+            //     review.productionDate=date;
+            // }
+
+            const url = isUpdate ? `/reviews/${reviewToUpdate.idReview}` : `/reviews`;
+            const method = isUpdate ? 'putRequest' : 'postRequest';
+            const response = await APIrequest[method](url, review);
+            
+            review.idReview = isUpdate ? reviewToUpdate.idReview : response;
+            review.userName = user.userName;
+            addNewReview(review);
             closeAddReview();
-            setReviewText('');
-            setRating(0);
         } catch (error) {
             alert('Error adding review');
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <textarea
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-                placeholder="Add your review"
-                required
-            />
-            <ReactStars
-                count={5}
-                value={rating}
-                size={24}
-                isHalf={true}
-                edit={true}
-                onChange={(newRating) => setRating(newRating)}
-                activeColor="#ffd700"
-            />
-            <button type="submit">Submit</button>
-        </form>
+        <Modal
+            open={true}
+            onClose={closeAddReview}
+        >
+            <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 1, width: '35%', mx: 'auto', mt: '10%' }}>
+                <TextField
+                    fullWidth
+                    label="Add your review"
+                    margin="normal"
+                    multiline
+                    rows={5}
+                    {...register("description", { required: "Please enter your review." })}
+                    error={!!errors.description}
+                    helperText={errors.description ? errors.description.message : ''}
+                />
+                <ReactStars
+                    count={5}
+                    value={rating}
+                    size={24}
+                    isHalf={true}
+                    edit={true}
+                    onChange={(newRating) => setValue('rating', newRating)}
+                    activeColor="#ffd700"
+                />
+                <Button type="submit" variant="contained" color="primary">Submit</Button>
+            </Box>
+        </Modal>
     );
 };
 
@@ -75,6 +100,5 @@ const convertToMySQLDateTime = (isoDate) => {
 
     return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
 };
-
 
 export default AddReview;

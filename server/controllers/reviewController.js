@@ -46,6 +46,23 @@ export class ReviewController {
             next(err);
         }
     }
+    
+    async updateReview(req, res, next) {
+        try {
+            const { error } = reviewSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+            const resultItem = await ReviewController.reviewService.updateReview(req.params, req.body);
+            res.json({ data: resultItem });
+        } catch (ex) {
+            const err = {};
+            err.statusCode = 500;
+            err.message = ex;
+            next(err);
+        }
+    }
+    
    async deleteReview(req, res, next){
     try {
      await ReviewController.reviewService.deleteReview(req.params);
