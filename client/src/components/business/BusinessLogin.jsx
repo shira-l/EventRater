@@ -13,7 +13,14 @@ import ButtonAppBar from "../ButtonAppBar";
 import "./PersonalArea.css";
 
 export default function BusinessLogin(){
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+        defaultValues: {
+            email: '',
+            password: '',
+        }
+    })
     return(<>
+    <ButtonAppBar/>
      <form onSubmit={handleSubmit(sendOtpCode)} className="businessForn">
             <FormInputs.emailInput register={register} errors={errors} />
             <FormInputs.passwordInput register={register} errors={errors}/>

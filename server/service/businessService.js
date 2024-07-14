@@ -2,7 +2,7 @@ import { Queries } from "./query.js"
 import executeQuery from './db.js';
 import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
-import {executeTransactionQuery} from './transaction.js'
+import { executeTransactionQuery } from './transaction.js'
 import { UserService } from "./userService.js";
 import bcrypt from 'bcrypt';
 export class BusinessService {
@@ -75,8 +75,8 @@ export class BusinessService {
         if (!userOtp.length) {
             throw new Error('business is not exists')
         }
-        let compare=await bcrypt.compare(otp,userOtp[0].otp);
-       return compare;
+        let compare = await bcrypt.compare(otp, userOtp[0].otp);
+        return compare;
     };
 
 
@@ -88,13 +88,15 @@ export class BusinessService {
     }
 
     async addBusiness(data) {
+        console.log("service")
+        data.password = await bcrypt.hash(data.password, 10);
         const newBusinessId = await executeTransactionQuery(data);
         return newBusinessId;
     }
 
     async updateBusiness(data, conditions) {
-        const { query, values } = BusinessService.queries.updateQuery(BusinessService.tableName, data, conditions);
-        await executeQuery(query, values);
+        const query = BusinessService.queries.updateQuery(BusinessService.tableName, Object.keys(data), Object.keys(conditions));
+        await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
     }
 
 

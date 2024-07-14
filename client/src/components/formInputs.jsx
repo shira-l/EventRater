@@ -96,7 +96,7 @@ export class FormInputs {
     static phoneInput({ register, errors }) {
         return (
             <TextField id="phone" name='phone' label='phone'
-                sx={{ m: 1, width: '22ch' }}
+                sx={{ m: 1, width: '21ch' }}
                 type="phone" margin="normal" variant="standard"
                 {...register("phone", {
                     required: "please enter your phone number"
@@ -111,7 +111,7 @@ export class FormInputs {
         const { register, errors } = props
         return (<FormControl sx={{ m: 1, width: '10ch' }} variant="standard">
             <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
-            <Input   {...register("amount", {
+            <Input   {...register("itemPrice", {
                 required: "please enter amount",
                 pattern: {
                     value: /^[0-9]+$/i,
@@ -137,7 +137,7 @@ export class FormInputs {
                     </InputAdornment>
                 ),
             }}
-            {...register("description", {
+            {...register("itemDescription", {
                 required: "please enter description",
                 pattern: {
                     value: /^[a-zA-Z\s]*$/i,

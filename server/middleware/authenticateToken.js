@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 
 export const verifyToken = (req, res, next) => {
     const token = req?.query?.token || req?.cookies["x-access-token"];
+    console.log(token)
     if (!token)
         return res.sendStatus(403).send("not access Token");
 

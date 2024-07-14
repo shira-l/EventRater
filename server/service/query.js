@@ -41,12 +41,11 @@ export class Queries {
         return { query, values };
     }
 
-    postQuery(table, data){
-        const columns = Object.keys(data).join(', ');
-        const placeholders = Object.keys(data).map(() => '?').join(', ');
-        const values = Object.values(data);
-        const query = `INSERT INTO ${table} (${columns}) VALUES (${placeholders})`;
-        return { query, values };
+    postQuery(table, keys){
+        const columns = keys.join(', ');
+        const placeholders = keys.map(() => '?').join(', ');
+        const query = `INSERT INTO ${process.env.DB_NAME}.${table} (${columns}) VALUES (${placeholders})`;
+        return query;
     }
     deleteQuery(table,idObject) {
         const key=Object.keys(idObject)
@@ -54,11 +53,10 @@ export class Queries {
         const query = `UPDATE ${table} SET isActive =0 WHERE ${key} = ? AND isActive =1 `;
         return {query,values};
     }
-    updateQuery(table,columns,data) {
-        const keys= Object.keys(columns).map((column) => `${column}=?`).join(', ');
-        const placeholders = Object.keys(data).map((key) => `${key}=?`).join(' AND ');
-        const values = [...Object.values(columns),...Object.values(data)];
+    updateQuery(table,setData,condition) {
+        const keys= setData.map((item) => `${item}=?`).join(', ');
+        const placeholders = condition.map((key) => `${key}=?`).join(' AND ');
         const query = `UPDATE ${table} SET ${keys} WHERE ${placeholders}`;
-        return { query, values };
+        return query;
     }
 }

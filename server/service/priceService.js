@@ -12,11 +12,6 @@ export class PriceService {
         return result;
     }
 
-    async addPrice(data) {
-        const { query, values } = PriceService.queries.postQuery(PriceService.tableName, data);
-        const result = await executeQuery(query, values);
-        return result.insertId;
-    }
 
     async deletePrice(priceId) {
         const { query, values } = PriceService.queries.deleteQuery(PriceService.tableName, priceId);

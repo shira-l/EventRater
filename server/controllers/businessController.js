@@ -1,7 +1,7 @@
 import { BusinessService } from '../service/businessService.js'
 import { basicBusinessSchema, businessSchema } from '../validations/BusinessValidation.js'
 import { createToken } from '../middleware/authenticateToken.js';
-// import { date } from 'joi';
+import { priceSchema } from '../validations/priceValidation.js';
 
 
 export class BusinessController {
@@ -70,10 +70,19 @@ export class BusinessController {
 
     async addBUsiness(req, res, next) {
         try {
-            const { error } = businessSchema.validate(req.body);
+            console.log("addBUsiness")
+            const { error } = businessSchema.validate({ ...req.body.businessDetails, password: req.body.password });
             if (error) {
+                console.log("error in business",error)
                 return res.status(400).json({ message: error.details[0].message });
             }
+            req.body.priceOffers.map(price => {
+                const {error} = priceSchema.validate(price);
+                if (error) {
+                    console.log("error in price",error)
+                    return res.status(400).json({ message: error.details[0].message });
+                }
+            })
             const idBusiness = await BusinessController.businessService.addBusiness(req.body);
             res.json({ data: idBusiness });
         } catch (ex) {

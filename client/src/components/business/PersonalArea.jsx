@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { EnumContext } from "../EnumsProvider";
 import ButtonAppBar from "../ButtonAppBar";
 import { Button } from "@mui/material";
+import { TextField } from "@mui/material";
 import { APIrequests } from "../../APIrequests";
 import './PersonalArea.css'
 export default function PersonalArea() {
@@ -29,8 +30,8 @@ export default function PersonalArea() {
     })
     const { register: savePrice, handleSubmit: handleSubmitPrice, formState: { errors: priceErrors }, reset: resetPrice } = useForm({
         defaultValues: {
-            amount: '',
-            description: '',
+            itemPrice: '',
+            itemDescription: '',
         }
     })
 
@@ -48,10 +49,13 @@ export default function PersonalArea() {
     const addNewBusiness = async (inputDetails) => {
         console.log(inputDetails)
         const hashPassword = generatePasswordHash(inputDetails.password);
-        const businessDetails = { ...authBusinessDetails, ...inputDetails, password: hashPassword }
+        delete inputDetails.password;
         const requestBody = {
-            businessDetails: businessDetails
-            , priceOffers: priceOffers
+            businessDetails: inputDetails,
+            priceOffers: priceOffers,
+            userName:authBusinessDetails.userName,
+            userId:authBusinessDetails.userId,
+            password:hashPassword
         }
         try {
             const url = '/businesses';
@@ -150,8 +154,14 @@ export default function PersonalArea() {
                     <br />
                     <FormInputs.phoneInput register={register} errors={errors} />
                 </div>
-                <div> <p>Tell us about yourself:</p>
-                    <textarea rows={7} cols={40} placeholder="About me" />
+                <div> <p>Tell us about you:</p>
+                    <TextField
+                        label="About me"
+                        margin="normal" multiline rows={5}
+                        style={{ width: " 32ch" }}
+                        {...register("about", { required: "Please tell us about you" })}
+                        helperText={errors.about ? errors.about.message : ''}
+                    />
                 </div>
                 <FormInputs.passwordInput register={register} errors={errors} />
                 {isNewBusiness ? <Button type="submit">Submit</Button> :

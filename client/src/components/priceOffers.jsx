@@ -8,7 +8,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import './priceOffers.css'
 export default function PriceOffersList({ priceOffers, setPriceOffers }) {
 
-    const [currentEdit, setCurrentEdit] = useState({ key: null, amount: '', description: '' })
+    const [currentEdit, setCurrentEdit] = useState({ key: null, itemPrice: '', itemDescription: '' })
     const deletePrice = (index) => {
         setPriceOffers(priceOffers.filter((price, i) => i != index))
     }
@@ -43,9 +43,9 @@ export default function PriceOffersList({ priceOffers, setPriceOffers }) {
                         </IconButton></>
                     }
                 >
-                    <input name='amount' disabled={currentEdit.key != i} value={currentEdit.key != i ? value.amount : currentEdit.amount}
+                    <input name='itemPrice' disabled={currentEdit.key != i} value={currentEdit.key != i ? value.itemPrice : currentEdit.itemPrice}
                         onChange={handleChange} />
-                    <input name='description' disabled={currentEdit.key != i} value={currentEdit.key != i ? value.description : currentEdit.description}
+                    <input name='itemDescription' disabled={currentEdit.key != i} value={currentEdit.key != i ? value.itemDescription : currentEdit.itemDescription}
                         onChange={handleChange} />
                 </ListItem>
             ))}
