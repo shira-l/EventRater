@@ -23,14 +23,13 @@ export class UserService {
         return userId;
     }
 
-    async loginUser(params) {
-        const email = params.email;
-        const password = params.password;
+    async loginUser(params,isBusiness) {
+        const {email,password} = params;
         const columns = "idUser, userName, password";
         const joinTables = [
             { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
         ];
-        const { query, values } = UserService.queries.getQuery(UserService.table, columns, joinTables, { email: email, isBusiness: false });
+        const { query, values } = UserService.queries.getQuery(UserService.table, columns, joinTables, { email: email, isBusiness: isBusiness });
 
         const users = await executeQuery(query, values);
         if (!users || users.length === 0) {

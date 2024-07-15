@@ -4,6 +4,7 @@ import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
 import { executeTransactionQuery } from './transaction.js'
 import { UserService } from "./userService.js";
+import { PriceService } from "./priceService.js";
 import bcrypt from 'bcrypt';
 export class BusinessService {
     static tableName = "businesses";
@@ -35,7 +36,22 @@ export class BusinessService {
         const result = await executeQuery(query, values);
         return result;
     }
+    async loginBusiness(params) {
+        try {
+            const userService = new UserService();
+            const priceService = new PriceService()
+            const userDetails = await userService.loginUser(params, true);
+            const columns = "idBusiness,about, phone,category,location";
+            const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { userId: userDetails.idUser });
+            const businessDetails = await executeQuery(query, values);
+            const priceOffers = await priceService.getPricesByBusiness({ businessId: businessDetails.idBusiness })
+            return {userDetails,businessDetails,priceOffers}
+        }
+        catch (error) {
+            throw error
+        }
 
+    }
     async signUpBusiness(params) {
         const { email, userName } = params;
         const business = await this.businessActive(email);
@@ -88,7 +104,6 @@ export class BusinessService {
     }
 
     async addBusiness(data) {
-        console.log("service")
         data.password = await bcrypt.hash(data.password, 10);
         const newBusinessId = await executeTransactionQuery(data);
         return newBusinessId;

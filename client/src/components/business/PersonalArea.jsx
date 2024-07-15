@@ -53,9 +53,9 @@ export default function PersonalArea() {
         const requestBody = {
             businessDetails: inputDetails,
             priceOffers: priceOffers,
-            userName:authBusinessDetails.userName,
-            userId:authBusinessDetails.userId,
-            password:hashPassword
+            userName: authBusinessDetails.userName,
+            userId: authBusinessDetails.userId,
+            password: hashPassword
         }
         try {
             const url = '/businesses';
@@ -67,67 +67,6 @@ export default function PersonalArea() {
         }
         reset();
     }
-    // const takePhoto = () => {
-    //     if (!webCam) {
-    //       setWebCamVisibility(true);
-    //     } else {
-    //       const imageSrc = webcamRef.current.getScreenshot();
-    //       setWebCamVisibility(false);
-    //       setImage(imageSrc);
-    //       setError(false);
-    //     }
-    //   };
-    // const ImgUpload = ({ onChange, src }) =>
-    //     <label htmlFor="photo-upload" className="custom-file-upload fas">
-    //         <div className="img-wrap img-upload" >
-    //             <img htmlFor="photo-upload" src={src} />
-    //         </div>
-    //         <input id="photo-upload" type="file" onChange={onChange} />
-    //     </label>
-
-    // const Profile = ({ onSubmit, src, }) =>
-    //     <form onSubmit={onSubmit}>
-    //         <label className="custom-file-upload fas">
-    //             <div className="img-wrap" >
-    //                 <img htmlFor="photo-upload" src={src} />
-    //             </div>
-    //         </label>
-    //         <button type="submit" className="edit">Edit Profile </button>
-    //     </form>
-
-
-    // const [profileState, setProfileState] = useState({
-    //     file: '',
-    //     imagePreviewUrl: 'https://cdn0.iconfinder.com/data/icons/actions-ono-system-core/30/account_circle-profile-profile_picture-default_picture-512.png',
-    //     active: 'edit'
-    // })
-
-    // const photoUpload = e => {
-    //     e.preventDefault();
-    //     const reader = new FileReader();
-    //     const file = e.target.files[0];
-    //     reader.onloadend = () => {
-    //         setProfileState({
-    //             ...profileState,
-    //             file: file,
-    //             imagePreviewUrl: reader.result
-    //         });
-    //     }
-    //     reader.readAsDataURL(file);
-    // }
-
-
-    // const handleSubmit = e => {
-    //     e.preventDefault();
-    //     let activeP = profileState.active === 'edit' ? 'profile' : 'edit';
-    //     setProfileState({
-    //         ...profileState,
-    //         active: activeP,
-    //     })
-    // }
-
-
-
 
 
     return (<>
@@ -135,14 +74,6 @@ export default function PersonalArea() {
         <div className="profile-div">
             <p>{authBusinessDetails.userName}</p>
             <p>{authBusinessDetails.email}</p>
-            {/* {(profileState.active === 'edit') ? (
-                <ImgUpload onChange={photoUpload} src={profileState.imagePreviewUrl} />
-            ) : (
-                <Profile
-                    onSubmit={handleSubmit}
-                    src={profileState.imagePreviewUrl}
-                />)} */}
-
         </div>
         <div className='forms-container'>
             <form onSubmit={handleSubmit(addNewBusiness)} className="businessForn">

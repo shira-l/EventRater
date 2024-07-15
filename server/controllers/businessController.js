@@ -33,7 +33,19 @@ export class BusinessController {
             next(err)
         }
     }
-
+    async loginBusiness(req, res, next) {
+        try {
+            const { userDetails, businessDetails, priceOffers } = await BusinessController.businessService.loginBusiness(req.body);
+            const token = createToken({ id: business.idBusiness });
+            return res.cookie('x-access-token', token, { httpOnly: true, secure: true, maxAge: 259200000 })
+                .json({ userDetails: userDetails, businessDetails: businessDetails, priceOffers: priceOffers });
+        } catch (ex) {
+            const err = {};
+            err.statusCode = 500;
+            err.message = ex.message;
+            next(err);
+        }
+    }
     async registerBusiness(req, res, next) {
         try {
             const { error } = basicBusinessSchema.validate(req.body);
@@ -73,13 +85,13 @@ export class BusinessController {
             console.log("addBUsiness")
             const { error } = businessSchema.validate({ ...req.body.businessDetails, password: req.body.password });
             if (error) {
-                console.log("error in business",error)
+                console.log("error in business", error)
                 return res.status(400).json({ message: error.details[0].message });
             }
             req.body.priceOffers.map(price => {
-                const {error} = priceSchema.validate(price);
+                const { error } = priceSchema.validate(price);
                 if (error) {
-                    console.log("error in price",error)
+                    console.log("error in price", error)
                     return res.status(400).json({ message: error.details[0].message });
                 }
             })
