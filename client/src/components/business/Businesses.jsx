@@ -34,7 +34,7 @@ export default function Businesses() {
     const range = 7;
     const options = [
         { value: 'averageRating DESC', label: 'דירוג' },
-        { value: 'price DESC', label: 'מחיר' },
+        { value: 'minPrice ASC', label: 'מחיר' },
         { value: 'userName ASC', label: 'סדר אלפביתי' }
     ];
     const locations = [
@@ -56,13 +56,13 @@ export default function Businesses() {
         let start = seeMore.current ? businesses.length : 0;
         let url = `/businesses?category=${category}`;
         if (searchCriteria.searchBusinessName) {
-            url += `&userName LIKE ${searchCriteria.searchBusinessName}`;
+            url += `&userName=${searchCriteria.searchBusinessName}`;
         }
         if (searchCriteria.searchLocation) {
             url += `&locationName=${searchCriteria.searchLocation}`;
         }
         if (searchCriteria.searchPriceRange[0] != minPrice || searchCriteria.searchPriceRange[1] != maxPrice) {
-            url += `&minPrice>${searchCriteria.searchPriceRange[0]}||maxPrice<${searchCriteria.searchPriceRange[1]}`;
+            url += `&minPrice=${searchCriteria.searchPriceRange[0]}&maxPrice=${searchCriteria.searchPriceRange[1]}`;
         }
         if (sortBy) {
             url += `&sort=${sortBy}`;

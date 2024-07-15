@@ -1,37 +1,53 @@
-import { Queries } from "./query.js"
+// import { Queries } from "./query.js"
 import executeQuery from './db.js';
 import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
 import {executeTransactionQuery} from './transaction.js'
 import { UserService } from "./userService.js";
+import { getBusinessByCategoryQuery, getBusinessByIdQuery } from "../queries/businessQueries.js";
+import { GenericQuery } from "../queries/generyQueries.js";
 import bcrypt from 'bcrypt';
+
 export class BusinessService {
     static tableName = "businesses";
-    static queries = new Queries();
+    // static queries = new Queries();
     async getBusinessByCategory(params) {
-        const columns = "idBusiness, userName, locationName, COUNT(idReview) AS reviewCount,AVG(rating) AS averageRating, MIN(prices.itemPrice) AS minPrice, MAX(prices.itemPrice) AS maxPrice";
-        const joinTables = [
-            { table: 'categories', condition: `Businesses.category = categories.idCategory` },
-            { table: 'locations', condition: `Businesses.location = locations.idLocation` },
-            { table: 'reviews', condition: `businesses.idBusiness = reviews.businessId` },
-            { table: 'users', condition: `businesses.userId = users.idUser` },
-            { table: 'prices', condition: `businesses.idBusiness = prices.businessId` }
-        ];
-        params["users.isActive"] = '1';
-        params["categoryName"] = params["category"];
-        delete params["category"];
-        params["users.isActive"] = '1';
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params, "idBusiness");
+        let query = getBusinessByCategoryQuery;
+        let values = [params.category];
+        if(params.userName){
+            query += " AND userName LIKE ? ";
+            values.push(`%${params.userName}%`);
+        }
+        if(params.locationName){
+            query += " AND locationName = ? ";
+            values.push(params.locationName);
+        }
+        if(params.minPrice && params.maxPrice){
+            params.having = `NOT (MIN(itemPrice) > ? OR MAX(itemPrice) < ?)`;
+            values.push(params.maxPrice, params.minPrice);
+        } 
+        if(params.groupBy){
+            params.groupBy += `, businesses.idBusiness, users.userName, locations.locationName`
+        } else{
+            params.groupBy = `businesses.idBusiness, users.userName, locations.locationName`
+        }
+        
+        const addQuery = GenericQuery.getAdvancedQuery({
+            groupBy: params.groupBy,
+            having: params.having,
+            sort: params.sort,
+            limit: params.range,
+            offset: params.start
+        });  
+        query += addQuery;  
         const result = await executeQuery(query, values);
         return result;
     }
 
+
     async getBusinessById(params) {
-        const columns = "about, email, phone";
-        const joinTables = [
-            { table: 'users', condition: `businesses.userId = users.idUser` }
-        ];
-        const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, joinTables, params);
+        const query = getBusinessByIdQuery;
+        const values = [params.idBusiness];
         const result = await executeQuery(query, values);
         return result;
     }
@@ -93,13 +109,13 @@ export class BusinessService {
     }
 
     async updateBusiness(data, conditions) {
-        const { query, values } = BusinessService.queries.updateQuery(BusinessService.tableName, data, conditions);
+        const { query, values } = GenericQuery.updateQuery(BusinessService.tableName, data, conditions);
         await executeQuery(query, values);
     }
 
 
     async deleteBusiness(businessId) {
-        const { query, values } = BusinessService.queries.deleteQuery(BusinessService.tableName, businessId);
+        const { query, values } = GenericQuery.deleteQuery(BusinessService.tableName, businessId);
         const result = await executeQuery(query, values);
         return result;
     }

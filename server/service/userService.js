@@ -1,9 +1,11 @@
-import { Queries } from './query.js';
+// import { Queries } from './query.js';
 import { PasswordService } from './passwordService.js';
 import executeQuery from './db.js';
+import { GenericQuery } from "../queries/generyQueries.js";
+import { loginUserQuery } from "../queries/userQueries.js";
 
 export class UserService {
-    static queries = new Queries();
+    // static queries = new Queries();
     static table = "users";
 
     async registerUser(params) {
@@ -24,15 +26,10 @@ export class UserService {
     }
 
     async loginUser(params) {
+        const query = loginUserQuery;
         const email = params.email;
         const password = params.password;
-        const columns = "idUser, userName, password";
-        const joinTables = [
-            { table: 'passwords', condition: `users.passwordId = passwords.idPassword` }
-        ];
-        const { query, values } = UserService.queries.getQuery(UserService.table, columns, joinTables, { email: email, isBusiness: false });
-
-        const users = await executeQuery(query, values);
+        const users = await executeQuery(query, [email]);
         if (!users || users.length === 0) {
             throw new Error("Invalid username or password");
         }
@@ -45,25 +42,26 @@ export class UserService {
         delete users[0].password
         return users[0];
     }
+
     async userExists(email) {
         const columns = "1";
-        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], { email: email, isBusiness: false, isActive: true });
+        const { query, values } = GenericQuery.getQuery(UserService.table, columns, { email: email, isBusiness: false, isActive: true });
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
 
     async addUser(params) {
-        const userQuery = UserService.queries.postQuery(UserService.table, params);
+        const userQuery = GenericQuery.postQuery(UserService.table, params);
         const result = await executeQuery(userQuery.query, userQuery.values);
         return result.insertId;
     }
     async updateUser(data, conditions) {
         console.log("update",data)
-        const { query, values } = UserService.queries.updateQuery(UserService.table, data, conditions);
+        const { query, values } = GenericQuery.updateQuery(UserService.table, data, conditions);
         await executeQuery(query, values);
     }
     async getUserByValue(value, columns) {
-        const { query, values } = UserService.queries.getQuery(UserService.table, columns, [], value);
+        const { query, values } = GenericQuery.getQuery(UserService.table, columns, value);
         const result = await executeQuery(query, values);
         return result;
     }

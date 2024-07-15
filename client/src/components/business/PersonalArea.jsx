@@ -139,13 +139,13 @@ export default function PersonalArea() {
         <div className="profile-div">
             <p>{authBusinessDetails.userName}</p>
             <p>{authBusinessDetails.email}</p>
-            {/* {(profileState.active === 'edit') ? (
+            {(profileState.active === 'edit') ? (
                 <ImgUpload onChange={photoUpload} src={profileState.imagePreviewUrl} />
             ) : (
                 <Profile
                     onSubmit={handleSubmit}
                     src={profileState.imagePreviewUrl}
-                />)} */}
+                />)}
 
         </div>
         <div className='forms-container'><form onSubmit={handleSubmit(addNewBusiness)} className="businessForn" style={{ textAlign: "center" }}>

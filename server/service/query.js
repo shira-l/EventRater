@@ -1,24 +1,48 @@
 export class Queries {
 
-    getQuery(table, columns, joinTables = [], params = {}, groupBy = '') {
+    // getQuery(table, columns, joinTables = [], params = {}, groupBy = '') {
+    //     let query = `SELECT ${columns} FROM ${table}`;
+    //     const values = [];
+
+    //     if (joinTables.length > 0) {
+    //         joinTables.forEach((join) => {
+    //             query += ` JOIN ${join.table} ON ${join.condition}`;
+    //         });
+    //     }
+
+    //     const conditionsArray = [];
+    //     if (Object.keys(params).length > 0) {
+    //         for (const param in params) {
+    //             if (param !== 'sort' && param !== 'range' && param !== 'start' && param !== 'conditions') {
+    //                 conditionsArray.push(`${param} = ?`);
+    //                 values.push(params[param]);
+    //             }
+    //         }
+    //     }
+
+    //     if (conditionsArray.length > 0) {
+    //         query += ` WHERE ${conditionsArray.join(' AND ')}`;
+    //     }
+
+    //     if (groupBy) {
+    //         query += ` GROUP BY ${groupBy}`;
+    //     }
+
+    //     if (params.sort) {
+    //         query += ` ORDER BY ${params.sort}`;
+    //     }
+
+    //     if (params.range && params.start) {
+    //         const offset = params.start;
+    //         const limit = params.range;
+    //         query += ` LIMIT ${limit} OFFSET ${offset}`;
+    //     }
+
+    //     return { query, values };
+    // }
+
+    getQuery(table, columns, conditionsArray = [], groupBy = '', sort = '', range = {}, start = 0) {
         let query = `SELECT ${columns} FROM ${table}`;
-        const values = [];
-
-        if (joinTables.length > 0) {
-            joinTables.forEach((join) => {
-                query += ` JOIN ${join.table} ON ${join.condition}`;
-            });
-        }
-
-        const conditionsArray = [];
-        if (Object.keys(params).length > 0) {
-            for (const param in params) {
-                if (param !== 'sort' && param !== 'range' && param !== 'start' && param !== 'conditions') {
-                    conditionsArray.push(`${param} = ?`);
-                    values.push(params[param]);
-                }
-            }
-        }
 
         if (conditionsArray.length > 0) {
             query += ` WHERE ${conditionsArray.join(' AND ')}`;
@@ -28,17 +52,17 @@ export class Queries {
             query += ` GROUP BY ${groupBy}`;
         }
 
-        if (params.sort) {
-            query += ` ORDER BY ${params.sort}`;
+        if (sort) {
+            query += ` ORDER BY ${sort}`;
         }
 
-        if (params.range && params.start) {
-            const offset = params.start;
-            const limit = params.range;
+        if (range && start) {
+            const offset = start;
+            const limit = range;
             query += ` LIMIT ${limit} OFFSET ${offset}`;
         }
 
-        return { query, values };
+        return { query };
     }
 
     postQuery(table, data){

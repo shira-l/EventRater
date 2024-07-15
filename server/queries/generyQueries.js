@@ -1,36 +1,41 @@
 export class GenericQuery {
-    static getQuery(table, columns, params = {}) {
+    static getQuery(table, columns, conditions = []) {
         let query = `SELECT ${columns} FROM ${table}`;
         const values = [];
         const conditionsArray = [];
 
-        for (const param in params) {
-            if (param !== 'sort' && param !== 'range' && param !== 'start' && param !== 'conditions') {
-                conditionsArray.push(`${param} ${params[param].operator} ?`);
-                values.push(params[param].value);
-            } else {
-                conditionsArray.push(`${param} = ?`);
-                values.push(params[param]);
-            }
+        for (const param in conditions) {
+            conditionsArray.push(`${param} ${conditions[param].operator} ?`);
+            values.push(conditions[param].value);
         }
 
         if (conditionsArray.length > 0) {
             query += ` WHERE ${conditionsArray.join(' AND ')}`;
         }
 
+        return { query, values };
+    }
+
+    static getAdvancedQuery(options = {}) {
+        let addQuery = '';
+
         if (options.groupBy) {
-            query += ` GROUP BY ${options.groupBy}`;
+            addQuery += ` GROUP BY ${options.groupBy}`;
+        }
+
+        if (options.having) {
+            addQuery += ` HAVING ${options.having}`;
         }
 
         if (options.sort) {
-            query += ` ORDER BY ${options.sort}`;
+            addQuery += ` ORDER BY ${options.sort}`;
         }
 
         if (options.limit && options.offset !== undefined) {
-            query += ` LIMIT ${options.limit} OFFSET ${options.offset}`;
+            addQuery += ` LIMIT ${options.limit} OFFSET ${options.offset}`;
         }
 
-        return { query, values };
+        return addQuery;
     }
 
     static postQuery(table, data) {
