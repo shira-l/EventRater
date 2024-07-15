@@ -12,6 +12,9 @@ export class PasswordService {
         const passwordQuery = GenericQuery.postQuery(PasswordService.passwordsTable, params);
         console.log(params)
         const result = await executeQuery(passwordQuery.query, passwordQuery.values);
+        // const passwordQuery = PasswordService.queries.postQuery(PasswordService.passwordsTable, Object.keys(params));
+        // const result = await executeQuery(passwordQuery,Object.values(params));
+
         return result.insertId;
     }
 

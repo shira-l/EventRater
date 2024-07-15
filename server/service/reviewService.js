@@ -18,6 +18,9 @@ export class ReviewService {
     async addReview(data) {
         const { query, values } = GenericQuery.postQuery(ReviewService.tableName, data);
         const result = await executeQuery(query, values);
+        // const query = ReviewService.queries.postQuery(ReviewService.tableName, Object.keys(data));
+        // const result = await executeQuery(query, Object.values(data));
+
         return result.insertId;
     }
 

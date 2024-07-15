@@ -1,20 +1,20 @@
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import React, { useState } from 'react';
-import OtpInput from 'react-otp-input';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import { IconButton } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Input } from '@mui/material';
 import { Box } from '@mui/material';
+import FormHelperText from '@mui/material/FormHelperText';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export class FormInputs {
-    static emailInput(props) {
-        const { register, errors } = props
-        return <div> <FormControl sx={{ m: 1, width: '22ch' }} variant="standard">
+
+    static emailInput({ register, errors }) {
+        return (<FormControl sx={{ m: 1, width: '22ch' }} variant="standard">
             <TextField name="email"
                 label="email" type="text" variant="standard"
                 {...register("email", {
@@ -23,20 +23,22 @@ export class FormInputs {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         message: 'please enter a valid email'
                     }
-                })} />
-        </FormControl>
-            <InputLabel sx={{ ml: 1 }}>{errors.email?.message}</InputLabel></div>
+                })}
+                helperText={errors.email ? errors.email?.message : ''} />
+        </FormControl>)
     }
-    static passwordInput(props) {
-        const { register, errors } = props
-        const [showPassword, setShowPassword] = React.useState(false);
+
+
+    static passwordInput({ register, errors }) {
+
+        const [showPassword, setShowPassword] = useState(false);
 
         const handleClickShowPassword = () => setShowPassword((show) => !show);
 
         const handleMouseDownPassword = (event) => {
             event.preventDefault();
         };
-        return <><FormControl sx={{ m: 1, width: '22ch' }} variant="standard">
+        return <FormControl sx={{ m: 1, width: '22ch' }} variant="standard">
             <InputLabel>password</InputLabel>
             <Input name="password" variant="standard"
                 type={showPassword ? 'text' : 'password'}
@@ -61,16 +63,19 @@ export class FormInputs {
                         message: "Password must be at most 20 characters long."
                     }
                 })} />
+            <FormHelperText>{errors.password ? errors.password.message : ''} </FormHelperText>
         </FormControl>
-            <InputLabel>{errors.password?.message}</InputLabel></>
     }
-    static userNameInput(props) {
-        const { register, errors } = props
+
+
+    static userNameInput({ register, errors }) {
+
         return <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <AccountCircle sx={{ color: 'action.active', mr: 1, paddingBottom: 0.5, my: 0.5 }} /><TextField margin="normal" name="name"
+            <AccountCircle sx={{ color: 'action.active', mr: 1, paddingBottom: 0.5, my: 0.5 }} />
+            <TextField margin="normal" name="userName"
                 sx={{ width: '19.5ch' }} label="user name" type="text" variant="standard"
                 {...register("userName", {
-                    required: "Please enter a username.",
+                    required: "Please enter a user name.",
                     pattern: {
                         value: /^[a-z\u0590-\u05fe]+$/i,
                         message: "Please enter only alphabetic characters."
@@ -83,42 +88,30 @@ export class FormInputs {
                         value: 20,
                         message: "Username must be at most 20 characters long."
                     }
-                })} />
-            <InputLabel sx={{ ml: 1 }}>{errors.userName?.message}</InputLabel> </Box>
+                })}
+                helperText={errors.userName ? errors.userName.message : ''} />
+        </Box>
     }
-    static otpInput(props) {
-       // const [otp, setOtp] = useState('');
-        const { register } = props
+
+    static phoneInput({ register, errors }) {
         return (
-            <OtpInput
-                // value={otp}
-                // onChange={setOtp}
-                {...register("otp",{})}
-                numInputs={6}
-                shouldAutoFocus:true
-                skipDefaultStyles:true
-                renderSeparator={<span>-</span>}
-                renderInput={(props) => <input {...props} />}
-            />
-        );
-    }
-    static phoneInput(props) {
-        const { register, errors } = props
-        return (
-            <><TextField id="phone" name='phone' label='phone'
+            <TextField id="phone" name='phone' label='phone'
+                sx={{ m: 1, width: '21ch' }}
                 type="phone" margin="normal" variant="standard"
                 {...register("phone", {
-                    require: "please enter your phone number"
-                })} mask="999-999-9999" />
-                <InputLabel>{errors.phone?.message}</InputLabel></>
-
+                    required: "please enter your phone number"
+                })}
+                mask="999-999-9999"
+                helperText={errors.phone ? errors.phone.message : ''}
+            />
         )
     }
+
     static amountInput(props) {
         const { register, errors } = props
-        return (<div><FormControl sx={{ m: 1, width: '10ch' }} variant="standard">
+        return (<FormControl sx={{ m: 1, width: '10ch' }} variant="standard">
             <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
-            <Input   {...register("amount", {
+            <Input   {...register("itemPrice", {
                 required: "please enter amount",
                 pattern: {
                     value: /^[0-9]+$/i,
@@ -128,13 +121,15 @@ export class FormInputs {
                 id="standard-adornment-amount"
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
             />
+            <FormHelperText>{errors.amount ? errors.amount.message : ''}</FormHelperText>
         </FormControl>
-            <InputLabel>{errors.amount?.message}</InputLabel>
-        </div>)
+        )
     }
+
+
     static descriptionInput(props) {
         const { register, errors } = props
-        return <div><TextField margin="normal" name="description" sx={{ m: 1, width: '22ch' }}
+        return <TextField margin="normal" name="description" sx={{ m: 1, width: '22ch' }}
             label="description" type="text" variant="standard"
             InputProps={{
                 startAdornment: (
@@ -142,7 +137,7 @@ export class FormInputs {
                     </InputAdornment>
                 ),
             }}
-            {...register("description", {
+            {...register("itemDescription", {
                 required: "please enter description",
                 pattern: {
                     value: /^[a-zA-Z\s]*$/i,
@@ -156,7 +151,7 @@ export class FormInputs {
                     value: 30,
                     message: "Description too long"
                 }
-            })} />
-            <InputLabel sx={{ ml: 1 }}>{errors.description?.message}</InputLabel></div>
+            })}
+            helperText={errors.description ? errors.description.message : ''} />
     }
 }

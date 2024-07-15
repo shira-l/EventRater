@@ -53,12 +53,18 @@ export class UserService {
     async addUser(params) {
         const userQuery = GenericQuery.postQuery(UserService.table, params);
         const result = await executeQuery(userQuery.query, userQuery.values);
+        // const userQuery = UserService.queries.postQuery(UserService.table, Object.keys(params));
+        // const result = await executeQuery(userQuery,Object.values(params) );
+
         return result.insertId;
     }
     async updateUser(data, conditions) {
         console.log("update",data)
         const { query, values } = GenericQuery.updateQuery(UserService.table, data, conditions);
         await executeQuery(query, values);
+        // const query = UserService.queries.updateQuery(UserService.table, Object.keys(data), Object.keys(conditions));
+        // await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
+
     }
     async getUserByValue(value, columns) {
         const { query, values } = GenericQuery.getQuery(UserService.table, columns, value);

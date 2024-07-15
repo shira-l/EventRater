@@ -2,7 +2,7 @@
 import executeQuery from './db.js';
 import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
-import {executeTransactionQuery} from './transaction.js'
+import { executeTransactionQuery } from './transaction.js'
 import { UserService } from "./userService.js";
 import { getBusinessByCategoryQuery, getBusinessByIdQuery } from "../queries/businessQueries.js";
 import { GenericQuery } from "../queries/generyQueries.js";
@@ -51,7 +51,22 @@ export class BusinessService {
         const result = await executeQuery(query, values);
         return result;
     }
+    async loginBusiness(params) {
+        try {
+            const userService = new UserService();
+            const priceService = new PriceService()
+            const userDetails = await userService.loginUser(params, true);
+            const columns = "idBusiness,about, phone,category,location";
+            const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { userId: userDetails.idUser });
+            const businessDetails = await executeQuery(query, values);
+            const priceOffers = await priceService.getPricesByBusiness({ businessId: businessDetails.idBusiness })
+            return {userDetails,businessDetails,priceOffers}
+        }
+        catch (error) {
+            throw error
+        }
 
+    }
     async signUpBusiness(params) {
         const { email, userName } = params;
         const business = await this.businessActive(email);
@@ -91,8 +106,8 @@ export class BusinessService {
         if (!userOtp.length) {
             throw new Error('business is not exists')
         }
-        let compare=await bcrypt.compare(otp,userOtp[0].otp);
-       return compare;
+        let compare = await bcrypt.compare(otp, userOtp[0].otp);
+        return compare;
     };
 
 
@@ -104,6 +119,7 @@ export class BusinessService {
     }
 
     async addBusiness(data) {
+        data.password = await bcrypt.hash(data.password, 10);
         const newBusinessId = await executeTransactionQuery(data);
         return newBusinessId;
     }
@@ -111,6 +127,10 @@ export class BusinessService {
     async updateBusiness(data, conditions) {
         const { query, values } = GenericQuery.updateQuery(BusinessService.tableName, data, conditions);
         await executeQuery(query, values);
+
+        // const query = BusinessService.queries.updateQuery(BusinessService.tableName, Object.keys(data), Object.keys(conditions));
+        // await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
+
     }
 
 
