@@ -13,14 +13,14 @@ export class PriceService {
     }
 
     async addPrice(data) {
-        const { query, values } = GenericQuery.postQuery(PriceService.tableName, data);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.postQuery(PriceService.tableName,  Object.keys(data));
+        const result = await executeQuery(query,  Object.values(data));
         return result.insertId;
     }
 
     async deletePrice(priceId) {
-        const { query, values } = GenericQuery.deleteQuery(PriceService.tableName, priceId);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.deleteQuery(PriceService.tableName,  Object.keys(priceId));
+        const result = await executeQuery(query,  Object.values(priceId));
         return result;
     }
 }

@@ -58,19 +58,37 @@ export default function PersonalArea() {
         localStorage.removeItem('prices');
         navigate('/home')
     }
-    const addPrice = (priceDetails) => {
-        setPriceOffers([...priceOffers, priceDetails])
-        resetPrice();
-        if (priceOffers.length == 4) {
-            alert("You have used the amount of offers available to you")
+
+
+    const addPrice = async (priceDetails) => {
+        try {
+            const requestBody = {
+                ...priceDetails,
+                businessId: businessDetails.idBusiness
+            }
+            if (!isNewBusiness) {
+                await APIrequest.postRequest("/prices", requestBody);
+            }
+            setPriceOffers([...priceOffers, priceDetails])
+            if (priceOffers.length == 4) {
+                alert("You have used the amount of offers available to you")
+            }
         }
+        catch (error) {
+            alert("Error adding price offer", error.message);
+        }
+        resetPrice();
     }
 
-    const saveData=(inputDetails)=>{
-        if(isNewBusiness)
+
+    const saveData = (inputDetails) => {
+        if (isNewBusiness)
             addNewBusiness(inputDetails)
-        updateBusiness(inputDetails)
+        else
+            updateBusiness(inputDetails)
     }
+
+
     const addNewBusiness = async (inputDetails) => {
         const hashPassword = generatePasswordHash(inputDetails.password);
         delete inputDetails.password;
@@ -82,27 +100,28 @@ export default function PersonalArea() {
             password: hashPassword
         }
         try {
-            const url = `/businesses/${businessDetails.idUser}`;
-            const response = await APIrequest.putRequest(url, requestBody);
-            const newBusiness = { idBusiness: response.idBusiness, ...inputDetails, ...authBusinessDetails }
+            const url = `/businesses`;
+            const response = await APIrequest.postRequest(url, requestBody);
+            const newBusiness = { idBusiness: response.data, ...inputDetails, ...authBusinessDetails }
             localStorage.setItem('currentBusiness', JSON.stringify(newBusiness));
+            localStorage.setItem('prices', JSON.stringify(priceOffers));
             setIsNewBusiness(false)
         }
         catch (error) {
-            alert("You are already registered. Please log in with your credentials.");
+            alert("Error adding business", error.message);
+            reset();
         }
-        reset();
+
     }
 
     const updateBusiness = async (inputDetails) => {
         delete inputDetails.password;
         try {
-            const url = '/businesses';
-            const response = await APIrequest.postRequest(url, inputDetails);
+            const url = `/businesses/${businessDetails.idUser}`;
+            const response = await APIrequest.putRequest(url, inputDetails);
             const newBusiness = { idBusiness: response.idBusiness, ...inputDetails, ...authBusinessDetails }
             localStorage.setItem('currentBusiness', JSON.stringify(newBusiness));
             localStorage.setItem('prices', JSON.stringify(priceOffers));
-            setIsNewBusiness(false)
         }
         catch (error) {
             alert("You are already registered. Please log in with your credentials.");
@@ -111,13 +130,11 @@ export default function PersonalArea() {
     }
     return (<>
         <ButtonAppBar />
-        <div className="profile-div">
-            <p>{authBusinessDetails.userName}</p>
-            <p>{authBusinessDetails.email}</p>
-        </div>
         <div className='forms-container'>
             <form onSubmit={handleSubmit(saveData)} className="businessForn">
                 <div> <p>Personal Information:</p>
+                <p id="p-profile"><span> {businessDetails.userName}</span>  
+                <span>{businessDetails.email}</span></p>
                     <EnumSelect currentEnum="category" register={register}
                         errors={errors} enumValues={categories} defaultValue={businessDetails.category} />
                     <EnumSelect currentEnum="location" register={register}

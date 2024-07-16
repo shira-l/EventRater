@@ -35,9 +35,9 @@ export default function Businesses() {
     const seeMore = useRef(false);
     const range = 7;
     const options = [
-        { value: 'averageRating DESC', label: 'דירוג' },
-        { value: 'minPrice ASC', label: 'מחיר' },
-        { value: 'userName ASC', label: 'סדר אלפביתי' }
+        { value: 'averageRating DESC', label: 'rating' },
+        { value: 'minPrice ASC', label: 'price' },
+        { value: 'userName ASC', label: 'alphabetic ' }
     ];
     const { locations } = useContext(EnumContext)
 
@@ -75,7 +75,7 @@ export default function Businesses() {
                 setBusinesses(businesses => [...businesses, ...response.data]);
             }
         } catch (error) {
-            alert(error.message)
+            alert('Error fetching data:', error.message);
         }
     }
 

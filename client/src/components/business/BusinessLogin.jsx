@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { APIrequests } from "../../APIrequests";
 import CryptoJS from 'crypto-js';
-import { useState } from "react";
+import { useEffect } from "react";
 import ButtonAppBar from "../ButtonAppBar";
 import "./PersonalArea.css";
 
@@ -18,6 +18,12 @@ export default function BusinessLogin() {
             password: '',
         }
     })
+
+    useEffect(() => {
+        if (localStorage.getItem("currentBusiness"))
+            navigate("/businesses/personal-area")
+    }, [])
+
     const generatePasswordHash = (password) => {
         return CryptoJS.SHA256(password).toString();
     };

@@ -28,16 +28,13 @@ export default function PriceOffersList({ priceOffers, setPriceOffers, isNewBusi
 
     const deletePrice = async (price, index) => {
         try {
-            console.log(price)
-            console.log(priceOffers)
             if (!isNewBusiness)
                 await APIrequest.deleteRequest(`/prices/${price.idPrice}`)
             setPriceOffers(priceOffers.filter((price, i) => i != index))
         }
         catch (error) {
-            alert(error)
+            alert('Error deleting price offer:', error.message);
         }
-
     }
 
 

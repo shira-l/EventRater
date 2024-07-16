@@ -29,12 +29,12 @@ export class UserService {
         const password = params.password;
         const users = await executeQuery(query, [email]);
         if (!users || users.length === 0) {
-            throw new Error("Invalid username or password");
+            throw new Error("Invalid email or password");
         }
         const passwordService = new PasswordService();
         const isMatch = await passwordService.verifyPassword(password, users[0].password);
         if (!isMatch) {
-            throw new Error("Invalid username or password");
+            throw new Error("Invalid email or password");
         }
         delete users[0].password
         return users[0];
@@ -55,7 +55,6 @@ export class UserService {
     }
 
     async updateUser(data, conditions) {
-        console.log("update",data)
         const query = GenericQuery.updateQuery(UserService.table, Object.keys(data), Object.keys(conditions));
         await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
     }

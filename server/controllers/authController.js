@@ -4,21 +4,21 @@ import { createToken } from '../middleware/authenticateToken.js';
 
 
 export class LoginController {
-    static userService=new UserService();
+    static userService = new UserService();
     async login(req, res, next) {
         try {
-            const user = await LoginController.userService.loginUser(req.body,false);
+            const user = await LoginController.userService.loginUser(req.body, false);
             const token = createToken({ id: user.idUser });
-            return res.cookie('x-access-token', token, { httpOnly: true ,secure: true, maxAge: 259200000 }).json({ user: user });
+            return res.cookie('x-access-token', token, { httpOnly: true, secure: true, maxAge: 259200000 }).json({ user: user });
         }
         catch (ex) {
-            const err = {}
-            err.statusCode = 500;
-            err.message = ex.message;
-            next(err)
+            next({
+                statusCode: ex.errno || 500,
+                message: ex.message || ex
+            })
         }
     }
-    
+
     async register(req, res, next) {
         try {
             const { error } = userSchema.validate(req.body);
@@ -29,13 +29,13 @@ export class LoginController {
             const idUser = await LoginController.userService.registerUser(req.body);
             const token = createToken({ id: idUser });
             return res
-                .cookie('x-access-token', token, { httpOnly: true,secure: true, maxAge: 259200000 })
+                .cookie('x-access-token', token, { httpOnly: true, secure: true, maxAge: 259200000 })
                 .json({ id: idUser });
         } catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex.message;
-            next(err);
+            next({
+                statusCode: ex.errno === 1062 ? 409 : 500,
+                message: ex.message || ex
+            });
         }
     }
 }

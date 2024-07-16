@@ -35,15 +35,7 @@ const AddReview = ({ closeAddReview, addNewReview, isUpdate, reviewToUpdate }) =
                 "businessId": idBusiness,
                 "productionDate": isUpdate ? convertToMySQLDateTime(reviewToUpdate.productionDate) : date
             };
-            // const review = {
-            //     "rating": data.rating,
-            //     "description": data.description,
-            // }
-            // if (!isUpdate){
-            //     review.userId=user.idUser,
-            //     review.businessId=idBusiness,
-            //     review.productionDate=date;
-            // }
+         
 
             const url = isUpdate ? `/reviews/${reviewToUpdate.idReview}` : `/reviews`;
             const method = isUpdate ? 'putRequest' : 'postRequest';
@@ -54,7 +46,7 @@ const AddReview = ({ closeAddReview, addNewReview, isUpdate, reviewToUpdate }) =
             addNewReview(review);
             closeAddReview();
         } catch (error) {
-            alert('Error adding review');
+            alert('Error adding review:', error.message);
         }
     };
 

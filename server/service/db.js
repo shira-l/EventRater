@@ -6,9 +6,9 @@ async function executeQuery(query, params) {
         const connection = mysql.createConnection({
             host: 'localhost',
             user: 'root',
-            port: 3306,
+            port: 8080,
             database: process.env.DB_NAME,
-            password: process.env.PASSWORD
+            password: process.env.PASSWORD||'shiraAHRV3125!'
         });
 
         connection.connect(err => {

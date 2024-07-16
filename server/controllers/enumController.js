@@ -8,11 +8,11 @@ export class EnumController {
             const resultItem = await EnumController.enumService.getEnumValues(req.params);
             res.json({ data: resultItem });
         }
-        catch (ex) {
-            const err = {}
-            err.statusCode = 500;
-            err.message = ex;
-            next(err)
+        catch (ex)  {
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
     

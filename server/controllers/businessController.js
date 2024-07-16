@@ -12,11 +12,10 @@ export class BusinessController {
             res.json({ data: resultItem });
         }
         catch (ex) {
-            const err = {
-                statusCode: 500,
-                message: ex.message
-            };
-            next(err)
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
 
@@ -26,11 +25,10 @@ export class BusinessController {
             res.json({ data: resultItem });
         }
         catch (ex) {
-            const err = {
-                statusCode: 500,
-                message: ex.message
-            };
-            next(err)
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
 
@@ -41,10 +39,10 @@ export class BusinessController {
             return res.cookie('x-access-token', token, { httpOnly: true, secure: true, maxAge: 259200000 })
                 .json({ userName: userDetails.userName, businessDetails: businessDetails, priceOffers: priceOffers });
         } catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex.message;
-            next(err);
+            next({
+                statusCode: ex.errno || 500,
+                message: ex.message || ex
+            })
         }
     }
 
@@ -60,10 +58,10 @@ export class BusinessController {
                 .cookie('x-access-token', token, { httpOnly: true, secure: true, maxAge: 259200000 })
                 .json({ id: idUser });
         } catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex.message;
-            next(err);
+            next({
+                statusCode: ex.errno === 1062 ? 409 : 500,
+                message: ex.message || ex
+            });
         }
     }
 
@@ -76,10 +74,10 @@ export class BusinessController {
                 return res.status(401).json({ error: "The code entered is incorrect, please try again" });
         }
         catch (ex) {
-            const err = {};
-            err.statusCode = ex.errno;
-            err.message = ex.message;
-            next(err);
+            next({
+                statusCode: ex.errno || 500,
+                message: ex.message || ex
+            })
         }
     }
 
@@ -98,23 +96,23 @@ export class BusinessController {
             const idBusiness = await BusinessController.businessService.addBusiness(req.body);
             res.json({ data: idBusiness });
         } catch (ex) {
-            const err = {};
-            err.statusCode = ex.errno;
-            err.message = ex.message;
-            next(err);
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
-    
+
     async deleteBusiness(req, res, next) {
         try {
             await BusinessController.businessService.deleteBusiness(req.params);
-            res.json({});
+            res.send();
         }
         catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex;
-            next(err);
+            next({
+                statusCode: ex.errno || 404,
+                message: ex.message || ex
+            })
         }
     }
 }

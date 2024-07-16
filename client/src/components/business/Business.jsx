@@ -35,7 +35,7 @@ const Business = () => {
             setBusiness(newBusinesses);
 
         } catch (error) {
-            console.error('Error fetching business data:', error);
+            alert('Error fetching business data:', error.message);
         } finally {
             setLoading(false);
         }
@@ -56,12 +56,10 @@ const Business = () => {
                     <Tab label="Reviews" />
                     <Tab label="Contact" />
                     <Tab label="Prices" />
-                    {/* <Tab label="Gallery" /> */}
                 </Tabs>
                 {tabValue === 0 && <Reviews key="reviews" />}
                 {tabValue === 1 && <Contact key="contact" business={business} />}
                 {tabValue === 2 && <Prices key="prices" />}
-                {/* {tabValue === 2 && <Gallery gallery={gallery} />} */}
             </div>
         </>
     );

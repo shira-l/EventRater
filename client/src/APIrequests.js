@@ -1,29 +1,4 @@
 
-export class APIRequests {
-
-
-    async putRequest(url, body) {
-        try {
-            const response = await fetch('http://localhost:8082' + url, {
-                method: 'PUT',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body)
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error);
-            }
-            return response;
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-}
 export class APIrequests {
     async postRequest(url, body) {
         try {
