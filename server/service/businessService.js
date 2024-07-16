@@ -1,4 +1,3 @@
-// import { Queries } from "./query.js"
 import executeQuery from './db.js';
 import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
@@ -11,7 +10,6 @@ import bcrypt from 'bcrypt';
 
 export class BusinessService {
     static tableName = "businesses";
-    // static queries = new GenericQuery();
     async getBusinessByCategory(params) {
         let query = getBusinessByCategoryQuery;
         let values = [params.category];
@@ -19,9 +17,9 @@ export class BusinessService {
             query += " AND userName LIKE ? ";
             values.push(`%${params.userName}%`);
         }
-        if (params.locationName) {
-            query += " AND locationName = ? ";
-            values.push(params.locationName);
+        if (params.idLocation) {
+            query += " AND idLocation = ? ";
+            values.push(params.idLocation);
         }
         if (params.minPrice && params.maxPrice) {
             params.having = `NOT (MIN(itemPrice) > ? OR MAX(itemPrice) < ?)`;
@@ -33,13 +31,7 @@ export class BusinessService {
             params.groupBy = `businesses.idBusiness, users.userName, locations.locationName`
         }
 
-        const addQuery = GenericQuery.getAdvancedQuery({
-            groupBy: params.groupBy,
-            having: params.having,
-            sort: params.sort,
-            limit: params.range,
-            offset: params.start
-        });
+        const addQuery = GenericQuery.getAdvancedQuery(params);
         query += addQuery;
         const result = await executeQuery(query, values);
         return result;
@@ -60,9 +52,9 @@ export class BusinessService {
             console.log("userDetails", userDetails)
             const columns = "idBusiness,about, phone,category,location";
             const query = GenericQuery.getQuery(BusinessService.tableName, columns, ["userId"]);
-            console.log(query)
-            const [businessDetails] = await executeQuery(query, [userDetails.idUser]);
-            console.log("businessDetails", businessDetails)
+            const values = [userDetails.idUser];
+            const businessDetails = await executeQuery(query, values);
+            // const [businessDetails] = await executeQuery(query, [userDetails.idUser]);
             const priceOffers = await priceService.getPricesByBusiness({ businessId: businessDetails.idBusiness })
             return { userDetails, businessDetails, priceOffers }
         }
@@ -129,18 +121,14 @@ export class BusinessService {
     }
 
     async updateBusiness(data, conditions) {
-        const { query, values } = GenericQuery.updateQuery(BusinessService.tableName, data, conditions);
-        await executeQuery(query, values);
-
-        // const query = BusinessService.queries.updateQuery(BusinessService.tableName, Object.keys(data), Object.keys(conditions));
-        // await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
-
+        const query = GenericQuery.updateQuery(BusinessService.tableName, Object.keys(data), Object.keys(conditions));
+        await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
     }
 
 
     async deleteBusiness(businessId) {
-        const { query, values } = GenericQuery.deleteQuery(BusinessService.tableName, businessId);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.deleteQuery(BusinessService.tableName, Object.keys(businessId));
+        const result = await executeQuery(query, Object.values(businessId));
         return result;
     }
 }

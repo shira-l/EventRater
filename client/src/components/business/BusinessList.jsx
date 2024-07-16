@@ -4,8 +4,6 @@ import ReactStars from 'react-rating-stars-component';
 import './BusinessList.css';
 
 const BusinessList = ({ businesses }) => {
-    console.log('BusinessList', businesses);
-
     return (
         <div className="business-list">
             {businesses.map((business) => (

@@ -15,7 +15,5 @@ export class EnumController {
             next(err)
         }
     }
-
-   
-  
+    
 }

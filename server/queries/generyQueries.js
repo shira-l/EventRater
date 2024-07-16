@@ -26,8 +26,8 @@ export class GenericQuery {
             addQuery += ` ORDER BY ${options.sort}`;
         }
 
-        if (options.limit && options.offset !== undefined) {
-            addQuery += ` LIMIT ${options.limit} OFFSET ${options.offset}`;
+        if (options.start && options.range !== undefined) {
+            addQuery += ` LIMIT ${options.range} OFFSET ${options.start}`;
         }
 
         return addQuery;
@@ -49,8 +49,10 @@ export class GenericQuery {
     }
 
     static deleteQuery(table, conditions) {
-        const conditionClause = conditions.map((key) => `${key} = ?`).join(' AND ');
-       const query = `UPDATE ${table} SET isActive =0 WHERE ${conditionClause} AND isActive =1 `;
-        return query;
+        const conditionClause = Object.keys(conditions).map((key) => `${key} = ?`).join(' AND ');
+        const values = Object.values(conditions);
+        // const query = `DELETE FROM ${table} WHERE ${conditionClause}`;
+        const query = `UPDATE ${table} SET isActive = 0 WHERE ${conditionClause} AND isActive =1 `;
+        return { query, values };
     }
 }
