@@ -18,7 +18,7 @@ export default function PersonalArea() {
     const Location = useLocation()
     const APIrequest = new APIrequests()
     const { locations, categories } = useContext(EnumContext)
-    const isNewBusiness = !localStorage.getItem("currentBusiness");
+    const [isNewBusiness, setIsNewBusiness] = useState(!localStorage.getItem("currentBusiness"))
     const [priceOffers, setPriceOffers] = useState(isNewBusiness ? [] : JSON.parse(localStorage.getItem("prices")))
     const businessDetails = isNewBusiness ?
         {
@@ -65,8 +65,13 @@ export default function PersonalArea() {
             alert("You have used the amount of offers available to you")
         }
     }
+
+    const saveData=(inputDetails)=>{
+        if(isNewBusiness)
+            addNewBusiness(inputDetails)
+        updateBusiness(inputDetails)
+    }
     const addNewBusiness = async (inputDetails) => {
-        console.log(inputDetails)
         const hashPassword = generatePasswordHash(inputDetails.password);
         delete inputDetails.password;
         const requestBody = {
@@ -77,9 +82,11 @@ export default function PersonalArea() {
             password: hashPassword
         }
         try {
-            const url = '/businesses';
-            const response = await APIrequest.postRequest(url, requestBody);
-            console.log("business id", response.data)
+            const url = `/businesses/${businessDetails.idUser}`;
+            const response = await APIrequest.putRequest(url, requestBody);
+            const newBusiness = { idBusiness: response.idBusiness, ...inputDetails, ...authBusinessDetails }
+            localStorage.setItem('currentBusiness', JSON.stringify(newBusiness));
+            setIsNewBusiness(false)
         }
         catch (error) {
             alert("You are already registered. Please log in with your credentials.");
@@ -87,7 +94,21 @@ export default function PersonalArea() {
         reset();
     }
 
-
+    const updateBusiness = async (inputDetails) => {
+        delete inputDetails.password;
+        try {
+            const url = '/businesses';
+            const response = await APIrequest.postRequest(url, inputDetails);
+            const newBusiness = { idBusiness: response.idBusiness, ...inputDetails, ...authBusinessDetails }
+            localStorage.setItem('currentBusiness', JSON.stringify(newBusiness));
+            localStorage.setItem('prices', JSON.stringify(priceOffers));
+            setIsNewBusiness(false)
+        }
+        catch (error) {
+            alert("You are already registered. Please log in with your credentials.");
+        }
+        reset();
+    }
     return (<>
         <ButtonAppBar />
         <div className="profile-div">
@@ -95,7 +116,7 @@ export default function PersonalArea() {
             <p>{authBusinessDetails.email}</p>
         </div>
         <div className='forms-container'>
-            <form onSubmit={handleSubmit(addNewBusiness)} className="businessForn">
+            <form onSubmit={handleSubmit(saveData)} className="businessForn">
                 <div> <p>Personal Information:</p>
                     <EnumSelect currentEnum="category" register={register}
                         errors={errors} enumValues={categories} defaultValue={businessDetails.category} />
@@ -118,7 +139,7 @@ export default function PersonalArea() {
                     <FormInputs.passwordInput register={register} errors={errors} />
                     <Button type="submit">Submit</Button> </> :
                     <>
-                        <Button>Save Changes</Button>
+                        <Button type="submit">Save Changes</Button>
                         <Button onClick={() => navigate(`/businesses/${businessDetails.idBusiness}`)}>To My Profile</Button>
                     </>
                 }

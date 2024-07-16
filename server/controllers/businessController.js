@@ -82,16 +82,13 @@ export class BusinessController {
 
     async addBUsiness(req, res, next) {
         try {
-            console.log("addBUsiness")
             const { error } = businessSchema.validate({ ...req.body.businessDetails, password: req.body.password });
             if (error) {
-                console.log("error in business", error)
                 return res.status(400).json({ error: error.details[0].message });
             }
             req.body.priceOffers.map(price => {
                 const { error } = priceSchema.validate(price);
                 if (error) {
-                    console.log("error in price", error)
                     return res.status(400).json({ error: error.details[0].message });
                 }
             })
