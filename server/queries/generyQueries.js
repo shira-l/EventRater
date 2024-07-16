@@ -50,7 +50,7 @@ export class GenericQuery {
 
     static deleteQuery(table, conditions) {
         const conditionClause = conditions.map((key) => `${key} = ?`).join(' AND ');
-        const query = `DELETE FROM ${table} WHERE ${conditionClause}`;
+       const query = `UPDATE ${table} SET isActive =0 WHERE ${conditionClause} AND isActive =1 `;
         return query;
     }
 }

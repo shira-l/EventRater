@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import EnumSelect from "../EnumSelect";
 import { FormInputs } from "../formInputs";
 import { useForm } from "react-hook-form";
@@ -12,6 +13,8 @@ import { TextField } from "@mui/material";
 import { APIrequests } from "../../APIrequests";
 import './PersonalArea.css'
 export default function PersonalArea() {
+
+    const navigate = useNavigate()
     const Location = useLocation()
     const APIrequest = new APIrequests()
     const { locations, categories } = useContext(EnumContext)
@@ -50,6 +53,11 @@ export default function PersonalArea() {
         return CryptoJS.SHA256(password).toString();
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('currentBusiness');
+        localStorage.removeItem('prices');
+        navigate('/home')
+    }
     const addPrice = (priceDetails) => {
         setPriceOffers([...priceOffers, priceDetails])
         resetPrice();
@@ -90,9 +98,9 @@ export default function PersonalArea() {
             <form onSubmit={handleSubmit(addNewBusiness)} className="businessForn">
                 <div> <p>Personal Information:</p>
                     <EnumSelect currentEnum="category" register={register}
-                        errors={errors} enumValues={categories} defaultValue={businessDetails.category}/>
+                        errors={errors} enumValues={categories} defaultValue={businessDetails.category} />
                     <EnumSelect currentEnum="location" register={register}
-                        errors={errors} enumValues={locations} defaultValue={businessDetails.location}/>
+                        errors={errors} enumValues={locations} defaultValue={businessDetails.location} />
                     <br />
                     <FormInputs.phoneInput register={register} errors={errors} />
                 </div>
@@ -111,7 +119,7 @@ export default function PersonalArea() {
                     <Button type="submit">Submit</Button> </> :
                     <>
                         <Button>Save Changes</Button>
-                        <Button>To My Profile</Button>
+                        <Button onClick={() => navigate(`/businesses/${businessDetails.idBusiness}`)}>To My Profile</Button>
                     </>
                 }
             </form >
@@ -123,7 +131,8 @@ export default function PersonalArea() {
                         <button type='submit'>Add</button>
                     </form>
                 }
-                <PriceOffersList priceOffers={priceOffers} setPriceOffers={setPriceOffers} />
+                <PriceOffersList priceOffers={priceOffers} setPriceOffers={setPriceOffers} isNewBusiness={isNewBusiness} />
+                <Button onClick={handleLogout}>logout</Button>
             </div>
         </div>
     </>)

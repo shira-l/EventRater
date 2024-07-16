@@ -5,13 +5,12 @@ import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { APIrequests } from '../APIrequests';
 import './priceOffers.css'
-export default function PriceOffersList({ priceOffers, setPriceOffers }) {
+export default function PriceOffersList({ priceOffers, setPriceOffers, isNewBusiness }) {
 
+    const APIrequest = new APIrequests()
     const [currentEdit, setCurrentEdit] = useState({ key: null, itemPrice: '', itemDescription: '' })
-    const deletePrice = (index) => {
-        setPriceOffers(priceOffers.filter((price, i) => i != index))
-    }
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -26,6 +25,22 @@ export default function PriceOffersList({ priceOffers, setPriceOffers }) {
         }));
         setCurrentEdit({ ...currentEdit, key: null })
     }
+
+    const deletePrice = async (price, index) => {
+        try {
+            console.log(price)
+            console.log(priceOffers)
+            if (!isNewBusiness)
+                await APIrequest.deleteRequest(`/prices/${price.idPrice}`)
+            setPriceOffers(priceOffers.filter((price, i) => i != index))
+        }
+        catch (error) {
+            alert(error)
+        }
+
+    }
+
+
     return (
         <List className='list'>
             {priceOffers.map((value, i) => (
@@ -33,7 +48,7 @@ export default function PriceOffersList({ priceOffers, setPriceOffers }) {
                     key={`element${i}`}
                     disableGutters
                     secondaryAction={<>
-                        <IconButton aria-label="delete" onClick={() => deletePrice(i)}>
+                        <IconButton aria-label="delete" onClick={() => deletePrice(value, i)}>
                             <DeleteIcon />
                         </IconButton>
                         <IconButton aria-label="edit" onClick={() => {

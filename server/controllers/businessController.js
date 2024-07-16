@@ -50,7 +50,7 @@ export class BusinessController {
         try {
             const { error } = basicBusinessSchema.validate(req.body);
             if (error) {
-                return res.status(400).json({ message: error.details[0].message });
+                return res.status(400).json({ error: error.details[0].message });
             }
             const idUser = await BusinessController.businessService.signUpBusiness(req.body);
             const token = createToken({ id: idUser });
@@ -70,7 +70,7 @@ export class BusinessController {
             if (validate)
                 return res.json({});
             else
-                return res.status(401).json({ message: "The code entered is incorrect, please try again" });
+                return res.status(401).json({ error: "The code entered is incorrect, please try again" });
         }
         catch (ex) {
             const err = {};
@@ -86,13 +86,13 @@ export class BusinessController {
             const { error } = businessSchema.validate({ ...req.body.businessDetails, password: req.body.password });
             if (error) {
                 console.log("error in business", error)
-                return res.status(400).json({ message: error.details[0].message });
+                return res.status(400).json({ error: error.details[0].message });
             }
             req.body.priceOffers.map(price => {
                 const { error } = priceSchema.validate(price);
                 if (error) {
                     console.log("error in price", error)
-                    return res.status(400).json({ message: error.details[0].message });
+                    return res.status(400).json({ error: error.details[0].message });
                 }
             })
             const idBusiness = await BusinessController.businessService.addBusiness(req.body);

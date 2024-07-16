@@ -37,13 +37,13 @@ export class PriceController {
     async deletePrice(req, res, next) {
         try {
             await PriceController.priceService.deletePrice(req.params);
-            res.json({});
+            res.send();
         }
         catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex.message;
-            next(err);
+            next({
+                statusCode: ex.errno || 404,
+                message: ex.message || ex
+            })
         }
     }
 }

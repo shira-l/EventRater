@@ -1,6 +1,7 @@
 import mysql from 'mysql2';
 import 'dotenv/config'
 async function executeQuery(query, params) {
+    console.log(params)
     return new Promise((resolve, reject) => {
         const connection = mysql.createConnection({
             host: 'localhost',
