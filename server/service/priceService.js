@@ -8,8 +8,8 @@ export class PriceService {
 
     async getPricesByBusiness(params) {
         const columns = "itemDescription, itemPrice";
-        const { query, values } = GenericQuery.getQuery(PriceService.tableName, columns, params);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.getQuery(PriceService.tableName, columns, Object.keys(params));
+        const result = await executeQuery(query, Object.values(params));
         return result;
     }
 
@@ -20,8 +20,8 @@ export class PriceService {
     }
 
     async deletePrice(priceId) {
-        const { query, values } = GenericQuery.deleteQuery(PriceService.tableName, priceId);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.deleteQuery(PriceService.tableName, Object.keys(priceId));
+        const result = await executeQuery(query, Object.values(priceId));
         return result;
     }
 }

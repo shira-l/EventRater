@@ -53,7 +53,7 @@ export class ReviewController {
             if (error) {
                 return res.status(400).json({ message: error.details[0].message });
             }
-            const resultItem = await ReviewController.reviewService.updateReview(req.params, req.body);
+            const resultItem = await ReviewController.reviewService.updateReview(req.query, req.body);
             res.json({ data: resultItem });
         } catch (ex) {
             const err = {};
@@ -65,7 +65,7 @@ export class ReviewController {
     
    async deleteReview(req, res, next){
     try {
-     await ReviewController.reviewService.deleteReview(req.params);
+     await ReviewController.reviewService.deleteReview(req.query);
     res.json({});
    }
    catch (ex) {

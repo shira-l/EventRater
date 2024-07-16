@@ -3,6 +3,7 @@ import { PasswordService } from './passwordService.js';
 import executeQuery from './db.js';
 import { GenericQuery } from "../queries/generyQueries.js";
 import { loginUserQuery } from "../queries/userQueries.js";
+// import { object } from 'joi';
 
 export class UserService {
     // static queries = new Queries();
@@ -45,30 +46,27 @@ export class UserService {
 
     async userExists(email) {
         const columns = "1";
-        const { query, values } = GenericQuery.getQuery(UserService.table, columns, { email: email, isBusiness: false, isActive: true });
+        const query = GenericQuery.getQuery(UserService.table, columns, [email, isBusiness, isActive]);
+        const values = [ email, false, true];
         const users = await executeQuery(query, values);
         return users.length > 0;
     }
 
     async addUser(params) {
-        const userQuery = GenericQuery.postQuery(UserService.table, params);
-        const result = await executeQuery(userQuery.query, userQuery.values);
-        // const userQuery = UserService.queries.postQuery(UserService.table, Object.keys(params));
-        // const result = await executeQuery(userQuery,Object.values(params) );
-
+        const userQuery = GenericQuery.postQuery(UserService.table, Object.keys(params));
+        const result = await executeQuery(userQuery, Object.values(params));
         return result.insertId;
     }
+
     async updateUser(data, conditions) {
         console.log("update",data)
-        const { query, values } = GenericQuery.updateQuery(UserService.table, data, conditions);
-        await executeQuery(query, values);
-        // const query = UserService.queries.updateQuery(UserService.table, Object.keys(data), Object.keys(conditions));
-        // await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
-
+        const query = GenericQuery.updateQuery(UserService.table, Object.keys(data), Object.keys(conditions));
+        await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
     }
+
     async getUserByValue(value, columns) {
-        const { query, values } = GenericQuery.getQuery(UserService.table, columns, value);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.getQuery(UserService.table, columns, Object.keys(value));
+        const result = await executeQuery(query, Object.values(value));
         return result;
     }
 }

@@ -21,11 +21,12 @@ const EnumsProvider = ({ children }) => {
             console.error(error.message)
         }
     }
-    const locations = localStorage.getItem("locations")?JSON.parse(localStorage.getItem("locations")): saveInLocalStorage("locations")
-    const categories = localStorage.getItem("categories")?JSON.parse(localStorage.getItem("categories")): saveInLocalStorage("categories")
+    // const locations = localStorage.getItem("locations")?JSON.parse(localStorage.getItem("locations")): saveInLocalStorage("locations")
+    // const categories = localStorage.getItem("categories")?JSON.parse(localStorage.getItem("categories")): saveInLocalStorage("categories")
 
     return (
-        <EnumContext.Provider value={{ locations, categories }}>
+        // <EnumContext.Provider value={{ locations, categories }}>
+                    <EnumContext.Provider>
             {children}
         </EnumContext.Provider>
     );

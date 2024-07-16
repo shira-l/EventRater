@@ -57,7 +57,8 @@ export class BusinessService {
             const priceService = new PriceService()
             const userDetails = await userService.loginUser(params, true);
             const columns = "idBusiness,about, phone,category,location";
-            const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { userId: userDetails.idUser });
+            const query = GenericQuery.getQuery(BusinessService.tableName, columns, [userId]);
+            const values = [userDetails.idUser];
             const businessDetails = await executeQuery(query, values);
             const priceOffers = await priceService.getPricesByBusiness({ businessId: businessDetails.idBusiness })
             return {userDetails,businessDetails,priceOffers}
@@ -125,18 +126,14 @@ export class BusinessService {
     }
 
     async updateBusiness(data, conditions) {
-        const { query, values } = GenericQuery.updateQuery(BusinessService.tableName, data, conditions);
-        await executeQuery(query, values);
-
-        // const query = BusinessService.queries.updateQuery(BusinessService.tableName, Object.keys(data), Object.keys(conditions));
-        // await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
-
+        const query = GenericQuery.updateQuery(BusinessService.tableName, Object.keys(data), Object.keys(conditions));
+        await executeQuery(query, [...Object.values(data), ...Object.values(conditions)]);
     }
 
 
     async deleteBusiness(businessId) {
-        const { query, values } = GenericQuery.deleteQuery(BusinessService.tableName, businessId);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.deleteQuery(BusinessService.tableName, Object.keys(businessId));
+        const result = await executeQuery(query, Object.values(businessId));
         return result;
     }
 }

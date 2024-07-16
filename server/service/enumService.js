@@ -6,8 +6,8 @@ export class EnumService {
     // static queries = new Queries();
     async getEnumValues(params) {
         const columns = "*";
-        const { query, values } = GenericQuery.getQuery(params.enumType, columns);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.getQuery(params.enumType, Object.keys(columns));
+        const result = await executeQuery(query, Object.values(params));
         return result;
     }
 
