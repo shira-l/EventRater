@@ -5,7 +5,7 @@ const priceRouter = express.Router();
 const priceController = new PriceController();
 
 priceRouter.get('/', priceController.getPricesByBusiness);
-priceRouter.post('/', priceController.addPrice);
+priceRouter.post('/',verifyToken, priceController.addPrice);
 priceRouter.delete('/:idPrice',verifyToken, priceController.deletePrice);
-
+priceRouter.put('/',verifyToken, priceController.updatePrice);
 export { priceRouter }

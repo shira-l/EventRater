@@ -7,8 +7,8 @@ export class PriceService {
 
     async getPricesByBusiness(params) {
         const columns = "idPrice, itemDescription, itemPrice";
-        const query = GenericQuery.getQuery(PriceService.tableName, columns, Object.keys(params));
-        const result = await executeQuery(query, Object.values(params));
+        const query = GenericQuery.getQuery(PriceService.tableName, columns, [...Object.keys(params),"isActive"]);
+        const result = await executeQuery(query,[... Object.values(params),true]);
         return result;
     }
 
@@ -21,6 +21,13 @@ export class PriceService {
     async deletePrice(priceId) {
         const query = GenericQuery.deleteQuery(PriceService.tableName,  Object.keys(priceId));
         const result = await executeQuery(query,  Object.values(priceId));
+        return result;
+    }
+    async updatePrice(params) {
+        const values=Object.values(params)
+        delete params.idPrice
+        const query = GenericQuery.updateQuery(PriceService.tableName, Object.keys(data), ["idPrice"]);
+        const result = await executeQuery(query, values);
         return result;
     }
 }

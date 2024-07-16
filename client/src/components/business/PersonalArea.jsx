@@ -28,6 +28,7 @@ export default function PersonalArea() {
             category: ''
         } :
         JSON.parse(localStorage.getItem("currentBusiness"))
+
     const authBusinessDetails = isNewBusiness ? Location.state.authDetails : {
         email: businessDetails.email,
         userName: businessDetails.userName
@@ -70,6 +71,7 @@ export default function PersonalArea() {
                 await APIrequest.postRequest("/prices", requestBody);
             }
             setPriceOffers([...priceOffers, priceDetails])
+            localStorage.setItem("prices",JSON.stringify(priceOffers));
             if (priceOffers.length == 4) {
                 alert("You have used the amount of offers available to you")
             }
@@ -133,8 +135,8 @@ export default function PersonalArea() {
         <div className='forms-container'>
             <form onSubmit={handleSubmit(saveData)} className="businessForn">
                 <div> <p>Personal Information:</p>
-                <p id="p-profile"><span> {businessDetails.userName}</span>  
-                <span>{businessDetails.email}</span></p>
+                    <p id="p-profile"><span> {businessDetails.userName}</span>
+                        <span>{businessDetails.email}</span></p>
                     <EnumSelect currentEnum="category" register={register}
                         errors={errors} enumValues={categories} defaultValue={businessDetails.category} />
                     <EnumSelect currentEnum="location" register={register}

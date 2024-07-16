@@ -52,7 +52,7 @@ export default function BusinessLogin() {
     }
     return (<>
         <ButtonAppBar />
-        <form onSubmit={handleSubmit(login)} className="businessForn" style={{ marginTop: "150px" }}>
+        <form onSubmit={handleSubmit(login)} className="businessForn">
             <FormInputs.emailInput register={register} errors={errors} />
             <FormInputs.passwordInput register={register} errors={errors} />
             <Button variant="contained" endIcon={<SendIcon />} type="submit" sx={{

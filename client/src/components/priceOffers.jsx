@@ -18,12 +18,25 @@ export default function PriceOffersList({ priceOffers, setPriceOffers, isNewBusi
         setCurrentEdit({ ...currentEdit, [name]: value })
     }
 
-    const saveEdit = (index) => {
-        setPriceOffers(priceOffers.map((price, i) => {
-            if (i != index) return price
-            return currentEdit
-        }));
-        setCurrentEdit({ ...currentEdit, key: null })
+    const saveEdit =async (index) => {
+        try {
+            if (!isNewBusiness) {
+                const requestBody = {
+                    idPrice: price.idPrice,
+                    itemPrice: currentEdit.itemPrice,
+                    itemDescription: currentEdit.itemDescription
+                }
+                await APIrequest.putRequest(`/prices`, requestBody)
+            }
+            setPriceOffers(priceOffers.map((price, i) => {
+                if (i != index) return price
+                return currentEdit
+            }));
+            setCurrentEdit({ ...currentEdit, key: null })
+        }
+        catch (error) {
+            alert('Error editting price offer:', error.message);
+        }
     }
 
     const deletePrice = async (price, index) => {
@@ -31,6 +44,7 @@ export default function PriceOffersList({ priceOffers, setPriceOffers, isNewBusi
             if (!isNewBusiness)
                 await APIrequest.deleteRequest(`/prices/${price.idPrice}`)
             setPriceOffers(priceOffers.filter((price, i) => i != index))
+            localStorage.setItem("prices", priceOffers)
         }
         catch (error) {
             alert('Error deleting price offer:', error.message);

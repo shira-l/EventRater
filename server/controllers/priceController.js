@@ -46,4 +46,19 @@ export class PriceController {
             })
         }
     }
+    async updatePrice(req, res, next) {
+        try {
+            const { error } = priceSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+            const resultItem = await PriceController.priceService.updatePrice(req.body);
+            res.json({ data: resultItem });
+        } catch (ex) {
+            next({
+                statusCode: ex.errno || 404,
+                message: ex.message || ex
+            })
+        }
+    }
 }

@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: center;
     align-items:flex-start;
-    padding-top: 120px;
+    padding-top: 150px;
 
 }
 .price-form{
@@ -64,7 +64,7 @@ input[type="file"] {
     width: 100%;
     justify-content: space-between;
 }
-}
+
 .img-upload:before {
     content: "\f093";
     font-size: 90px;

@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import orchestraImage from '../../images/WhatsApp-Image-2018-06-19-at-12.47.13.jpeg'
 import photographerImage from '../../images/photographer.png';
-import flowersImage from '../../images/flowers.png';
+import flowersImage from '../../images/flowers.jpg';
 import ButtonAppBar from '../ButtonAppBar.jsx'
 import './Home.css'
 
@@ -16,23 +16,24 @@ function Home() {
       <ButtonAppBar/>
       <div className="home-container">
       <p className='paragraph'> 
-        .במידרג ישנן מאות אלפי חוות דעת של לקוחות קודמים כמוך על למעלה מ-9,900 בעלי מקצוע
+      In events rating there are hundreds of thousands of opinions from previous customers like you about over 9,900 professionals
         <br />
-        .בכל חיפוש תקבלו רשימה של בעלי מקצוע
+        In every search you will get a list of professionals
         <br />
-        .הרשימה ממויינת לפי הציון הממוצע שקיבלו בעלי המקצוע מהלקוחות הקודמים
+        The list is sorted according to the average score the professionals received from the previous clients
         <br />
-        ! בעל מקצוע לא יכול לקנות את המיקום שלו ברשימה. רק הלקוחות קובעים</p>
+        ! A professional cannot buy his position on the list. Only the customers decide
+        </p>
         <div className="images-container">
-          <Link to="/businesses?category=orchestra">
+          <Link className="home-link" to="/businesses?category=orchestra">
             <img src={orchestraImage} alt="Orchestra" className="category-image" />
             <p>תזמורות</p>
           </Link>
-          <Link to="/businesses?category=photographer">
+          <Link className="home-link" to="/businesses?category=photographer">
             <img src={photographerImage} alt="Photographer" className="category-image" />
             <p>צלמים</p>
           </Link>
-          <Link to="/businesses?category=flowers">
+          <Link className="home-link" to="/businesses?category=flowers">
             <img src={flowersImage} alt="Flowers" className="category-image" />
             <p>פרחים</p>
           </Link>
