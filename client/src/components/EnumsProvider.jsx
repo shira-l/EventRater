@@ -1,4 +1,4 @@
-import React, { createContext, useState,useEffect } from 'react';
+import React, { createContext } from 'react';
 import { APIrequests } from '../APIrequests';
 export const EnumContext = createContext();
 
@@ -21,12 +21,11 @@ const EnumsProvider = ({ children }) => {
             console.error(error.message)
         }
     }
-    // const locations = localStorage.getItem("locations")?JSON.parse(localStorage.getItem("locations")): saveInLocalStorage("locations")
-    // const categories = localStorage.getItem("categories")?JSON.parse(localStorage.getItem("categories")): saveInLocalStorage("categories")
+    const locations = localStorage.getItem("locations")?JSON.parse(localStorage.getItem("locations")): saveInLocalStorage("locations")
+    const categories = localStorage.getItem("categories")?JSON.parse(localStorage.getItem("categories")): saveInLocalStorage("categories")
 
     return (
-        // <EnumContext.Provider value={{ locations, categories }}>
-                    <EnumContext.Provider>
+        <EnumContext.Provider value={{ locations, categories }}>
             {children}
         </EnumContext.Provider>
     );

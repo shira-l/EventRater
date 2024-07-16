@@ -1,16 +1,18 @@
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useForm, Controller } from 'react-hook-form';
 import ButtonAppBar from '../ButtonAppBar.jsx';
 import { APIrequests } from '../../APIrequests.js';
 import Select from 'react-select';
 import BusinessList from './BusinessList';
+import { EnumContext } from "../EnumsProvider";
 import './Businesses.css';
 import Slider from '@mui/material/Slider';
+import EnumSelect from '../EnumSelect';
 
 export default function Businesses() {
-    const maxPrice = 100000;
+    const maxPrice = 10000;
     const minPrice = 0;
     const [searchParams] = useSearchParams();
     const { register, handleSubmit, control, formState: { errors }, reset } = useForm({
@@ -37,11 +39,8 @@ export default function Businesses() {
         { value: 'minPrice ASC', label: 'מחיר' },
         { value: 'userName ASC', label: 'סדר אלפביתי' }
     ];
-    const locations = [
-        { value: '', label: 'None' },
-        { value: 'Jerusalem', label: 'Jerusalem' },
-        { value: 'modihin', label: 'modihin' }
-    ];
+    const { locations } = useContext(EnumContext)
+
 
 
     useEffect(() => {
@@ -59,7 +58,7 @@ export default function Businesses() {
             url += `&userName=${searchCriteria.searchBusinessName}`;
         }
         if (searchCriteria.searchLocation) {
-            url += `&locationName=${searchCriteria.searchLocation}`;
+            url += `&idLocation=${searchCriteria.searchLocation}`;
         }
         if (searchCriteria.searchPriceRange[0] != minPrice || searchCriteria.searchPriceRange[1] != maxPrice) {
             url += `&minPrice=${searchCriteria.searchPriceRange[0]}&maxPrice=${searchCriteria.searchPriceRange[1]}`;
@@ -88,7 +87,7 @@ export default function Businesses() {
     const onSubmit = (data) => {
         setSearchCriteria({
             searchBusinessName: data.searchBusinessName,
-            searchLocation: data.searchLocation?.value || '',
+            searchLocation: data.searchLocation?.idLocation || '',
             searchPriceRange: data.searchPriceRange
         });
     };
@@ -117,6 +116,7 @@ export default function Businesses() {
                                 <Select
                                     {...field}
                                     options={locations}
+                                    isSearchable={false}
                                 />
                             )}
                         />
@@ -133,12 +133,13 @@ export default function Businesses() {
                                 />
                             )}
                         />
+
                         <button type="submit">Update search</button>
                     </form>
                 </div>
                 <div id='select'>
                     <h4 id="sortTitle">sort:</h4>
-                    <Select options={options} onChange={handleSortChange} />
+                    <Select options={options} onChange={handleSortChange} isSearchable={false} />
                 </div>
             </div>
             <h3 id="businessesHeader">businesses</h3>

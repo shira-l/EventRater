@@ -17,9 +17,9 @@ export class BusinessService {
             query += " AND userName LIKE ? ";
             values.push(`%${params.userName}%`);
         }
-        if (params.locationName) {
-            query += " AND locationName = ? ";
-            values.push(params.locationName);
+        if (params.idLocation) {
+            query += " AND idLocation = ? ";
+            values.push(params.idLocation);
         }
         if (params.minPrice && params.maxPrice) {
             params.having = `NOT (MIN(itemPrice) > ? OR MAX(itemPrice) < ?)`;
