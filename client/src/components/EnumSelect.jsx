@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function EnumSelect(props) {
-  const { currentEnum, enumValues, register,errors } = props;
+  const { currentEnum, enumValues, register,errors,defaultValue } = props;
 
   return (<>
     <FormControl  sx={{ m: 1, minWidth: 120 }}>
@@ -15,8 +15,9 @@ export default function EnumSelect(props) {
       <Select
         labelId="demo-simple-select-required-label"
         id="demo-simple-select-required"
-        label={`${currentEnum} *`}
+        label= {currentEnum}
         {...register(currentEnum, { required: "required" })}
+        defaultValue={defaultValue}
       >
         <MenuItem value="">
           <em>{currentEnum}</em>

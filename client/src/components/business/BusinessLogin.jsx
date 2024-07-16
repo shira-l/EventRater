@@ -11,7 +11,7 @@ import "./PersonalArea.css";
 
 export default function BusinessLogin() {
     const APIrequest = new APIrequests()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             email: '',
@@ -20,8 +20,8 @@ export default function BusinessLogin() {
     })
     const generatePasswordHash = (password) => {
         return CryptoJS.SHA256(password).toString();
-      };
-    
+    };
+
     const login = async (authDetails) => {
         const hash_password = generatePasswordHash(authDetails.password);
         const requestBody = {
@@ -31,8 +31,13 @@ export default function BusinessLogin() {
         try {
             const url = '/businesses/login';
             const response = await APIrequest.postRequest(url, requestBody);
-            const newBusiness = { ...response.businessDetails, email: authDetails.email };
+            const newBusiness = {
+                ...response.businessDetails,
+                email: authDetails.email,
+                userName: response.userName
+            };
             localStorage.setItem('currentBusiness', JSON.stringify(newBusiness));
+            localStorage.setItem('prices', JSON.stringify(response.priceOffers));
             navigate("/businesses/personal-area")
         } catch (error) {
             alert('Error, please try again with different email or password');

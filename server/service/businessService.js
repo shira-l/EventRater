@@ -4,42 +4,43 @@ import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
 import { executeTransactionQuery } from './transaction.js'
 import { UserService } from "./userService.js";
+import { PriceService } from './priceService.js';
 import { getBusinessByCategoryQuery, getBusinessByIdQuery } from "../queries/businessQueries.js";
 import { GenericQuery } from "../queries/generyQueries.js";
 import bcrypt from 'bcrypt';
 
 export class BusinessService {
     static tableName = "businesses";
-    // static queries = new Queries();
+    // static queries = new GenericQuery();
     async getBusinessByCategory(params) {
         let query = getBusinessByCategoryQuery;
         let values = [params.category];
-        if(params.userName){
+        if (params.userName) {
             query += " AND userName LIKE ? ";
             values.push(`%${params.userName}%`);
         }
-        if(params.locationName){
+        if (params.locationName) {
             query += " AND locationName = ? ";
             values.push(params.locationName);
         }
-        if(params.minPrice && params.maxPrice){
+        if (params.minPrice && params.maxPrice) {
             params.having = `NOT (MIN(itemPrice) > ? OR MAX(itemPrice) < ?)`;
             values.push(params.maxPrice, params.minPrice);
-        } 
-        if(params.groupBy){
+        }
+        if (params.groupBy) {
             params.groupBy += `, businesses.idBusiness, users.userName, locations.locationName`
-        } else{
+        } else {
             params.groupBy = `businesses.idBusiness, users.userName, locations.locationName`
         }
-        
+
         const addQuery = GenericQuery.getAdvancedQuery({
             groupBy: params.groupBy,
             having: params.having,
             sort: params.sort,
             limit: params.range,
             offset: params.start
-        });  
-        query += addQuery;  
+        });
+        query += addQuery;
         const result = await executeQuery(query, values);
         return result;
     }
@@ -56,11 +57,14 @@ export class BusinessService {
             const userService = new UserService();
             const priceService = new PriceService()
             const userDetails = await userService.loginUser(params, true);
+            console.log("userDetails", userDetails)
             const columns = "idBusiness,about, phone,category,location";
-            const { query, values } = BusinessService.queries.getQuery(BusinessService.tableName, columns, [], { userId: userDetails.idUser });
-            const businessDetails = await executeQuery(query, values);
+            const query = GenericQuery.getQuery(BusinessService.tableName, columns, ["userId"]);
+            console.log(query)
+            const [businessDetails] = await executeQuery(query, [userDetails.idUser]);
+            console.log("businessDetails", businessDetails)
             const priceOffers = await priceService.getPricesByBusiness({ businessId: businessDetails.idBusiness })
-            return {userDetails,businessDetails,priceOffers}
+            return { userDetails, businessDetails, priceOffers }
         }
         catch (error) {
             throw error

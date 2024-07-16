@@ -1,19 +1,14 @@
 export class GenericQuery {
     static getQuery(table, columns, conditions = []) {
         let query = `SELECT ${columns} FROM ${table}`;
-        const values = [];
-        const conditionsArray = [];
+        const conditionStrings = conditions
+        .map(condition => `${condition} = ?`)
+        .join(' AND ');
 
-        for (const param in conditions) {
-            conditionsArray.push(`${param} ${conditions[param].operator} ?`);
-            values.push(conditions[param].value);
+        if (conditionStrings) {
+            query += ` WHERE ${conditionStrings}`;
         }
-
-        if (conditionsArray.length > 0) {
-            query += ` WHERE ${conditionsArray.join(' AND ')}`;
-        }
-
-        return { query, values };
+        return query;
     }
 
     static getAdvancedQuery(options = {}) {
@@ -39,25 +34,23 @@ export class GenericQuery {
     }
 
     static postQuery(table, data) {
-        const columns = Object.keys(data).join(', ');
-        const placeholders = Object.keys(data).map(() => '?').join(', ');
-        const values = Object.values(data);
+        const columns = data.join(', ');
+        const placeholders = data.map(() => '?').join(', ');
         const query = `INSERT INTO ${table} (${columns}) VALUES (${placeholders})`;
-        return { query, values };
+        return query;
     }
 
     static updateQuery(table, data, conditions) {
-        const setClause = Object.keys(data).map((column) => `${column} = ?`).join(', ');
-        const conditionClause = Object.keys(conditions).map((key) => `${key} = ?`).join(' AND ');
-        const values = [...Object.values(data), ...Object.values(conditions)];
+        const setClause = data.map((column) => `${column} = ?`).join(', ');
+        const conditionClause = conditions.map((key) => `${key} = ?`).join(' AND ');
+        // const values = [...Object.values(data), ...Object.values(conditions)];
         const query = `UPDATE ${table} SET ${setClause} WHERE ${conditionClause}`;
-        return { query, values };
+        return query;
     }
 
     static deleteQuery(table, conditions) {
-        const conditionClause = Object.keys(conditions).map((key) => `${key} = ?`).join(' AND ');
-        const values = Object.values(conditions);
+        const conditionClause = conditions.map((key) => `${key} = ?`).join(' AND ');
         const query = `DELETE FROM ${table} WHERE ${conditionClause}`;
-        return { query, values };
+        return query;
     }
 }

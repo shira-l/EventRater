@@ -36,9 +36,9 @@ export class BusinessController {
     async loginBusiness(req, res, next) {
         try {
             const { userDetails, businessDetails, priceOffers } = await BusinessController.businessService.loginBusiness(req.body);
-            const token = createToken({ id: business.idBusiness });
+            const token = createToken({ id: businessDetails.idBusiness });
             return res.cookie('x-access-token', token, { httpOnly: true, secure: true, maxAge: 259200000 })
-                .json({ userDetails: userDetails, businessDetails: businessDetails, priceOffers: priceOffers });
+                .json({ userName: userDetails.userName, businessDetails: businessDetails, priceOffers: priceOffers });
         } catch (ex) {
             const err = {};
             err.statusCode = 500;

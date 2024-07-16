@@ -2,14 +2,14 @@
 import executeQuery from './db.js';
 import { GenericQuery } from "../queries/generyQueries.js";
 
+
 export class PriceService {
     static tableName = "prices";
-    // static queries = new Queries();
-
+   
     async getPricesByBusiness(params) {
         const columns = "itemDescription, itemPrice";
-        const { query, values } = GenericQuery.getQuery(PriceService.tableName, columns, params);
-        const result = await executeQuery(query, values);
+        const query = GenericQuery.getQuery(PriceService.tableName, columns, Object.keys(params));
+        const result = await executeQuery(query, Object.values(params));
         return result;
     }
 
