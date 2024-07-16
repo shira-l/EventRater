@@ -1,0 +1,62 @@
+.reviews-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    max-width: 800px; /* קובע את הרוחב המקסימלי של המיכל */
+}
+
+.add-review-button {
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.review-item {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-user-name {
+    font-size: 20px; /* הגדלת גודל הפונט */
+    font-weight: bold;
+    color: #ff69b4;
+    margin: 0;
+}
+
+.review-date {
+    font-size: 16px; /* הגדלת גודל הפונט */
+    color: #888888;
+    margin: 0;
+}
+
+.review-description {
+    font-size: 18px; /* הגדלת גודל הפונט */
+    margin: 10px 0;
+}
+
+.review-stars {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.review-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}

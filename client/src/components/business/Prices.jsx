@@ -29,7 +29,8 @@ const Prices = () => {
     }
 
     return (
-        <div className="prices-container">
+        <div className="prices-container" style={{ marginLeft: "1.5cm" }}>
+            <h2>Prices</h2>
         {prices.map(price => (
                 <div key={price.id}>
                 <span>{price.itemDescription + "        "}</span>

@@ -1,4 +1,32 @@
-
 .business-detail {
-    margin-top: 100px; /* Adjust the value as needed */
+    margin-top: 3cm;
+    margin-left: 7cm;
+    padding: 20px;
+}
+
+.business-tabs .MuiTabs-indicator {
+    background-color: #ff69b4; /* צבע ורוד לטאב הפעיל */
+}
+
+.business-tabs .Mui-selected {
+    color: #ff69b4 !important; /* צבע ורוד לטאב הפעיל */
+}
+
+.business-tabs .MuiTab-root {
+    color: #000000; /* צבע שחור לטאבים הלא פעילים */
+}
+
+h1 {
+    margin: 0;
+    font-size: 36px;
+    color: #333;
+}
+
+p {
+    font-size: 18px;
+    color: #666;
+}
+h2{
+    color: #ff69b4 !important; /* צבע ורוד לטאב הפעיל */
+
 }

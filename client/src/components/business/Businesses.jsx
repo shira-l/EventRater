@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useForm, Controller } from 'react-hook-form';
@@ -9,7 +8,6 @@ import BusinessList from './BusinessList';
 import { EnumContext } from "../EnumsProvider";
 import './Businesses.css';
 import Slider from '@mui/material/Slider';
-import EnumSelect from '../EnumSelect';
 
 export default function Businesses() {
     const maxPrice = 10000;
@@ -35,20 +33,18 @@ export default function Businesses() {
     const seeMore = useRef(false);
     const range = 7;
     const options = [
-        { value: 'averageRating DESC', label: 'דירוג' },
-        { value: 'minPrice ASC', label: 'מחיר' },
-        { value: 'userName ASC', label: 'סדר אלפביתי' }
+        { value: 'averageRating DESC', label: 'Rating' },
+        { value: 'minPrice ASC', label: 'Price' },
+        { value: 'userName ASC', label: 'Alphabetical Order' }
     ];
-    const { locations } = useContext(EnumContext)
-
-
+    const { locations } = useContext(EnumContext);
 
     useEffect(() => {
         getBusinesses(true);
     }, [category, sortBy, searchCriteria]);
 
     useEffect(() => {
-        setDisplaySeeMore(businesses.length % range === 0 && businesses.length !== 0)
+        setDisplaySeeMore(businesses.length % range === 0 && businesses.length !== 0);
     }, [businesses]);
 
     const getBusinesses = async (reset) => {
@@ -75,10 +71,9 @@ export default function Businesses() {
                 setBusinesses(businesses => [...businesses, ...response.data]);
             }
         } catch (error) {
-            alert(error.message)
+            alert(error.message);
         }
-    }
-
+    };
 
     const handleSortChange = (selectedOption) => {
         setSortBy(selectedOption.value);
@@ -102,7 +97,7 @@ export default function Businesses() {
             <ButtonAppBar />
             <div id='businessesTop' dir='rtl'>
                 <div id='search'>
-                    <h3 id="searchTitle">search:</h3>
+                    <h3 id="searchTitle">Search:</h3>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <input
                             type="text"
@@ -133,18 +128,19 @@ export default function Businesses() {
                                 />
                             )}
                         />
-
                         <button type="submit">Update search</button>
                     </form>
                 </div>
                 <div id='select'>
-                    <h4 id="sortTitle">sort:</h4>
+                    <h4 id="sortTitle">Sort:</h4>
                     <Select options={options} onChange={handleSortChange} isSearchable={false} />
                 </div>
             </div>
-            <h3 id="businessesHeader">businesses</h3>
-            <BusinessList businesses={businesses} />
-            {displaySeeMore && <button onClick={handleSeeMore}>see more</button>}
+            <div className="business-list-container">
+                <h1 id="businessesHeader" font-size = {10}>{category}</h1>
+                <BusinessList businesses={businesses} />
+                {displaySeeMore && <button onClick={handleSeeMore}>See more</button>}
+            </div>
         </>
     );
 }
