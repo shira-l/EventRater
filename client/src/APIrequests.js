@@ -1,4 +1,29 @@
 
+export class APIRequests {
+
+
+    async putRequest(url, body) {
+        try {
+            const response = await fetch('http://localhost:8082' + url, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body)
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error);
+            }
+            return response;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+}
 export class APIrequests {
     async postRequest(url, body) {
         try {
@@ -10,26 +35,28 @@ export class APIrequests {
                     'Content-type': 'application/json',
                 },
             });
-            const data=response.json();
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error);
+            }
             return data;
         } catch (error) {
             throw error;
         };
     }
 
-    async getRequest(url, params = {}) {
+    async getRequest(url) {
         try {
-            console.log('http://localhost:8083' + url);
-
             const response = await fetch('http://localhost:8083' + url, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            if(response.status!=200){
-                throw new Error(response.statusText);
+
+            const data = await response.json()
+            if (!response.ok) {
+                throw new Error(data.error);
             }
-            const data=response.json()
             return data;
         } catch (error) {
             throw error;
@@ -45,10 +72,11 @@ export class APIrequests {
                     'Content-Type': 'application/json'
                 }
             });
-            if(response.status!=200){
-                throw new Error(response.error.message);
+
+            const data =await response.json()
+            if (!response.ok) {
+                throw new Error(data.error);
             }
-            const data=response.json()
             return data;
         } catch (error) {
             throw error;
@@ -65,10 +93,11 @@ export class APIrequests {
                     'Content-type': 'application/json',
                 },
             });
-            if (response.status !== 200) {
-                throw new Error(response.statusText);
-            }
+           
             const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error);
+            }
             return data;
         } catch (error) {
             throw error;

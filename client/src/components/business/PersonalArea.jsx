@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import EnumSelect from "../EnumSelect";
 import { FormInputs } from "../formInputs";
 import { useForm } from "react-hook-form";
@@ -12,20 +13,33 @@ import { TextField } from "@mui/material";
 import { APIrequests } from "../../APIrequests";
 import './PersonalArea.css'
 export default function PersonalArea() {
+
+    const navigate = useNavigate()
     const Location = useLocation()
     const APIrequest = new APIrequests()
     const { locations, categories } = useContext(EnumContext)
-    const [priceOffers, setPriceOffers] = useState([])
-    const authBusinessDetails = Location.state.businessDetails;
-    const isNewBusiness = Object.keys(authBusinessDetails).length == 3;
-
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        defaultValues: {
+    const isNewBusiness = !localStorage.getItem("currentBusiness");
+    const [priceOffers, setPriceOffers] = useState(isNewBusiness ? [] : JSON.parse(localStorage.getItem("prices")))
+    const businessDetails = isNewBusiness ?
+        {
             phone: '',
-            password: '',
             about: '',
             location: '',
             category: ''
+        } :
+        JSON.parse(localStorage.getItem("currentBusiness"))
+    const authBusinessDetails = isNewBusiness ? Location.state.authDetails : {
+        email: businessDetails.email,
+        userName: businessDetails.userName
+    };
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+        defaultValues: {
+            phone: businessDetails.phone,
+            password: '',
+            about: businessDetails.about,
+            location: businessDetails.location,
+            category: businessDetails.category
         }
     })
     const { register: savePrice, handleSubmit: handleSubmitPrice, formState: { errors: priceErrors }, reset: resetPrice } = useForm({
@@ -39,6 +53,11 @@ export default function PersonalArea() {
         return CryptoJS.SHA256(password).toString();
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('currentBusiness');
+        localStorage.removeItem('prices');
+        navigate('/home')
+    }
     const addPrice = (priceDetails) => {
         setPriceOffers([...priceOffers, priceDetails])
         resetPrice();
@@ -79,9 +98,9 @@ export default function PersonalArea() {
             <form onSubmit={handleSubmit(addNewBusiness)} className="businessForn">
                 <div> <p>Personal Information:</p>
                     <EnumSelect currentEnum="category" register={register}
-                        errors={errors} enumValues={categories} />
+                        errors={errors} enumValues={categories} defaultValue={businessDetails.category} />
                     <EnumSelect currentEnum="location" register={register}
-                        errors={errors} enumValues={locations} />
+                        errors={errors} enumValues={locations} defaultValue={businessDetails.location} />
                     <br />
                     <FormInputs.phoneInput register={register} errors={errors} />
                 </div>
@@ -94,11 +113,13 @@ export default function PersonalArea() {
                         helperText={errors.about ? errors.about.message : ''}
                     />
                 </div>
-                <FormInputs.passwordInput register={register} errors={errors} />
-                {isNewBusiness ? <Button type="submit">Submit</Button> :
+
+                {isNewBusiness ? <>
+                    <FormInputs.passwordInput register={register} errors={errors} />
+                    <Button type="submit">Submit</Button> </> :
                     <>
                         <Button>Save Changes</Button>
-                        <Button>To My Profile</Button>
+                        <Button onClick={() => navigate(`/businesses/${businessDetails.idBusiness}`)}>To My Profile</Button>
                     </>
                 }
             </form >
@@ -110,7 +131,8 @@ export default function PersonalArea() {
                         <button type='submit'>Add</button>
                     </form>
                 }
-                <PriceOffersList priceOffers={priceOffers} setPriceOffers={setPriceOffers} />
+                <PriceOffersList priceOffers={priceOffers} setPriceOffers={setPriceOffers} isNewBusiness={isNewBusiness} />
+                <Button onClick={handleLogout}>logout</Button>
             </div>
         </div>
     </>)

@@ -1,5 +1,5 @@
-export const loginUserQuery = `
-    SELECT 
+export const loginUserQuery = (isBusiness) => {
+    return ` SELECT 
         idUser, userName, password
     FROM 
         users 
@@ -7,5 +7,6 @@ export const loginUserQuery = `
         passwords ON users.passwordId = idPassword 
     WHERE 
         email = ? 
-        AND isBusiness = false
-`;
+        AND isBusiness = ${isBusiness}`
+}
+

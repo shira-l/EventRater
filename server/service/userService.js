@@ -26,15 +26,14 @@ export class UserService {
         return userId;
     }
 
-    async loginUser(params) {
-        const query = loginUserQuery;
+    async loginUser(params,idBusiness) {
+        const query = loginUserQuery(idBusiness);
         const email = params.email;
         const password = params.password;
         const users = await executeQuery(query, [email]);
         if (!users || users.length === 0) {
             throw new Error("Invalid username or password");
         }
-
         const passwordService = new PasswordService();
         const isMatch = await passwordService.verifyPassword(password, users[0].password);
         if (!isMatch) {

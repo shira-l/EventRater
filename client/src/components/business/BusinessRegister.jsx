@@ -11,7 +11,7 @@ import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
 import ButtonAppBar from "../ButtonAppBar";
 import "./PersonalArea.css";
-import OTPInput, { ResendOTP } from "otp-input-react";
+import OTPInput from "otp-input-react";
 
 
 export default function BusinessRegister() {
@@ -54,7 +54,7 @@ export default function BusinessRegister() {
             handleClose()
             if (response) {
                 alert("Verification was successful. You are taken to your personal area")
-                navigate("/businesses/personal-area", { state: { businessDetails: businessDetails } })
+                navigate("/businesses/personal-area", { state: { authDetails: businessDetails } })
             }
 
         }
@@ -110,7 +110,6 @@ export default function BusinessRegister() {
             <DialogContent style={{ display: "flex" }}>
                 <DialogContentText> You received an email with a verification code</DialogContentText>
                 <OTPInput value={otp} onChange={setOtp} autoFocus OTPLength={6} otpType="number" disabled={false} secure />
-                <ResendOTP onResendClick={sendOtpCode} />
             </DialogContent>
             <DialogActions>
                 <Button type="submit">to verify</Button>

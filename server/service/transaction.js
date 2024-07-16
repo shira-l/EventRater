@@ -1,18 +1,16 @@
 import mysql from 'mysql2/promise';
 import 'dotenv/config';
-// import { Queries } from './query.js';
 import { GenericQuery } from "../queries/generyQueries.js";
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     port: 8080,
-    database: process.env.DB_NAME || "last_project",
-    password: process.env.PASSWORD || "shiraAHRV3125!",
+    database: process.env.DB_NAME,
+    password: process.env.PASSWORD,
 });
 
 async function executeTransactionQuery(data) {
     let businessIdData, connection;
-    // let queries = new Queries();
     try {
         connection = await pool.getConnection();
         await connection.beginTransaction();

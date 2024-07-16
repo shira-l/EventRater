@@ -49,8 +49,18 @@ export class GenericQuery {
     }
 
     static deleteQuery(table, conditions) {
-        const conditionClause = conditions.map((key) => `${key} = ?`).join(' AND ');
+        const conditionClause = Object.keys(conditions).map((key) => `${key} = ?`).join(' AND ');
+        const values = Object.values(conditions);
         const query = `DELETE FROM ${table} WHERE ${conditionClause}`;
-        return query;
+        return { query, values };
+
+        // const conditionClause = conditions.map((key) => `${key} = ?`).join(' AND ');
+        // const query = `DELETE FROM ${table} WHERE ${conditionClause}`;
+        // return query;
+        // const conditionClause = conditions.map((key) => `${key} = ?`).join(' AND ');
+        // const query = `UPDATE ${table} SET isActive =0 WHERE ${conditionClause} AND isActive =1 `;
+        //  return query;
+ 
+
     }
 }

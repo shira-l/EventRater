@@ -22,7 +22,7 @@ export class LoginController {
         try {
             const { error } = userSchema.validate(req.body);
             if (error) {
-                return res.status(400).json({ message: error.details[0].message });
+                return res.status(400).json({ error: error.details[0].message });
             }
 
             const idUser = await LoginController.userService.registerUser(req.body);
