@@ -16,8 +16,11 @@
     flex-direction: column;
     justify-content: center;
     align-items:flex-start;
+    padding-top: 120px;
+
 }
 .price-form{
+    padding-top: 120px;
     display: flex;
 }
 .forms-container{
@@ -56,8 +59,11 @@ input[type="file"] {
     border-radius: 50%;
 }
 
-.profile-div{
-    text-align: right;
+#p-profile{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 }
 .img-upload:before {
     content: "\f093";

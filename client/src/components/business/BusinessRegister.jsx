@@ -12,7 +12,7 @@ import { useState } from "react";
 import ButtonAppBar from "../ButtonAppBar";
 import "./PersonalArea.css";
 import OTPInput from "otp-input-react";
-
+import { useEffect } from "react";
 
 export default function BusinessRegister() {
     const navigate = useNavigate()
@@ -26,6 +26,12 @@ export default function BusinessRegister() {
             userName: '',
         }
     })
+
+    useEffect(() => {
+        if (localStorage.getItem("currentBusiness"))
+            navigate("/businesses/personal-area")
+    }, [])
+
     const sendOtpCode = async (businessDetailsInput) => {
         try {
             const requestBody = {
@@ -73,7 +79,7 @@ export default function BusinessRegister() {
         setOpen(false);
     }
 
-    // <h2>Sign up for Events Rating, glad you came! </h2>
+   
 
     return (<>
 

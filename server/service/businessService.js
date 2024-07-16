@@ -53,8 +53,7 @@ export class BusinessService {
             const columns = "idBusiness,about, phone,category,location";
             const query = GenericQuery.getQuery(BusinessService.tableName, columns, ["userId"]);
             const values = [userDetails.idUser];
-            const businessDetails = await executeQuery(query, values);
-            // const [businessDetails] = await executeQuery(query, [userDetails.idUser]);
+            const [businessDetails] = await executeQuery(query, values);
             const priceOffers = await priceService.getPricesByBusiness({ businessId: businessDetails.idBusiness })
             return { userDetails, businessDetails, priceOffers }
         }

@@ -4,7 +4,7 @@ import { GenericQuery } from "../queries/generyQueries.js";
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    port: 3306,
+    port: 8080,
     database: process.env.DB_NAME,
     password: process.env.PASSWORD,
 });
@@ -16,6 +16,7 @@ async function executeTransactionQuery(data) {
         await connection.beginTransaction();
         let businessQuery = GenericQuery.postQuery("businesses", [...Object.keys(data.businessDetails), "userId"])
         businessIdData = await connection.query(businessQuery, [...Object.values(data.businessDetails), data.userId]);
+        console.log(businessIdData);
         data.priceOffers.map(async price => {
             let paramsOfPrice = {
                 ...price,
@@ -26,6 +27,7 @@ async function executeTransactionQuery(data) {
         })
         let passwordQuery = GenericQuery.postQuery("passwords", ["password"])
         let [passwordIdData] = await connection.query(passwordQuery, data.password);
+        console.log(passwordIdData);
         let paramsOfUser = {
             userName: data.userName,
             passwordId: passwordIdData.insertId,
@@ -44,6 +46,6 @@ async function executeTransactionQuery(data) {
             connection.release();
         }
     }
-    return businessIdData.insertId;
+    return businessIdData[0].insertId;
 }
 export { executeTransactionQuery };

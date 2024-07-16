@@ -9,26 +9,14 @@ export class ReviewController {
             const resultItem = await ReviewController.reviewService.getReviewByBusiness(req.query);
             res.json({ data: resultItem });
         }
-        catch (ex) {
-            const err = {}
-            err.statusCode = 500;
-            err.message = ex;
-            next(err)
+        catch (ex)  {
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
 
-    async getReviewById(req, res, next) {
-        try {
-            const resultItem = await ReviewController.reviewService.getReviewById(req.params);
-            res.json({ data: resultItem });
-        }
-        catch (ex) {
-            const err = {}
-            err.statusCode = 500;
-            err.message = ex;
-            next(err)
-        }
-    }
 
     async addReview(req, res, next) {
         try {
@@ -39,11 +27,11 @@ export class ReviewController {
             const resultItem = await ReviewController.reviewService.addReview(req.body);
             res.json({ data: resultItem });
         }
-        catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex;
-            next(err);
+        catch (ex)  {
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
 
@@ -56,10 +44,10 @@ export class ReviewController {
             const resultItem = await ReviewController.reviewService.updateReview(req.params, req.body);
             res.json({ data: resultItem });
         } catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex;
-            next(err);
+            next({
+                statusCode: ex.errno || 404,
+                message: ex.message || ex
+            })
         }
     }
 
@@ -69,10 +57,10 @@ export class ReviewController {
             res.json({});
         }
         catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex;
-            next(err);
+            next({
+                statusCode: ex.errno || 404,
+                message: ex.message || ex
+            })
         }
     }
 }

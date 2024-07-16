@@ -71,7 +71,7 @@ export default function Businesses() {
                 setBusinesses(businesses => [...businesses, ...response.data]);
             }
         } catch (error) {
-            alert(error.message);
+            alert(error.message)
         }
     };
 

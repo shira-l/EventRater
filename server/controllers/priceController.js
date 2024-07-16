@@ -10,10 +10,10 @@ export class PriceController {
             res.json({ data: resultItems });
         }
         catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex.message;
-            next(err);
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
 
@@ -26,11 +26,11 @@ export class PriceController {
             const resultItem = await PriceController.priceService.addPrice(req.body);
             res.json({ data: resultItem });
         }
-        catch (ex) {
-            const err = {};
-            err.statusCode = 500;
-            err.message = ex.message;
-            next(err);
+        catch (ex)  {
+            next({
+                statusCode: ex.errno || 500
+                , message: ex.message || ex
+            })
         }
     }
 

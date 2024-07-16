@@ -42,8 +42,8 @@ const Contact = ({ business }) => {
 
     const handleEmailClick = (event) => {
         if (user) {
-            const subject = encodeURIComponent("הודעה מהאתר שלי");
-            const messageText = encodeURIComponent("שלום וברכה");
+            const subject = encodeURIComponent("A message from my website");
+            const messageText = encodeURIComponent("Hi, I wanted to contact you about...");
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${business.email}&su=${subject}&body=${messageText}`;
             window.open(gmailUrl);
         } else {

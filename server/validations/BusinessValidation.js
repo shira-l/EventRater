@@ -10,3 +10,4 @@ export const businessSchema = Joi.object({
     location:Joi.number().required(),
     category:Joi.number().required()
 });
+

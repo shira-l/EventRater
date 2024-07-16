@@ -104,7 +104,7 @@ const Business = () => {
             setBusiness(newBusinesses);
 
         } catch (error) {
-            console.error('Error fetching business data:', error);
+            alert('Error fetching business data:', error.message);
         } finally {
             setLoading(false);
         }
