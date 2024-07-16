@@ -18,6 +18,7 @@ export class LoginController {
             next(err)
         }
     }
+    
     async register(req, res, next) {
         try {
             const { error } = userSchema.validate(req.body);

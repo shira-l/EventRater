@@ -4,7 +4,7 @@ import { GenericQuery } from "../queries/generyQueries.js";
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    port: 8080,
+    port: 3306,
     database: process.env.DB_NAME,
     password: process.env.PASSWORD,
 });

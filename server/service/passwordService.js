@@ -1,10 +1,8 @@
 import bcrypt from 'bcrypt';
-// import { Queries } from './query.js';
 import executeQuery from './db.js';
 import { GenericQuery } from "../queries/generyQueries.js";
 
 export class PasswordService {
-    // static queries = new Queries();
     static passwordsTable = "passwords";
 
     async addPassword(params) {

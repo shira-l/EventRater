@@ -17,7 +17,9 @@ export default function PersonalArea() {
     const navigate = useNavigate()
     const Location = useLocation()
     const APIrequest = new APIrequests()
-    const { locations, categories } = useContext(EnumContext)
+    // const { locations, categories } = useContext(EnumContext)
+    const locations = ['A','B','C'];
+    const categories = ['Z','Q'];
     const isNewBusiness = !localStorage.getItem("currentBusiness");
     const [priceOffers, setPriceOffers] = useState(isNewBusiness ? [] : JSON.parse(localStorage.getItem("prices")))
     const businessDetails = isNewBusiness ?

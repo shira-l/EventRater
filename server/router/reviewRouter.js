@@ -7,8 +7,8 @@ const reviewController = new ReviewController();
 
 reviewRouter.get("/", reviewController.getReviewsByBusiness);
 reviewRouter.post("/", verifyToken, reviewController.addReview);
-reviewRouter.put("/",verifyToken, reviewController.updateReview);
-reviewRouter.delete("/",verifyToken,reviewController.deleteReview);
+reviewRouter.put("/:idReview",verifyToken, reviewController.updateReview);
+reviewRouter.delete("/:idReview",verifyToken,reviewController.deleteReview);
 
 export {
     reviewRouter

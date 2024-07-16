@@ -33,6 +33,7 @@ export class BusinessController {
             next(err)
         }
     }
+
     async loginBusiness(req, res, next) {
         try {
             const { userDetails, businessDetails, priceOffers } = await BusinessController.businessService.loginBusiness(req.body);
@@ -46,6 +47,7 @@ export class BusinessController {
             next(err);
         }
     }
+
     async registerBusiness(req, res, next) {
         try {
             const { error } = basicBusinessSchema.validate(req.body);
@@ -64,6 +66,7 @@ export class BusinessController {
             next(err);
         }
     }
+
     async verifyOtp(req, res, next) {
         try {
             const validate = await BusinessController.businessService.verifyBusinessSignUp(req.body);
@@ -104,6 +107,7 @@ export class BusinessController {
             next(err);
         }
     }
+    
     async deleteBusiness(req, res, next) {
         try {
             await BusinessController.businessService.deleteBusiness(req.params);

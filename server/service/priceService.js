@@ -1,4 +1,3 @@
-// import { Queries } from "./query.js";
 import executeQuery from './db.js';
 import { GenericQuery } from "../queries/generyQueries.js";
 

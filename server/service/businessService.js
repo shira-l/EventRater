@@ -1,4 +1,3 @@
-// import { Queries } from "./query.js"
 import executeQuery from './db.js';
 import otpGenerator from 'otp-generator';
 import { sendMailOtp } from "../utils/emailSend.js";
@@ -11,7 +10,6 @@ import bcrypt from 'bcrypt';
 
 export class BusinessService {
     static tableName = "businesses";
-    // static queries = new GenericQuery();
     async getBusinessByCategory(params) {
         let query = getBusinessByCategoryQuery;
         let values = [params.category];
@@ -33,13 +31,7 @@ export class BusinessService {
             params.groupBy = `businesses.idBusiness, users.userName, locations.locationName`
         }
 
-        const addQuery = GenericQuery.getAdvancedQuery({
-            groupBy: params.groupBy,
-            having: params.having,
-            sort: params.sort,
-            limit: params.range,
-            offset: params.start
-        });
+        const addQuery = GenericQuery.getAdvancedQuery(params);
         query += addQuery;
         const result = await executeQuery(query, values);
         return result;

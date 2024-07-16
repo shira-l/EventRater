@@ -1,12 +1,9 @@
-// import { Queries } from './query.js';
 import { PasswordService } from './passwordService.js';
 import executeQuery from './db.js';
 import { GenericQuery } from "../queries/generyQueries.js";
 import { loginUserQuery } from "../queries/userQueries.js";
-// import { object } from 'joi';
 
 export class UserService {
-    // static queries = new Queries();
     static table = "users";
 
     async registerUser(params) {
@@ -45,7 +42,7 @@ export class UserService {
 
     async userExists(email) {
         const columns = "1";
-        const query = GenericQuery.getQuery(UserService.table, columns, [email, isBusiness, isActive]);
+        const query = GenericQuery.getQuery(UserService.table, columns, ['email', 'isBusiness', 'isActive']);
         const values = [ email, false, true];
         const users = await executeQuery(query, values);
         return users.length > 0;

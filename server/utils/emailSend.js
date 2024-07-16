@@ -3,16 +3,12 @@ import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
-    secure: false, // use SSL
+    secure: false,
     auth: {
-        // user:'slazarov@g.jct.ac.il',
-        // pass:'jrqHXtmu'
         user: 'michalla37@gmail.com',
         pass: 'kqjf zowc lqej cqbi',
     }
 });
-
-//const { OTP_LENGTH, OTP_CONFIG } = require('../constants/constants');
 
 export const sendMailOtp = async (params) => {
     try {
