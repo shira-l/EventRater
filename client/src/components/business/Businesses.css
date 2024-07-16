@@ -1,17 +1,93 @@
-
-#businessesTop div {
+#businessesTop {
     display: flex;
     flex-direction: column;
+    position: fixed;
+    right: 0;
+    top: 6cm;
+    width: 250px;
+    height: calc(100vh - 6cm); /* התאמת הגובה */
+    top: 50%; /* מתחיל מהאמצע */
+    transform: translateY(-50%); /* מזיז חצי מגובה האלמנט כדי למרכז אותו */
+    background-color: transparent; /* שינוי צבע הרקע לשקוף */
+    z-index: 1000;
 }
 
-#businessesTop {
-    margin-top: 30vh;
-    display: flex;
-    justify-content: space-between;
+#businessesHeader {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-#container {
+.business-list-container {
+    margin-right: 270px;
+    padding: 20px;
+}
+
+.business-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
+    border: 1px solid #eee;
+    background-color: #fff;
+    transition: box-shadow 0.3s;
+    border-left: 4px solid #ff69b4; /* פס ורוד */
 }
+
+.business-item div {
+    padding: 10px 0;
+    text-align: center; /* מרכז את הטקסטים */
+    width: 100%;
+}
+
+.business-item div:first-child {
+    border-top: none; /* מסיר את הקו מהאלמנט הראשון */
+}
+
+.business-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+    border-top: 1px solid #eee; /* קו למעלה */
+}
+
+.business-name {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.business-location p, .business-prices p, .business-rating p {
+    margin: 0;
+    font-size: 25px; /* מגדיל את הגופן */
+}
+
+.business-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* מרווח גדול יותר בין העסקים */
+}
+
+.business-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.business-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.business-name {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: start; /* הגדרת מיקום הטקסט לצד שמאל */
+    margin-bottom: 10px; /* מרווח תחתון קטן */
+}
+
+#businessesHeader {
+    font-size: 50px; /* קובע את גודל הפונט */
+    font-weight: bold;
+    text-align: center; /* מירכוז */
+    margin-top: 3cm; /* מרווח מעלה */
+} 
