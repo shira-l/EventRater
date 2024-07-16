@@ -7,7 +7,7 @@ import { APIrequests } from "../../APIrequests";
 import CryptoJS from 'crypto-js';
 import { useEffect } from "react";
 import ButtonAppBar from "../ButtonAppBar";
-import "./PersonalArea.css";
+import "../businessComponents/personal-area/PersonalArea.css"
 
 export default function BusinessLogin() {
     const APIrequest = new APIrequests()

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link} from 'react-router-dom';
 
 import orchestraImage from '../../images/WhatsApp-Image-2018-06-19-at-12.47.13.jpeg'
 import photographerImage from '../../images/photographer.png';
@@ -8,8 +8,8 @@ import ButtonAppBar from '../ButtonAppBar.jsx'
 import './Home.css'
 
 function Home() {
-  const navigate = useNavigate();
   
+
  
   return (<>
   
@@ -27,15 +27,15 @@ function Home() {
         <div className="images-container">
           <Link className="home-link" to="/businesses?category=orchestra">
             <img src={orchestraImage} alt="Orchestra" className="category-image" />
-            <p>תזמורות</p>
+            <p>orchestra</p>
           </Link>
           <Link className="home-link" to="/businesses?category=photographer">
             <img src={photographerImage} alt="Photographer" className="category-image" />
-            <p>צלמים</p>
+            <p>photographers</p>
           </Link>
           <Link className="home-link" to="/businesses?category=flowers">
             <img src={flowersImage} alt="Flowers" className="category-image" />
-            <p>פרחים</p>
+            <p>flowers</p>
           </Link>
         </div>
       </div></>

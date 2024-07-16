@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useForm, Controller } from 'react-hook-form';
-import ButtonAppBar from '../ButtonAppBar.jsx';
-import { APIrequests } from '../../APIrequests.js';
+import ButtonAppBar from '../../ButtonAppBar.jsx';
+import { APIrequests } from '../../../APIrequests.js';
 import Select from 'react-select';
-import BusinessList from './BusinessList';
-import { EnumContext } from "../EnumsProvider";
+import BusinessList from './../BusinessList';
+import { EnumContext } from "../../EnumsProvider";
 import './Businesses.css';
 import Slider from '@mui/material/Slider';
 

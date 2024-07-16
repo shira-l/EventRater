@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { APIrequests } from '../../APIrequests.js';
+import { APIrequests } from '../APIrequests.js';
 
 const Prices = () => {
     const { idBusiness } = useParams();

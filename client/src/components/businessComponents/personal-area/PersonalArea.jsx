@@ -1,16 +1,16 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import EnumSelect from "../EnumSelect";
-import { FormInputs } from "../formInputs";
+import EnumSelect from "../../EnumSelect";
+import { FormInputs } from "../../formInputs";
 import { useForm } from "react-hook-form";
 import CryptoJS from 'crypto-js';
-import PriceOffersList from "../priceOffers";
+import PriceOffersList from "../priceOffers/priceOffers.jsx";
 import { useLocation } from "react-router-dom";
-import { EnumContext } from "../EnumsProvider";
-import ButtonAppBar from "../ButtonAppBar";
+import { EnumContext } from "../../EnumsProvider.jsx";
+import ButtonAppBar from "../../ButtonAppBar";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
-import { APIrequests } from "../../APIrequests";
+import { APIrequests } from "../../../APIrequests";
 import './PersonalArea.css'
 export default function PersonalArea() {
 
@@ -160,6 +160,7 @@ export default function PersonalArea() {
                     <>
                         <Button type="submit">Save Changes</Button>
                         <Button onClick={() => navigate(`/businesses/${businessDetails.idBusiness}`)}>To My Profile</Button>
+                        <Button onClick={handleLogout}>logout</Button>
                     </>
                 }
             </form >
@@ -172,7 +173,6 @@ export default function PersonalArea() {
                     </form>
                 }
                 <PriceOffersList priceOffers={priceOffers} setPriceOffers={setPriceOffers} isNewBusiness={isNewBusiness} />
-                <Button onClick={handleLogout}>logout</Button>
             </div>
         </div>
     </>)

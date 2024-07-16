@@ -10,7 +10,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { APIrequests } from "../../APIrequests";
 import { useState } from "react";
 import ButtonAppBar from "../ButtonAppBar";
-import "./PersonalArea.css";
+import "../businessComponents/personal-area/PersonalArea.css";
 import OTPInput from "otp-input-react";
 import { useEffect } from "react";
 
@@ -113,7 +113,7 @@ export default function BusinessRegister() {
                 onSubmit: handleSubmit(verifyOtp),
             }}
         >
-            <DialogContent style={{ display: "flex" }}>
+            <DialogContent style={{ display: "flex" ,flexDirection: "column"}}>
                 <DialogContentText> You received an email with a verification code</DialogContentText>
                 <OTPInput value={otp} onChange={setOtp} autoFocus OTPLength={6} otpType="number" disabled={false} secure />
             </DialogContent>

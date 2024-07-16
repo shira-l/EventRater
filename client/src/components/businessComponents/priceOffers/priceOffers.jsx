@@ -5,7 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import { APIrequests } from '../APIrequests';
+import { APIrequests } from '../../../APIrequests';
 import './priceOffers.css'
 export default function PriceOffersList({ priceOffers, setPriceOffers, isNewBusiness }) {
 
