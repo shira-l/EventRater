@@ -26,20 +26,16 @@ It provides an **intuitive interface** for both **regular users** and **business
    ```sh
    npm install
 3. **Set up the database**
-•	Create a MySQL database
-•	Run migrations or import the necessary SQL schema
+ - Create a MySQL database
+ -	Run migrations or import the necessary SQL schema
 4. **Configure environment variables**
-•	Create a .env file and add required database credentials and authentication secrets
+ - Create a .env file and add required database credentials and authentication secrets
 5. **Start the application**
-Backend:
+- Backend:
    ```sh
    cd server
    npm run server
-Frontend:
-    ```sh
+- Frontend:
+   ```sh
    cd client
    npm start
-
-⭐ **If you find this project useful, consider giving it a star!** ⭐
-
-
