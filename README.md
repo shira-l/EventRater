@@ -23,7 +23,8 @@ It provides an **intuitive interface** for both **regular users** and **business
    git clone https://github.com/shira-l/EventRater.git
    cd EventRater
 2. **Install dependencies**   
-npm install
+   ```sh
+   npm install
 3. **Set up the database**
 •	Create a MySQL database
 •	Run migrations or import the necessary SQL schema
@@ -31,11 +32,13 @@ npm install
 •	Create a .env file and add required database credentials and authentication secrets
 5. **Start the application**
 Backend:
-cd server
-npm run server
+   ```sh
+   cd server
+   npm run server
 Frontend:
-cd client
-npm start
+   ```sh
+   cd client
+   npm start
 
 ⭐ **If you find this project useful, consider giving it a star!** ⭐
 
