@@ -36,9 +36,9 @@ Backend:
    cd server
    npm run server
 Frontend:
-   ```sh
-   cd client
-   npm start
+    ```sh
+      cd client
+      npm start
 
 ⭐ **If you find this project useful, consider giving it a star!** ⭐
 
