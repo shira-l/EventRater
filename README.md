@@ -30,8 +30,12 @@ npm install
 4. **Configure environment variables**
 •	Create a .env file and add required database credentials and authentication secrets
 5. **Start the application**
-Backend: npm run server
-Frontend: npm start
+Backend:
+cd server
+npm run server
+Frontend:
+cd client
+npm start
 
 ⭐ **If you find this project useful, consider giving it a star!** ⭐
 
